@@ -12,16 +12,16 @@ namespace University_Management.Models
     [Table("Department")]
     public partial class Department
     {
-       public int Id { get; set; }
+        [Key]
+       public int DepartmentId { get; set; }
 
         [Required]
-        [StringLength(100)]
         [DisplayName("Department Name")]
         [Remote("IsDeptNameExist","Department",ErrorMessage = "Department Name Already Exist")]
         public string DepartmentName { get; set; }
 
         [Required]
-        [StringLength(7)]
+        [StringLength(7,MinimumLength = 2,ErrorMessage = "Department Code Should Be 2 to 7 Character Long")]
         [DisplayName("Department Code")]
         [Remote("IsDeptCodeExist","Department",ErrorMessage = "Department Code Already Exist")]
         public string DepartmentCode { get; set; }

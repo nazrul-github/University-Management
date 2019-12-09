@@ -187,10 +187,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Application_DbContext\201912091518514_Initial table Creation.cs" />
-    <Compile Include="Migrations\Application_DbContext\201912091518514_Initial table Creation.designer.cs">
-      <DependentUpon>201912091518514_Initial table Creation.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Application_DbContext\Configuration.cs" />
     <Compile Include="Migrations\Project_DbContext\201912091542425_Initial table Creation.cs" />
     <Compile Include="Migrations\Project_DbContext\201912091542425_Initial table Creation.designer.cs">
@@ -199,6 +195,10 @@
     <Compile Include="Migrations\Project_DbContext\201912091624151_PropertyModification.cs" />
     <Compile Include="Migrations\Project_DbContext\201912091624151_PropertyModification.designer.cs">
       <DependentUpon>201912091624151_PropertyModification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.designer.cs">
+      <DependentUpon>201912091956304_DepartmentTableColumnTypeUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -291,14 +291,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\Application_DbContext\201912091518514_Initial table Creation.resx">
-      <DependentUpon>201912091518514_Initial table Creation.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912091542425_Initial table Creation.resx">
       <DependentUpon>201912091542425_Initial table Creation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912091624151_PropertyModification.resx">
       <DependentUpon>201912091624151_PropertyModification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.resx">
+      <DependentUpon>201912091956304_DepartmentTableColumnTypeUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
