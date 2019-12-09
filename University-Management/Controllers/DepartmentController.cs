@@ -64,5 +64,6 @@ namespace University_Management.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+
     }
 }
