@@ -24,46 +24,19 @@ namespace University_Management.BLL
         public bool IsDepartmentCodeExist(string departmentCode)
         {
            var deptCode = departmentCode.Replace(" ", String.Empty);
-            var deparments = departmentGateway.GetAllDepartments().ToList();
-            var isExist = false;
-            foreach (var deparment in deparments)
-            {
-               var deptCodeDb = deparment.DepartmentCode.Replace(" ", String.Empty);
-                if (deptCodeDb.ToLower() == deptCode.ToLower())
-                {
-                    isExist = true;
-                }
-            }
-               
+           var isExist = GetAllDepartments()
+               .Any(d => d.DepartmentCode.Replace(" ", String.Empty).ToLower() == deptCode.ToLower());
 
-            if (isExist)
-            {
-                return true;
-            }
-
-            return false;
+           return isExist;
         }
 
         public bool IsDepartmentNameExist(string departmentName)
         {
             var deptName = departmentName.Replace(" ", String.Empty);
-            var deparments = departmentGateway.GetAllDepartments().ToList();
-            var isExist = false;
-            foreach (var deparment in deparments)
-            {
-                var deptNameDb = deparment.DepartmentName.Replace(" ", String.Empty);
-                if (deptNameDb.ToLower() == deptName.ToLower())
-                {
-                    isExist = true;
-                }
-            }
+            var isExist = GetAllDepartments()
+                .Any(d => d.DepartmentName.Replace(" ", String.Empty).ToLower() == deptName.ToLower());
 
-            if (isExist)
-            {
-                return true;
-            }
-
-            return false;
+            return isExist;
         }
     }
 }

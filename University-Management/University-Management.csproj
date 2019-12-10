@@ -173,12 +173,18 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
+    <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="DAL\CourseGateway.cs" />
     <Compile Include="DAL\DepartmentGateway.cs" />
+    <Compile Include="DAL\TeacherGateway.cs" />
     <Compile Include="EntityConfigaration\CourseConfigaration.cs" />
     <Compile Include="EntityConfigaration\DepartmentConfigaration.cs" />
     <Compile Include="EntityConfigaration\DesignationConfigaration.cs" />
@@ -199,6 +205,14 @@
     <Compile Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.cs" />
     <Compile Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.designer.cs">
       <DependentUpon>201912091956304_DepartmentTableColumnTypeUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912100227464_CourseDetailsTypeUpdate.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912100227464_CourseDetailsTypeUpdate.designer.cs">
+      <DependentUpon>201912100227464_CourseDetailsTypeUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912100400335_CourseCreditColumnTypeUpdate.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912100400335_CourseCreditColumnTypeUpdate.designer.cs">
+      <DependentUpon>201912100400335_CourseCreditColumnTypeUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -272,6 +286,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Department\Create.cshtml" />
+    <Content Include="Views\Department\ViewDepartment.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
+    <Content Include="Views\Teacher\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -299,6 +316,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912091956304_DepartmentTableColumnTypeUpdate.resx">
       <DependentUpon>201912091956304_DepartmentTableColumnTypeUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912100227464_CourseDetailsTypeUpdate.resx">
+      <DependentUpon>201912100227464_CourseDetailsTypeUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912100400335_CourseCreditColumnTypeUpdate.resx">
+      <DependentUpon>201912100400335_CourseCreditColumnTypeUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

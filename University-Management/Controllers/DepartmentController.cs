@@ -41,6 +41,12 @@ namespace University_Management.Controllers
             return View(department);
         }
 
+        public ActionResult ViewDepartment()
+        {
+            var departments = DepartmentManager.GetAllDepartments();
+            return View(departments);
+        }
+
 
         public JsonResult IsDeptCodeExist(string DepartmentCode)
         {

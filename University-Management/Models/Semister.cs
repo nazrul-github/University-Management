@@ -10,8 +10,8 @@ namespace University_Management.Models
     public partial class Semister
     {
        
-
-        public int Id { get; set; }
+        [Key]
+        public int SemisterId { get; set; }
 
         [Required]
         [StringLength(50)]
