@@ -27,15 +27,15 @@ namespace University_Management.Models
         public string DepartmentCode { get; set; }
 
        
-        public virtual List<Course> Courses { get; set; }
+        public  List<Course> Courses { get; set; }
 
        
-        public virtual List<CourseAssign> CourseAssigns { get; set; }
+        public  List<CourseAssign> CourseAssigns { get; set; }
 
        
-        public virtual List<Student> Students { get; set; }
+        public  List<Student> Students { get; set; }
 
       
-        public virtual List<Teacher> Teachers { get; set; }
+        public  List<Teacher> Teachers { get; set; }
     }
 }

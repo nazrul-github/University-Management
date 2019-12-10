@@ -47,10 +47,10 @@ namespace University_Management.Models
         public int DepartmentId { get; set; }
 
        
-        public virtual List<CourseAssign> CourseAssigns { get; set; }
+        public  List<CourseAssign> CourseAssigns { get; set; }
 
-        public virtual Department Department { get; set; }
+        public  Department Department { get; set; }
 
-        public virtual Designation Designation { get; set; }
+        public  Designation Designation { get; set; }
     }
 }

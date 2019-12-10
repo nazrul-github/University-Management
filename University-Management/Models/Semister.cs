@@ -18,6 +18,6 @@ namespace University_Management.Models
         public string SemisterName { get; set; }
 
       
-        public virtual List<Course> Courses { get; set; }
+        public List<Course> Courses { get; set; }
     }
 }

@@ -41,11 +41,11 @@ namespace University_Management.Models
 
         public int SemisterId { get; set; }
 
-        public virtual Semister Semister { get; set; }
+        public Semister Semister { get; set; }
 
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
 
       
-        public virtual List<CourseAssign> CourseAssigns { get; set; }
+        public List<CourseAssign> CourseAssigns { get; set; }
     }
 }

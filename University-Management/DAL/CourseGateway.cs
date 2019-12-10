@@ -35,6 +35,14 @@ namespace University_Management.DAL
                 return courses;
             }
         }
+        public List<Course> GetAllCoursesByDepartmentId(int departmentId)
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var courses = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).ToList();
+                return courses;
+            }
+        }
 
         public List<Semister> GetAllSemester()
         {
@@ -42,6 +50,31 @@ namespace University_Management.DAL
             {
                 var semesters = _projectDbContext.Semisters.ToList();
                 return semesters;
+            }
+        }
+
+        public List<CourseAssign> GetAllAssignedCourse()
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var courseAssigned = _projectDbContext.CourseAssigns.ToList();
+                return courseAssigned;
+            }
+        }
+
+        public bool AssignCourse(CourseAssign courseAssign)
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                _projectDbContext.CourseAssigns.Add(courseAssign);
+                _projectDbContext.SaveChanges();
+                int id = courseAssign.Id;
+                if (id>0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
     }

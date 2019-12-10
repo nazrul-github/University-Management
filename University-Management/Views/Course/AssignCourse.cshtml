@@ -1,0 +1,188 @@
+﻿@using Vereyon.Web
+@model University_Management.Models.CourseAssign
+
+@{
+    ViewBag.Title = "AssignCourse";
+}
+
+<h2>Assign Course</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.RenderFlashMessages()
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", null,"--Select Department--", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "TeacherId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" id="TeacherId" name="TeacherId">
+                    <option value="">--Select Teacher--</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Credit to be taken", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" readonly="readonly" class="form-control" name="Credit" id="Credit" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Remaining Credit", new { @class = "col-md-2" })
+            <div class="col-md-10">
+                <input type="text" readonly="readonly" class="form-control" name="remainingCredit" id="remainingCredit" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" id="CourseId" name="CourseId">
+                    <option value="">--Select Course--</option>
+                </select>
+
+                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Course Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" readonly="readonly" class="form-control" name="cName" id="cName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Course Credit", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" readonly="readonly" class="form-control" name="cCredit" id="cCredit" />
+            </div>
+        </div>
+        <input type="hidden" value=true name="IsAssigned">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function() {
+            $("#DepartmentId").change(function() {
+                var id = $("#DepartmentId").val();
+                var parameter = { departmentId: id }
+                $("#TeacherId").empty();
+                $("#Credit").val("");
+                $("#remainingCredit").val("");
+                $("#CourseId").empty();
+                $("#cName").val("");
+                $("#cCredit").val("");
+                $("#TeacherId").append('<option value="">--Select Teacher--</option>');
+                $("#CourseId").append('<option value="">--Select Course--</option>');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherByDepartment", "Course")',
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    success: function(teachers) {
+                        $.each(teachers,
+                            function(key, value) {
+                                $("#TeacherId").append('<option value='+value.Id+'>'+value.Name+'</option>');
+                            });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $("#TeacherId").change(function() {
+                var Id = $("#TeacherId").val();
+                var parameter = { teacherId: Id };
+                $("#Credit").val("");
+                $("#remainingCredit").val("");
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("GetTeacherById","Course")',
+                    success: function(teacher) {
+                        $("#Credit").val(teacher.Credit);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#TeacherId").change(function() {
+                var Id = $("#TeacherId").val();
+                var parameter = { teacherId: Id };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("GetTeacherRemainingCredit","Course")',
+                    success: function(teacherCredit) {
+                        $("#remainingCredit").val(teacherCredit);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $("#DepartmentId").change(function() {
+                var id = $("#DepartmentId").val();
+                var parameter = { departmentId: id }
+                $("#cName").val("");
+                $("#cCredit").val("");
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("GetAllCoursesByDepartmentId", "Course")',
+                    success: function(courses) {
+                        $.each(courses,
+                            function(key, value) {
+                                $("#CourseId")
+                                    .append('<option value=' + value.Id + '>' + value.CourseName + '</option>');
+                            });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#CourseId").change(function() {
+                var id = $("#CourseId").val();
+                var parameter = { courseId: id }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("GetCourseById", "Course")',
+                    success: function (course) {
+                        $("#cName").val(course.CourseName);
+                        $("#cCredit").val(course.CourseCredit);
+                    }
+                });
+            });
+        });
+    </script>
+}

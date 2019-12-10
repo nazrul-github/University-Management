@@ -214,6 +214,30 @@
     <Compile Include="Migrations\Project_DbContext\201912100400335_CourseCreditColumnTypeUpdate.designer.cs">
       <DependentUpon>201912100400335_CourseCreditColumnTypeUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912100702191_CoruseCreditColumnAdded.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912100702191_CoruseCreditColumnAdded.designer.cs">
+      <DependentUpon>201912100702191_CoruseCreditColumnAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912100706301_IsAssignedColumnAdded.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912100706301_IsAssignedColumnAdded.designer.cs">
+      <DependentUpon>201912100706301_IsAssignedColumnAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912101805401_CourseAssignTableColumnChange.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912101805401_CourseAssignTableColumnChange.designer.cs">
+      <DependentUpon>201912101805401_CourseAssignTableColumnChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912101819523_CourseAssignTableIsAssignedTypeChange.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912101819523_CourseAssignTableIsAssignedTypeChange.designer.cs">
+      <DependentUpon>201912101819523_CourseAssignTableIsAssignedTypeChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912101823410_CourseAssignTableIsAssignedTypeChangeToBool.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912101823410_CourseAssignTableIsAssignedTypeChangeToBool.designer.cs">
+      <DependentUpon>201912101823410_CourseAssignTableIsAssignedTypeChangeToBool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.designer.cs">
+      <DependentUpon>201912101827194_CourseAssignTableCourseNameColumnDrop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
@@ -289,6 +313,7 @@
     <Content Include="Views\Department\ViewDepartment.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Teacher\Create.cshtml" />
+    <Content Include="Views\Course\AssignCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -322,6 +347,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912100400335_CourseCreditColumnTypeUpdate.resx">
       <DependentUpon>201912100400335_CourseCreditColumnTypeUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912100702191_CoruseCreditColumnAdded.resx">
+      <DependentUpon>201912100702191_CoruseCreditColumnAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912100706301_IsAssignedColumnAdded.resx">
+      <DependentUpon>201912100706301_IsAssignedColumnAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912101805401_CourseAssignTableColumnChange.resx">
+      <DependentUpon>201912101805401_CourseAssignTableColumnChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912101819523_CourseAssignTableIsAssignedTypeChange.resx">
+      <DependentUpon>201912101819523_CourseAssignTableIsAssignedTypeChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912101823410_CourseAssignTableIsAssignedTypeChangeToBool.resx">
+      <DependentUpon>201912101823410_CourseAssignTableIsAssignedTypeChangeToBool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.resx">
+      <DependentUpon>201912101827194_CourseAssignTableCourseNameColumnDrop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

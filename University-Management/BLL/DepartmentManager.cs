@@ -17,9 +17,10 @@ namespace University_Management.BLL
 
         public void AddDepartment(Department department)
         { 
-            
             departmentGateway.AddDepartment(department);
         }
+
+        
 
         public bool IsDepartmentCodeExist(string departmentCode)
         {

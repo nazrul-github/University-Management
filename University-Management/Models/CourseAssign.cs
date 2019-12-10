@@ -15,19 +15,16 @@ namespace University_Management.Models
 
         public int TeacherId { get; set; }
 
-        public int CreditToBeTaken { get; set; }
 
         public int CourseId { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string CourseName { get; set; }
+        public bool IsAssigned { get; set; }
 
-        public virtual Course Course { get; set; }
+        public Course Course { get; set; }
 
         
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
 
-        public virtual Teacher Teacher { get; set; }
+        public Teacher Teacher { get; set; }
     }
 }
