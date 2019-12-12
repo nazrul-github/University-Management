@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "ShowCourseByDepartment";
+}
+
+<h2>Show Course Statics</h2>
+<div class="form-group">
+    @Html.Label("Department", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("DepartmentId", null, "--Select Department", new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name/Title</th>
+                <th>Semester</th>
+                <th>Assigned To</th>
+            </tr>
+        </thead>
+        <tbody id="CourseDetails"></tbody>
+    </table>
+</div>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function() {
+            $("#DepartmentId").change(function() {
+                var id = $("#DepartmentId").val();
+                var parameter = { departmentId: id };
+                $("#CourseDetails").empty();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("GetCourseStatics", "Course")',
+                    success: function (course) {
+                        $.each(course, function(key, value) {
+                            $("#CourseDetails").append('<tr><' +
+                                'td>' + value.CourseCode+'</td>' +
+                                '<td>' + value.Name +'</td>' +
+                                '<td>' + value.Semester +'</td>' +
+                                '<td>' + value.AssignedTo +'</td></tr>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

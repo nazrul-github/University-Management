@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using University_Management.DAL;
 using University_Management.Models;
+using University_Management.ViewModel;
 
 namespace University_Management.BLL
 {
@@ -66,6 +67,11 @@ namespace University_Management.BLL
         public bool AssignCourse(CourseAssign courseAssign)
         {
             return _courseGateway.AssignCourse(courseAssign);
+        }
+
+        public List<CourseTeacherView> GetCourseStatics(int departmentId)
+        {
+            return _courseGateway.GetCourseStatics(departmentId);
         }
     }
 }

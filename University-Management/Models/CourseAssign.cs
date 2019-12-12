@@ -1,3 +1,5 @@
+using System.Web.Mvc;
+
 namespace University_Management.Models
 {
     using System;
@@ -15,7 +17,7 @@ namespace University_Management.Models
 
         public int TeacherId { get; set; }
 
-
+        [Remote("IsCourseAssigned","Course",ErrorMessage = "This course already been assigned")]
         public int CourseId { get; set; }
 
         public bool IsAssigned { get; set; }

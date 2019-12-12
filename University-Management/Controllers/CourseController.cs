@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using University_Management.BLL;
 using University_Management.DAL;
 using University_Management.Models;
+using University_Management.ViewModel;
 using Vereyon.Web;
 
 namespace University_Management.Controllers
@@ -19,16 +20,16 @@ namespace University_Management.Controllers
 
         public ActionResult Create()
         {
-            FillDepartmentAndSemesterDropdown();
-
+            FillDepartmentDropdown();
+            FillSemesterDropdown();
             return View();
         }
 
         [HttpPost]
         public ActionResult Create(Course course)
         {
-            FillDepartmentAndSemesterDropdown();
-
+            FillDepartmentDropdown();
+            FillSemesterDropdown();
             if (ModelState.IsValid)
             {
 
@@ -57,17 +58,14 @@ namespace University_Management.Controllers
 
         public ActionResult AssignCourse()
         {
-            var departments = _departmentManager.GetAllDepartments();
-            ViewBag.DepartmentId = new SelectList(departments, "DepartmentId", "DepartmentName");
+            FillDepartmentDropdown();
             return View();
         }
 
         [HttpPost]
         public ActionResult AssignCourse(CourseAssign courseAssign)
         {
-            var departments = _departmentManager.GetAllDepartments();
-            ViewBag.DepartmentId = new SelectList(departments, "DepartmentId", "DepartmentName");
-
+            FillDepartmentDropdown();
             if (ModelState.IsValid)
             {
                 if (_courseManager.IsCourseAssigned(courseAssign.CourseId))
@@ -85,6 +83,18 @@ namespace University_Management.Controllers
             FlashMessage.Danger("Some error occured; please check all the inputs ");
             return View();
         }
+
+        public ActionResult ShowCourseByDepartment()
+        {
+            FillDepartmentDropdown();
+            return View();
+        }
+
+
+
+
+
+
 
         public JsonResult IsCourseCodeExist(string courseCode)
         {
@@ -139,9 +149,9 @@ namespace University_Management.Controllers
             return Json(course);
         }
 
-        public JsonResult IsCourseAssigned(int courseid)
+        public JsonResult IsCourseAssigned(int courseId)
         {
-            bool isAssigned = _courseManager.IsCourseAssigned(courseid);
+            bool isAssigned = _courseManager.IsCourseAssigned(courseId);
             if (isAssigned)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
@@ -150,11 +160,21 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        private void FillDepartmentAndSemesterDropdown()
+        public JsonResult GetCourseStatics(int departmentId)
+        {
+            var courseStatics = _courseManager.GetCourseStatics(departmentId);
+            return Json(courseStatics);
+        }
+
+        private void FillDepartmentDropdown()
         {
             var departments = _departmentManager.GetAllDepartments();
-            var semesters = _courseManager.GetAllSemester();
             ViewBag.DepartmentId = new SelectList(departments, "DepartmentId", "DepartmentName");
+        }
+
+        private void FillSemesterDropdown()
+        {
+            var semesters = _courseManager.GetAllSemester();
             ViewBag.SemisterId = new SelectList(semesters, "SemisterId", "SemisterName");
         }
     }

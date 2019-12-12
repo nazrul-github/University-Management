@@ -8,7 +8,7 @@
 <h2>Assign Course</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "assignCourse" }))
 {
     @Html.AntiForgeryToken()
 
@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", null,"--Select Department--", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.DepartmentId, null, "--Select Department", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,19 +40,19 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Remaining Credit", new { @class = "col-md-2" })
+            @Html.Label("Remaining Credit", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="text" readonly="readonly" class="form-control" name="remainingCredit" id="remainingCredit" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" id="CourseId" name="CourseId">
-                    <option value="">--Select Course--</option>
+                    <option value=0>--Select Course--</option>
                 </select>
-
+                @*@Html.DropDownListFor(m=>m.CourseId,null,"--Select Course--",new{@class="form-control"})*@
                 @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +73,7 @@
         <input type="hidden" value=true name="IsAssigned">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" id="submitButton" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -82,9 +82,31 @@
 
 
 @section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        $(document).ready(function () {
+            $("#assignCourse").validate({
+                rules: {
+                    CourseId: {
+                        min: 1
+                    },
+                    TeacherId:{
+                    required:true
+                }
+                },
+                messages: {
+                    CourseId: {
+                        min: "Please select Blood Group"
+                    },
+                    TeacherId: {
+                        required:"Please select a teacher"
+                    }
+                }
+            });
+        });
         $(document).ready(function() {
             $("#DepartmentId").change(function() {
                 var id = $("#DepartmentId").val();
@@ -184,5 +206,17 @@
                 });
             });
         });
+        //$(document).ready(function() {
+        //    $("#submitButton").click(function() {
+        //        jQuery.validator.addMethod("CourseId",
+        //            function(value, element) {
+        //                return this.optional(element) || value === "";
+        //            },
+        //            "Please select a option");
+
+        //    });
+        //});
+
+
     </script>
 }
