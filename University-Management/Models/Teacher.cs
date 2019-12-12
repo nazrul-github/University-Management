@@ -29,7 +29,7 @@ namespace University_Management.Models
         [DataType(DataType.EmailAddress,ErrorMessage = "Please enter a valid email address")]
         [DisplayName("Email Address")]
         [RegularExpression(@"^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$",ErrorMessage = "Please enter a valid email address")]
-        [Remote("IsEmailExist","Teacher",ErrorMessage = "Email already exist")]
+        [Remote("IsEmailExist","Teacher",ErrorMessage = "Email already exist in database")]
         public string email { get; set; }
 
         [Column("Contact No")]

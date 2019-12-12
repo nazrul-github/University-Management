@@ -11,6 +11,7 @@ namespace University_Management.BLL
     {
         readonly TeacherGateway _teacherGateway = new TeacherGateway();
         readonly CourseManager _courseManager = new CourseManager();
+        private StudentManager _studentManager = new StudentManager();
 
         public List<Teacher> GetAllTeachers()
         {
@@ -45,8 +46,11 @@ namespace University_Management.BLL
         public bool IsEmailExist(string email)
         {
             bool teacherEmail = GetAllTeachers().Any(t => t.email.ToLower() == email.ToLower());
-
+            bool studentEmail = _studentManager.GetAllStudents().Any(s => s.Email.ToLower() == email.ToLower());
             if (teacherEmail)
+            {
+                return true;
+            }else if (studentEmail)
             {
                 return true;
             }

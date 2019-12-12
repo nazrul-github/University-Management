@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Web.Mvc;
+
 namespace University_Management.Models
 {
     using System;
@@ -11,12 +14,17 @@ namespace University_Management.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Student name is required")]
         [StringLength(70)]
+        [DisplayName("Student Name")]
         public string StudentName { get; set; }
 
         [Required]
         [StringLength(255)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Please enter a valid email address")]
+        [DisplayName("Email Address")]
+        [RegularExpression(@"^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$", ErrorMessage = "Please enter a valid email address")]
+        [Remote("IsEmailExist", "Teacher", ErrorMessage = "Email already exist in database")]
         public string Email { get; set; }
 
         [Required]
@@ -29,6 +37,9 @@ namespace University_Management.Models
         [Required]
         [StringLength(500)]
         public string Address { get; set; }
+
+        [Required]
+        public string RegistrationNumber { get; set; }
 
         public int DepartmentId { get; set; }
 

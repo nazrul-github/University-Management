@@ -175,15 +175,18 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
+    <Compile Include="BLL\StudentManager.cs" />
     <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\CourseGateway.cs" />
     <Compile Include="DAL\DepartmentGateway.cs" />
+    <Compile Include="DAL\StudentGateway.cs" />
     <Compile Include="DAL\TeacherGateway.cs" />
     <Compile Include="EntityConfigaration\CourseConfigaration.cs" />
     <Compile Include="EntityConfigaration\DepartmentConfigaration.cs" />
@@ -192,6 +195,10 @@
     <Compile Include="EntityConfigaration\TeacherConfigaration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Application_DbContext\201912121319056_AppliedRedquiredForStudentName.cs" />
+    <Compile Include="Migrations\Application_DbContext\201912121319056_AppliedRedquiredForStudentName.designer.cs">
+      <DependentUpon>201912121319056_AppliedRedquiredForStudentName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Application_DbContext\Configuration.cs" />
     <Compile Include="Migrations\Project_DbContext\201912091542425_Initial table Creation.cs" />
@@ -237,6 +244,22 @@
     <Compile Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.cs" />
     <Compile Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.designer.cs">
       <DependentUpon>201912101827194_CourseAssignTableCourseNameColumnDrop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912121214584_removedRequiredForStudentNameTemporarily.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912121214584_removedRequiredForStudentNameTemporarily.designer.cs">
+      <DependentUpon>201912121214584_removedRequiredForStudentNameTemporarily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912121320448_AppliedRedquiredForStudentName.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912121320448_AppliedRedquiredForStudentName.designer.cs">
+      <DependentUpon>201912121320448_AppliedRedquiredForStudentName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912121533147_AddedRegistrationNumberColumnForStudent.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912121533147_AddedRegistrationNumberColumnForStudent.designer.cs">
+      <DependentUpon>201912121533147_AddedRegistrationNumberColumnForStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912121537120_RenamingstudentTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912121537120_RenamingstudentTable.designer.cs">
+      <DependentUpon>201912121537120_RenamingstudentTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,6 +339,8 @@
     <Content Include="Views\Teacher\Create.cshtml" />
     <Content Include="Views\Course\AssignCourse.cshtml" />
     <Content Include="Views\Course\ShowCourseByDepartment.cshtml" />
+    <Content Include="Views\Student\Create.cshtml" />
+    <Content Include="Views\Student\ShowStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -335,6 +360,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\Application_DbContext\201912121319056_AppliedRedquiredForStudentName.resx">
+      <DependentUpon>201912121319056_AppliedRedquiredForStudentName.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912091542425_Initial table Creation.resx">
       <DependentUpon>201912091542425_Initial table Creation.cs</DependentUpon>
     </EmbeddedResource>
@@ -367,6 +395,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912101827194_CourseAssignTableCourseNameColumnDrop.resx">
       <DependentUpon>201912101827194_CourseAssignTableCourseNameColumnDrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912121214584_removedRequiredForStudentNameTemporarily.resx">
+      <DependentUpon>201912121214584_removedRequiredForStudentNameTemporarily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912121320448_AppliedRedquiredForStudentName.resx">
+      <DependentUpon>201912121320448_AppliedRedquiredForStudentName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912121533147_AddedRegistrationNumberColumnForStudent.resx">
+      <DependentUpon>201912121533147_AddedRegistrationNumberColumnForStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912121537120_RenamingstudentTable.resx">
+      <DependentUpon>201912121537120_RenamingstudentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

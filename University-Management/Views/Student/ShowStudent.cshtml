@@ -1,0 +1,57 @@
+﻿@model University_Management.Models.Student
+
+    @{
+        ViewBag.Title = "ShowStudent";
+    }
+
+    <h2>ShowStudent</h2>
+
+
+    <table class="table">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(m=>m.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.ContactNo)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.RegistrationNumber)
+            </td>
+
+        </tr>
+
+
+    </table>
