@@ -8,8 +8,8 @@ namespace University_Management.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("CourseAssign")]
-    public partial class CourseAssign
+    [Table("TeacherCourseAssign")]
+    public partial class TeacherCourseAssign
     {
         public int Id { get; set; }
 
@@ -17,16 +17,16 @@ namespace University_Management.Models
 
         public int TeacherId { get; set; }
 
-        [Remote("IsCourseAssigned","Course",ErrorMessage = "This course already been assigned")]
+        [Remote("IsCourseAssigned", "Course", ErrorMessage = "This course already been assigned")]
         public int CourseId { get; set; }
 
         public bool IsAssigned { get; set; }
 
         public Course Course { get; set; }
 
-        
         public Department Department { get; set; }
 
         public Teacher Teacher { get; set; }
+
     }
 }

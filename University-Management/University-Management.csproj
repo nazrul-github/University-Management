@@ -173,17 +173,20 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\ClassRoomManager.cs" />
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
     <Compile Include="BLL\StudentManager.cs" />
     <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassRoomController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="DAL\ClassRoomGateway.cs" />
     <Compile Include="DAL\CourseGateway.cs" />
     <Compile Include="DAL\DepartmentGateway.cs" />
     <Compile Include="DAL\StudentGateway.cs" />
@@ -261,10 +264,48 @@
     <Compile Include="Migrations\Project_DbContext\201912121537120_RenamingstudentTable.designer.cs">
       <DependentUpon>201912121537120_RenamingstudentTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130324190_someUpdateTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130324190_someUpdateTable.designer.cs">
+      <DependentUpon>201912130324190_someUpdateTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130510561_addedStudentIdNullableForeignKeyToCourseAssign.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130510561_addedStudentIdNullableForeignKeyToCourseAssign.designer.cs">
+      <DependentUpon>201912130510561_addedStudentIdNullableForeignKeyToCourseAssign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130512385_madeTeacherIdNullableForCourseColumn.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130512385_madeTeacherIdNullableForCourseColumn.designer.cs">
+      <DependentUpon>201912130512385_madeTeacherIdNullableForCourseColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130517039_studentForeignKeyRemovedFromTeacherCourseAssignTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130517039_studentForeignKeyRemovedFromTeacherCourseAssignTable.designer.cs">
+      <DependentUpon>201912130517039_studentForeignKeyRemovedFromTeacherCourseAssignTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130521526_changedTeacherCourseAssignClassName.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130521526_changedTeacherCourseAssignClassName.designer.cs">
+      <DependentUpon>201912130521526_changedTeacherCourseAssignClassName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130525594_roomTableAdded.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130525594_roomTableAdded.designer.cs">
+      <DependentUpon>201912130525594_roomTableAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130530513_InsertingRoomDataToTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130530513_InsertingRoomDataToTable.designer.cs">
+      <DependentUpon>201912130530513_InsertingRoomDataToTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130542137_InsertingsemesterdatatoColumn.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130542137_InsertingsemesterdatatoColumn.designer.cs">
+      <DependentUpon>201912130542137_InsertingsemesterdatatoColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912130553174_AllocateClassRoomTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912130553174_AllocateClassRoomTable.designer.cs">
+      <DependentUpon>201912130553174_AllocateClassRoomTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AllocateClassroom.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\CourseAssign.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\TeacherCourseAssign.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Designation.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -340,7 +381,7 @@
     <Content Include="Views\Course\AssignCourse.cshtml" />
     <Content Include="Views\Course\ShowCourseByDepartment.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
-    <Content Include="Views\Student\ShowStudent.cshtml" />
+    <Content Include="Views\ClassRoom\AllocateClassRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -407,6 +448,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912121537120_RenamingstudentTable.resx">
       <DependentUpon>201912121537120_RenamingstudentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130324190_someUpdateTable.resx">
+      <DependentUpon>201912130324190_someUpdateTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130510561_addedStudentIdNullableForeignKeyToCourseAssign.resx">
+      <DependentUpon>201912130510561_addedStudentIdNullableForeignKeyToCourseAssign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130512385_madeTeacherIdNullableForCourseColumn.resx">
+      <DependentUpon>201912130512385_madeTeacherIdNullableForCourseColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130517039_studentForeignKeyRemovedFromTeacherCourseAssignTable.resx">
+      <DependentUpon>201912130517039_studentForeignKeyRemovedFromTeacherCourseAssignTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130521526_changedTeacherCourseAssignClassName.resx">
+      <DependentUpon>201912130521526_changedTeacherCourseAssignClassName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130525594_roomTableAdded.resx">
+      <DependentUpon>201912130525594_roomTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130530513_InsertingRoomDataToTable.resx">
+      <DependentUpon>201912130530513_InsertingRoomDataToTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130542137_InsertingsemesterdatatoColumn.resx">
+      <DependentUpon>201912130542137_InsertingsemesterdatatoColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912130553174_AllocateClassRoomTable.resx">
+      <DependentUpon>201912130553174_AllocateClassRoomTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

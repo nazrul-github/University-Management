@@ -55,7 +55,7 @@ namespace University_Management.DAL
             }
         }
 
-        public List<CourseAssign> GetAllAssignedCourse()
+        public List<TeacherCourseAssign> GetAllAssignedCourse()
         {
             using (_projectDbContext = new ProjectDbContext())
             {
@@ -64,13 +64,13 @@ namespace University_Management.DAL
             }
         }
 
-        public bool AssignCourse(CourseAssign courseAssign)
+        public bool AssignCourse(TeacherCourseAssign teacherCourseAssign)
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                _projectDbContext.CourseAssigns.Add(courseAssign);
+                _projectDbContext.CourseAssigns.Add(teacherCourseAssign);
                 _projectDbContext.SaveChanges();
-                int id = courseAssign.Id;
+                int id = teacherCourseAssign.Id;
                 if (id > 0)
                 {
                     return true;
@@ -82,9 +82,9 @@ namespace University_Management.DAL
 
         public List<CourseTeacherView> GetCourseStatics(int departmentId)
         {
-            //var courseAssign = _projectDbContext.CourseAssigns.Include(c => c.Course).Include(c => c.Teacher).Where(c => c.DepartmentId == departmentId).ToList();
+            //var teacherCourseAssign = _projectDbContext.CourseAssigns.Include(c => c.Course).Include(c => c.Teacher).Where(c => c.DepartmentId == departmentId).ToList();
             //var course = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).ToList();
-            //courseAssign.Select(c => new
+            //teacherCourseAssign.Select(c => new
             //{
             //    CourseCode = c.Course.CourseCode,
             //    Name

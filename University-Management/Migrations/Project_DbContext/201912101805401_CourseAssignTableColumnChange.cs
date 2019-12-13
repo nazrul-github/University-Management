@@ -7,16 +7,16 @@
     {
         public override void Up()
         {
-            AlterColumn("dbo.CourseAssign", "IsAssigned", c => c.Boolean(nullable: false));
-            DropColumn("dbo.CourseAssign", "CreditToBeTaken");
-            DropColumn("dbo.CourseAssign", "CourseCredit");
+            AlterColumn("dbo.TeacherCourseAssign", "IsAssigned", c => c.Boolean(nullable: false));
+            DropColumn("dbo.TeacherCourseAssign", "CreditToBeTaken");
+            DropColumn("dbo.TeacherCourseAssign", "CourseCredit");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.CourseAssign", "CourseCredit", c => c.Int(nullable: false));
-            AddColumn("dbo.CourseAssign", "CreditToBeTaken", c => c.Int(nullable: false));
-            AlterColumn("dbo.CourseAssign", "IsAssigned", c => c.Boolean());
+            AddColumn("dbo.TeacherCourseAssign", "CourseCredit", c => c.Int(nullable: false));
+            AddColumn("dbo.TeacherCourseAssign", "CreditToBeTaken", c => c.Int(nullable: false));
+            AlterColumn("dbo.TeacherCourseAssign", "IsAssigned", c => c.Boolean());
         }
     }
 }

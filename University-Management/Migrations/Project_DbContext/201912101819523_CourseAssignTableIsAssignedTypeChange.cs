@@ -7,12 +7,12 @@
     {
         public override void Up()
         {
-            AlterColumn("dbo.CourseAssign", "IsAssigned", c => c.Int(nullable: false));
+            AlterColumn("dbo.TeacherCourseAssign", "IsAssigned", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.CourseAssign", "IsAssigned", c => c.Boolean(nullable: false));
+            AlterColumn("dbo.TeacherCourseAssign", "IsAssigned", c => c.Boolean(nullable: false));
         }
     }
 }

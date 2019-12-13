@@ -7,12 +7,12 @@
     {
         public override void Up()
         {
-            AddColumn("dbo.CourseAssign", "IsAssigned", c => c.Boolean());
+            AddColumn("dbo.TeacherCourseAssign", "IsAssigned", c => c.Boolean());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.CourseAssign", "IsAssigned");
+            DropColumn("dbo.TeacherCourseAssign", "IsAssigned");
         }
     }
 }

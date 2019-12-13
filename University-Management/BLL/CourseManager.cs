@@ -22,7 +22,7 @@ namespace University_Management.BLL
             return _courseGateway.GetAllSemester();
         }
 
-        public List<CourseAssign> GetAllAssignedCourse()
+        public List<TeacherCourseAssign> GetAllAssignedCourse()
         {
             return _courseGateway.GetAllAssignedCourse();
         }
@@ -64,9 +64,9 @@ namespace University_Management.BLL
             return isExist;
         }
 
-        public bool AssignCourse(CourseAssign courseAssign)
+        public bool AssignCourse(TeacherCourseAssign teacherCourseAssign)
         {
-            return _courseGateway.AssignCourse(courseAssign);
+            return _courseGateway.AssignCourse(teacherCourseAssign);
         }
 
         public List<CourseTeacherView> GetCourseStatics(int departmentId)

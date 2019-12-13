@@ -63,18 +63,18 @@ namespace University_Management.Controllers
         }
 
         [HttpPost]
-        public ActionResult AssignCourse(CourseAssign courseAssign)
+        public ActionResult AssignCourse(TeacherCourseAssign teacherCourseAssign)
         {
             FillDepartmentDropdown();
             if (ModelState.IsValid)
             {
-                if (_courseManager.IsCourseAssigned(courseAssign.CourseId))
+                if (_courseManager.IsCourseAssigned(teacherCourseAssign.CourseId))
                 {
                     FlashMessage.Danger("Course already been assigned");
                     return View();
                 }
 
-                if (_courseManager.AssignCourse(courseAssign))
+                if (_courseManager.AssignCourse(teacherCourseAssign))
                 {
                     FlashMessage.Confirmation("Course assigned successfully");
                     return View();

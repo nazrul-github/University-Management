@@ -15,12 +15,14 @@ namespace University_Management.Models
         }
 
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<CourseAssign> CourseAssigns { get; set; }
+        public virtual DbSet<TeacherCourseAssign> CourseAssigns { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Semister> Semisters { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<AllocateClassroom> AllocateClassrooms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

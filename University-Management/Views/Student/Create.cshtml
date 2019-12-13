@@ -1,28 +1,28 @@
-﻿@using Microsoft.Ajax.Utilities
-@using University_Management.Controllers
-@using University_Management.Models
+﻿
+@using Vereyon.Web
 @model University_Management.Models.Student
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Register Student";
 }
 
-<h2>Create</h2>
-<noscript style="color: red">
-    For full functionality of this site it is necessary to enable JavaScript.
-    Here are the <a href="https://www.enable-javascript.com/">
-        instructions how to enable JavaScript in your web browser
-    </a>.
-</noscript>
+<h2>Register Student</h2>
 
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function() {
+            alert("@ViewBag.Message");
+        };
+    </script>
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Student</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.RenderFlashMessages()
         <div class="form-group">
             @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -79,6 +79,7 @@
         </div>
     </div>
 }
+
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
@@ -87,37 +88,37 @@
     <script>
         $(function () {
             $("#Date").datepicker({
-                dateFormat: "mm / dd / yy",
+                dateFormat: "dd-MM-yy",
                 changeMonth: true,
                 changeYear: true
             });
         });
 
     </script>
-    <script>
-          $(document).ready(function () {
-              $("#submitButton").click(function() {
-                  //var student = new object();
-                  //student.StudentName = $("#StudentName").val();
-                  //student.Email= $("#Email").val();
-                  //student.ContactNo = $("#ContactNo").val();
-                  //student.Date =  $("#Date").val();
-                  //student.Address = $("#Address").val();
-                  //student.DepartmentId = $("#DepartmentId").val();
-                  //student.RegistrationNumber = $("#RegistrationNumber").val();
-                  var id = $("#StudentName").val();
-                  var parameter = {id:id}
-                $.ajax({
-                    type: 'GET',
-                    contentType: "application/json;utf-8",
-                    //data: { StudentName: $("#StudentName").val(), Email: $("#Email").val(), Date: $("#Date").val(), Address: $("#Address").val(), DepartmentId: $("#DepartmentId").val(), RegistrationNumber: $("#RegistrationNumber").val()},
-                   data:JSON.stringify(parameter),
-                    url: '@Url.Action("CreateStudent","Student")',
-                    success: function(student) {
-                        alert(student);
-                    }
+    @*<script>
+              $(document).ready(function () {
+                  $("#submitButton").click(function() {
+                      //var student = new object();
+                      //student.StudentName = $("#StudentName").val();
+                      //student.Email= $("#Email").val();
+                      //student.ContactNo = $("#ContactNo").val();
+                      //student.Date =  $("#Date").val();
+                      //student.Address = $("#Address").val();
+                      //student.DepartmentId = $("#DepartmentId").val();
+                      //student.RegistrationNumber = $("#RegistrationNumber").val();
+                      var id = $("#StudentName").val();
+                      var parameter = {id:id}
+                    $.ajax({
+                        type: 'GET',
+                        contentType: "application/json;utf-8",
+                        //data: { StudentName: $("#StudentName").val(), Email: $("#Email").val(), Date: $("#Date").val(), Address: $("#Address").val(), DepartmentId: $("#DepartmentId").val(), RegistrationNumber: $("#RegistrationNumber").val()},
+                       data:JSON.stringify(parameter),
+                        url: '@Url.Action("CreateStudent","Student")',
+                        success: function(student) {
+                            alert(student);
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>*@
 }

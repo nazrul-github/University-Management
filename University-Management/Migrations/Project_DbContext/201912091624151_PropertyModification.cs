@@ -7,12 +7,12 @@
     {
         public override void Up()
         {
-            DropColumn("dbo.CourseAssign", "RemainingCredit");
+            DropColumn("dbo.TeacherCourseAssign", "RemainingCredit");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.CourseAssign", "RemainingCredit", c => c.Int(nullable: false));
+            AddColumn("dbo.TeacherCourseAssign", "RemainingCredit", c => c.Int(nullable: false));
         }
     }
 }
