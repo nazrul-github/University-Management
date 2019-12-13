@@ -19,6 +19,15 @@ namespace University_Management.DAL
             }
         }
 
+        public List<AllocateClassroom> GetAllAllocatedClassRoom()
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                 var rooms = _projectDbContext.AllocateClassrooms.Where(ac => ac.IsAllocated).ToList();
+                 return rooms;
+            }
+        }
+
         public List<Room> GetAllRoomInfo()
         {
             using (_projectDbContext = new ProjectDbContext())

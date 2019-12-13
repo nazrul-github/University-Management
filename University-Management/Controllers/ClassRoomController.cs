@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using University_Management.BLL;
+using University_Management.Models;
+using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
@@ -16,11 +19,41 @@ namespace University_Management.Controllers
         public ActionResult AllocateClassRoom()
         {
             FillDepartmentDropdown();
-            FillCourseDropdown();
+          //  FillCourseDropdown();
             FillRoomDropdown();
             return View();
         }
-        
+
+        [HttpPost]
+        public ActionResult AllocateClassRoom(AllocateClassroom classroom)
+        {
+            FillDepartmentDropdown();
+            FillRoomDropdown();
+            if (ModelState.IsValid)
+            {
+                if (classroom.FromTime>classroom.ToTime)
+                {
+                    FlashMessage.Danger("From time should be less than to time");
+                    return View(classroom);
+                }
+                if (!_classRoomManager.IsClassRoomAvailable(classroom.Day,classroom.FromTime,classroom.ToTime))
+                {
+                    FlashMessage.Danger($"Class room is not available between {classroom.FromTime.ToShortTimeString()} and {classroom.ToTime.ToShortTimeString()} on {classroom.Day}");
+                    return View(classroom);
+                }
+                _classRoomManager.SaveAllocatedClassRoom(classroom);
+                FlashMessage.Confirmation("Class room successfully allocated");
+                return RedirectToAction("AllocateClassRoom");
+            }
+            FlashMessage.Danger("Some error occured, please check all the input");
+            return View(classroom);
+        }
+
+        public JsonResult GetCourseByDepartment(int id)
+        {
+            var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == id).ToList();
+            return Json(courses);
+        }
 
         private void FillDepartmentDropdown()
         {
@@ -29,15 +62,17 @@ namespace University_Management.Controllers
         }
        
 
-        private void FillCourseDropdown()
-        {
-            var courses = _courseManager.GetAllCourses();
-            ViewBag.CourseId = new SelectList(courses, "Id", "CourseName");
-        }
+        //private void FillCourseDropdown()
+        //{
+        //    var courses = _courseManager.GetAllCourses();
+        //    ViewBag.CourseId = new SelectList(courses, "Id", "CourseName");
+        //}
         private void FillRoomDropdown()
         {
             var room = _classRoomManager.GetAllRoomInfo();
             ViewBag.RoomId = new SelectList(room, "RoomId", "RoomNo");
         }
+
+        
     }
 }

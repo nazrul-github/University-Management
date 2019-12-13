@@ -18,6 +18,7 @@ namespace University_Management.Models
         public string Day { get; set; }
         public DateTime FromTime { get; set; }
         public DateTime ToTime { get; set; }
+        public bool IsAllocated { get; set; }
 
         [ForeignKey("DepartmentId")]
         public Department Department { get; set; }
