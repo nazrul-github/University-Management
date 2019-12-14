@@ -92,46 +92,119 @@ namespace University_Management.DAL
             using (_projectDbContext = new ProjectDbContext())
             {
                 var departmentAssignCourse = _projectDbContext.CourseAssigns.Include(c => c.Teacher)
-                    .Where(c => c.DepartmentId == departmentId & c.IsAssigned).ToList();
-                var departCourse = _projectDbContext.Courses.Include(c=>c.Semister).Where(c => c.DepartmentId == departmentId).ToList();
-
-                var coursesTeacher = new List<CourseTeacherView>();
-
-                foreach (var course in departCourse)
+                    .Where(c => c.DepartmentId == departmentId & c.IsAssigned).OrderBy(c => c.CourseId).ToList();
+                var departCourse = _projectDbContext.Courses.Include(c => c.Semister).Where(c => c.DepartmentId == departmentId).OrderBy(c => c.Id).ToList();
+                var coursesTeacher = departCourse.Join(departmentAssignCourse, c => c.Id, a => a.CourseId, (course, assign) => new
                 {
+                    CourseId = course.Id,
+                    CourseCode = course.CourseCode,
+                    Name = course.CourseName,
+                    Semester = course.Semister.SemisterName,
+                    AssignedTo = assign.Teacher.Name
+                }).ToList();
 
-                    foreach (var courseassign in departmentAssignCourse)
+                var courses = departCourse.Select(c => new
+                {
+                    CourseId = c.Id,
+                    CourseCode = c.CourseCode,
+                    Name = c.CourseName,
+                    Semester = c.Semister.SemisterName,
+                    AssignedTo = ""
+                }).ToList();
+
+                var assigned =
+                    courses.Select(x => new
                     {
-                        if (courseassign.CourseId == course.Id)
-                        {
+                        x.CourseId,
+                        x.Name,
+                        x.CourseCode,
+                        x.Semester,
+                        x.AssignedTo
+                    }).Except(coursesTeacher.Select(x => new
+                    {
+                        x.CourseId,
+                        x.Name,
+                        x.CourseCode,
+                        x.Semester,
+                        x.AssignedTo
+                    }));
 
-                            var courseTeacher = new CourseTeacherView()
-                            {
-                                CourseCode = course.CourseCode,
-                                Name = course.CourseName,
-                                Semester = course.Semister.SemisterName,
-                                AssignedTo = courseassign.Teacher.Name
-                            };
-                            coursesTeacher.Add(courseTeacher);
-                        }
-                        else
-                        {
-                            var courseTeacher = new CourseTeacherView()
-                            {
-                                CourseCode = course.CourseCode,
-                                Name = course.CourseName,
-                                Semester = course.Semister.SemisterName,
-                                AssignedTo = "Not Assigned Yet"
-                            };
-                            coursesTeacher.Add(courseTeacher);
-                        }
-                    }
 
-                };
-                return coursesTeacher;
+                var allCourses = coursesTeacher.Select(x => new
+                {
+                    x.CourseId,
+                    x.Name,
+                    x.CourseCode,
+                    x.Semester,
+                    x.AssignedTo
+                }).Union(assigned.Select(x => new
+                {
+                    x.CourseId,
+                    x.Name,
+                    x.CourseCode,
+                    x.Semester,
+                    x.AssignedTo
+                })).Select(c => new
+                {
+                    CourseId = c.CourseId,
+                    Name = c.Name,
+                    CourseCode = c.CourseCode,
+                    Semester = c.Semester,
+                    c.AssignedTo
+                });
+                var allCoursesandassigned = allCourses.Distinct();
+                var assignedcourses = new List<CourseTeacherView>();
+
+                foreach (var c in allCoursesandassigned)
+                {
+                    
+                    assignedcourses.Add(new CourseTeacherView
+                    {
+                        AssignedTo = c.AssignedTo,
+                        CourseCode = c.CourseCode,
+                        Name = c.Name,
+                        Semester = c.Semester
+                    });
+                }
+                
+
+
+                //foreach (var course in departCourse)
+                //  {
+
+                //      foreach (var courseassign in departmentAssignCourse)
+                //      {
+                //          if (courseassign.CourseId == course.Id)
+                //          {
+
+                //              var courseTeacher = new CourseTeacherView()
+                //              {
+                //                  CourseCode = course.CourseCode,
+                //                  Name = course.CourseName,
+                //                  Semester = course.Semister.SemisterName,
+                //                  AssignedTo = courseassign.Teacher.Name
+                //              };
+                //              coursesTeacher.Add(courseTeacher);
+                //          }
+                //          else
+                //          {
+                //              var courseTeacher = new CourseTeacherView()
+                //              {
+                //                  CourseCode = course.CourseCode,
+                //                  Name = course.CourseName,
+                //                  Semester = course.Semister.SemisterName,
+                //                  AssignedTo = "Not Assigned Yet"
+                //              };
+                //              coursesTeacher.Add(courseTeacher);
+                //          }
+                //          break;
+                //      }
+
+                //  };
+                return assignedcourses;
             }
         }
-           
+
     }
 }
 
