@@ -31,14 +31,16 @@ namespace University_Management.Controllers
             FillRoomDropdown();
             if (ModelState.IsValid)
             {
-                if (classroom.FromTime>classroom.ToTime)
+                if (classroom.FromTime>=classroom.ToTime)
                 {
                     FlashMessage.Danger("From time should be less than to time");
+                    ModelState.Clear();
                     return View(classroom);
                 }
                 if (!_classRoomManager.IsClassRoomAvailable(classroom.Day,classroom.FromTime,classroom.ToTime))
                 {
                     FlashMessage.Danger($"Class room is not available between {classroom.FromTime.ToShortTimeString()} and {classroom.ToTime.ToShortTimeString()} on {classroom.Day}");
+                    ModelState.Clear();
                     return View(classroom);
                 }
                 _classRoomManager.SaveAllocatedClassRoom(classroom);

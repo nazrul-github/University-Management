@@ -30,7 +30,24 @@ namespace University_Management.BLL
                 string totimeDb = room.ToTime.ToString("HH.mm");
                 string usrFrmTime = classroomFromTime.ToString("HH.mm");
                 string usrToTime = classroomToTime.ToString("HH.mm");
-                if (Convert.ToDouble(usrFrmTime)<=Convert.ToDouble(totimeDb) && Convert.ToDouble(fromtimeDb)<=Convert.ToDouble(usrToTime))
+                double fu = Convert.ToDouble(usrFrmTime);
+                double tu = Convert.ToDouble(usrToTime);
+                double fd = Convert.ToDouble(fromtimeDb);
+                double td = Convert.ToDouble(totimeDb);
+                if ((fu < fd && fu < td)&&(tu < td && tu > fd))
+                {
+                    return false;
+                }else if ((fu == fd && fu < td) || (tu == td && tu > fd))
+                {
+                    return false;
+                }else if ((fu < fd && fu < td) && (tu < td && tu > fd
+                          ))
+                {
+                    return false;
+                }else if ((fu < fd && fu < td) && (tu > fd && tu > td))
+                {
+                    return false;
+                }else if ((fu > fd && fu < td) && (tu > fd && tu > td))
                 {
                     return false;
                 }
