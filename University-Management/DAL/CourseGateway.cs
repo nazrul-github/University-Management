@@ -94,7 +94,7 @@ namespace University_Management.DAL
                 var departmentAssignCourse = _projectDbContext.CourseAssigns.Include(c => c.Teacher)
                     .Where(c => c.DepartmentId == departmentId & c.IsAssigned).OrderBy(c => c.CourseId).ToList();
                 var departCourse = _projectDbContext.Courses.Include(c => c.Semister).Where(c => c.DepartmentId == departmentId).OrderBy(c => c.Id).ToList();
-                var coursesTeacher = departCourse.Join(departmentAssignCourse, c => c.Id, a => a.CourseId, (course, assign) => new
+                var assignedCourses = departCourse.Join(departmentAssignCourse, c => c.Id, a => a.CourseId, (course, assign) => new
                 {
                     CourseId = course.Id,
                     CourseCode = course.CourseCode,
@@ -109,35 +109,29 @@ namespace University_Management.DAL
                     CourseCode = c.CourseCode,
                     Name = c.CourseName,
                     Semester = c.Semister.SemisterName,
-                    AssignedTo = ""
+                    AssignedTo = "Not Assigned yet"
                 }).ToList();
 
-                var assigned =
-                    courses.Select(x => new
-                    {
-                        x.CourseId,
-                        x.Name,
-                        x.CourseCode,
-                        x.Semester,
-                        x.AssignedTo
-                    }).Except(coursesTeacher.Select(x => new
-                    {
-                        x.CourseId,
-                        x.Name,
-                        x.CourseCode,
-                        x.Semester,
-                        x.AssignedTo
-                    }));
+                var courseCodes = courses.Select(x=>new{x.CourseId}).Except(assignedCourses.Select(x=>new{x.CourseId}))
+                    .ToList();
+                
+                var notAssignedCourses = courses.Join(courseCodes,c=>c.CourseId,cc=>cc.CourseId,(ano,a)=>new
+                {
+                    CourseId = ano.CourseId,
+                    CourseCode = ano.CourseCode,
+                    Name = ano.Name,
+                    Semester = ano.Semester,
+                    AssignedTo = ano.AssignedTo
+                });
 
-
-                var allCourses = coursesTeacher.Select(x => new
+                var allCourses = assignedCourses.Select(x => new
                 {
                     x.CourseId,
                     x.Name,
                     x.CourseCode,
                     x.Semester,
                     x.AssignedTo
-                }).Union(assigned.Select(x => new
+                }).Union(notAssignedCourses.Select(x => new
                 {
                     x.CourseId,
                     x.Name,
@@ -152,10 +146,10 @@ namespace University_Management.DAL
                     Semester = c.Semester,
                     c.AssignedTo
                 });
-                var allCoursesandassigned = allCourses.Distinct();
+               
                 var assignedcourses = new List<CourseTeacherView>();
 
-                foreach (var c in allCoursesandassigned)
+                foreach (var c in allCourses)
                 {
                     
                     assignedcourses.Add(new CourseTeacherView
