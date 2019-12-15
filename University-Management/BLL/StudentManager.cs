@@ -25,5 +25,14 @@ namespace University_Management.BLL
         {
           return  _studentGateway.UpdateStudent(id, combined);
         }
+        public bool IsStudentAssigned(int courseAssignStudentId, int courseAssignCourseId)
+        {
+            return _studentGateway.IsStudentAssigned(courseAssignCourseId, courseAssignStudentId);
+        }
+
+        public bool EnrollStudentToCourse(StudentCourseAssign courseAssign)
+        {
+            return _studentGateway.EnrollStudentToCourse(courseAssign);
+        }
     }
 }

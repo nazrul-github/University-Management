@@ -13,7 +13,8 @@ namespace University_Management.Controllers
     {
         readonly StudentManager _studentManager = new StudentManager();
         readonly DepartmentManager _departmentManager = new DepartmentManager();
-        TeacherManager _teacherManager = new TeacherManager();
+        readonly TeacherManager _teacherManager = new TeacherManager();
+        readonly CourseManager _courseManager = new CourseManager();
         public ActionResult Create()
         {
             FillDepartmentDropdown();
@@ -57,6 +58,55 @@ namespace University_Management.Controllers
             return View(student);
         }
 
+        public ActionResult EnrollToCourse()
+        {
+            FillStudentDropDown();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EnrollToCourse(StudentCourseAssign courseAssign)
+        {
+            FillStudentDropDown();
+            if (ModelState.IsValid)
+            {
+                if (_studentManager.IsStudentAssigned(courseAssign.StudentId, courseAssign.CourseId))
+                {
+                    FlashMessage.Danger("Student Already Assigned To This Course");
+                    return View();
+                }
+
+                if (_studentManager.EnrollStudentToCourse(courseAssign))
+                {
+                    FlashMessage.Confirmation($"Student enrolled successfully");
+                    return RedirectToAction("EnrollToCourse");
+                }
+            }
+            FlashMessage.Danger("Some error occured, Please check all the input");
+            return View();
+        }
+
+        public JsonResult GetStudentInfoById(int studentId)
+        {
+            var student = _studentManager.GetAllStudents().Find(s => s.Id == studentId);
+            var department = _departmentManager.GetAllDepartments().FirstOrDefault(d => d.DepartmentId == student.DepartmentId);
+            var studntDeparmtnet = new
+            {
+                StudentId = student.Id,
+                StudentName = student.StudentName,
+                Email = student.Email,
+                Department = department.DepartmentName,
+                DepartmentId = student.DepartmentId
+            };
+            return Json(studntDeparmtnet);
+        }
+
+        public JsonResult GetCourseByDepartment(int departmentId)
+        {
+            var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == departmentId).ToList();
+            return Json(courses);
+        }
+
         //public JsonResult CreateStudent(int id)
         //{
         //    if (ModelState.IsValid)
@@ -92,6 +142,12 @@ namespace University_Management.Controllers
         {
             var departments = _departmentManager.GetAllDepartments();
             ViewBag.DepartmentId = new SelectList(departments, "DepartmentId", "DepartmentName");
+        }
+
+        private void FillStudentDropDown()
+        {
+            var students = _studentManager.GetAllStudents();
+            ViewBag.StudentId = new SelectList(students, "Id", "RegistrationNumber");
         }
     }
 }

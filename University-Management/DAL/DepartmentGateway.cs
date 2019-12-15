@@ -40,7 +40,5 @@ namespace University_Management.DAL
                 }
             }
         }
-
-       
     }
 }

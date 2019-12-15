@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using University_Management.Models;
@@ -14,7 +15,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var students = _projectDbContext.Students.ToList();
+                var students = _projectDbContext.Students.Include(c=>c.Department).ToList();
                 return students;
             }
         }
@@ -38,6 +39,31 @@ namespace University_Management.DAL
                 if (student != null) student.RegistrationNumber = combined;
                 _projectDbContext.SaveChanges();
                 return true;
+            }
+        }
+        public bool IsStudentAssigned(int courseAssignCourseId, int courseAssignStudentId)
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                bool isExist =  _projectDbContext.StudentCourseAssigns.Any(c =>
+                    c.IsAssigned && c.CourseId == courseAssignCourseId && c.StudentId == courseAssignStudentId);
+                return isExist;
+            }
+        }
+
+        public bool EnrollStudentToCourse(StudentCourseAssign courseAssign)
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                _projectDbContext.StudentCourseAssigns.Add(courseAssign);
+                _projectDbContext.SaveChanges();
+                int id = courseAssign.Id;
+                if (id>0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
     }

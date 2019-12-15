@@ -309,11 +309,24 @@
     <Compile Include="Migrations\Project_DbContext\201912131626103_ChangedTheFromTimeDataType.designer.cs">
       <DependentUpon>201912131626103_ChangedTheFromTimeDataType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912151652523_StudentCourseRelationTableCreated.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912151652523_StudentCourseRelationTableCreated.designer.cs">
+      <DependentUpon>201912151652523_StudentCourseRelationTableCreated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912151831220_IsAssignedColumnAddedToStudentCourseAssing.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912151831220_IsAssignedColumnAddedToStudentCourseAssing.designer.cs">
+      <DependentUpon>201912151831220_IsAssignedColumnAddedToStudentCourseAssing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912151848463_RenamedTheIsAssignedColumn.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912151848463_RenamedTheIsAssignedColumn.designer.cs">
+      <DependentUpon>201912151848463_RenamedTheIsAssignedColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllocateClassroom.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\StudentCourseAssign.cs" />
     <Compile Include="Models\TeacherCourseAssign.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Designation.cs" />
@@ -393,6 +406,7 @@
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\ClassRoom\AllocateClassRoom.cshtml" />
     <Content Include="Views\ClassRoom\ClassAllocationAndRoomView.cshtml" />
+    <Content Include="Views\Student\EnrollToCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -492,6 +506,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912131626103_ChangedTheFromTimeDataType.resx">
       <DependentUpon>201912131626103_ChangedTheFromTimeDataType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912151652523_StudentCourseRelationTableCreated.resx">
+      <DependentUpon>201912151652523_StudentCourseRelationTableCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912151831220_IsAssignedColumnAddedToStudentCourseAssing.resx">
+      <DependentUpon>201912151831220_IsAssignedColumnAddedToStudentCourseAssing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912151848463_RenamedTheIsAssignedColumn.resx">
+      <DependentUpon>201912151848463_RenamedTheIsAssignedColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

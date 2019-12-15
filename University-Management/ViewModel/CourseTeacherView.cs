@@ -12,6 +12,5 @@ namespace University_Management.ViewModel
         public string Name { get; set; }
         public string Semester { get; set; }
         public string AssignedTo { get; set; }
-
     }
 }

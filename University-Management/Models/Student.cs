@@ -44,5 +44,6 @@ namespace University_Management.Models
         public int DepartmentId { get; set; }
 
         public Department Department { get; set; }
+        public List<StudentCourseAssign> StudentCourseAssigns { get; set; }
     }
 }

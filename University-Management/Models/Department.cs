@@ -31,6 +31,7 @@ namespace University_Management.Models
 
        
         public  List<TeacherCourseAssign> CourseAssigns { get; set; }
+        public List<StudentCourseAssign> StudentCourseAssigns { get; set; }
 
        
         public  List<Student> Students { get; set; }
