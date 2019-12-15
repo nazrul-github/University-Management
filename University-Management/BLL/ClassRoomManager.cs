@@ -55,5 +55,10 @@ namespace University_Management.BLL
 
             return true;
         }
+
+        public List<AllocateClassroom> GetAllocatedClassroomsByDepartment(int departmentId)
+        {
+            return _classRoomGateway.GetAllocatedClassroomsByDepartment(departmentId);
+        }
     }
 }

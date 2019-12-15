@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
 using University_Management.Models;
 
@@ -23,8 +24,8 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                 var rooms = _projectDbContext.AllocateClassrooms.Where(ac => ac.IsAllocated).ToList();
-                 return rooms;
+                var rooms = _projectDbContext.AllocateClassrooms.Where(ac => ac.IsAllocated).ToList();
+                return rooms;
             }
         }
 
@@ -36,6 +37,20 @@ namespace University_Management.DAL
                 return rooms;
             }
         }
-       
+
+        public List<AllocateClassroom> GetAllocatedClassroomsByDepartment(int departmentId)
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var departmentroom = _projectDbContext.AllocateClassrooms
+                    .Include(a => a.Course).Include(a => a.Room)
+                    .Where(a => a.DepartmentId == departmentId).ToList();
+
+                return departmentroom;
+            }
+
+        }
     }
+
 }
+

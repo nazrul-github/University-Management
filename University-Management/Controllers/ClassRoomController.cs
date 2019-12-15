@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using University_Management.BLL;
@@ -12,9 +13,9 @@ namespace University_Management.Controllers
 {
     public class ClassRoomController : Controller
     {
-      ClassRoomManager _classRoomManager = new ClassRoomManager();
-      DepartmentManager _departmentManager = new DepartmentManager();
-      CourseManager _courseManager = new CourseManager();
+        readonly ClassRoomManager _classRoomManager = new ClassRoomManager();
+        readonly DepartmentManager _departmentManager = new DepartmentManager();
+        readonly CourseManager _courseManager = new CourseManager();
 
         public ActionResult AllocateClassRoom()
         {
@@ -51,10 +52,64 @@ namespace University_Management.Controllers
             return View(classroom);
         }
 
+        public ActionResult ClassAllocationAndRoomView()
+        {
+            FillDepartmentDropdown();
+            return View();
+        }
+
         public JsonResult GetCourseByDepartment(int id)
         {
             var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == id).ToList();
             return Json(courses);
+        }
+
+        public JsonResult GetAllocatedClassroomsByDepartment(int departmentId)
+        {
+            var classroom = _classRoomManager.GetAllocatedClassroomsByDepartment(departmentId);
+            var allocatedCourse = classroom.Select(c => c.Course).Distinct().Select(a=>new
+            {
+                CourseId = a.Id
+            }).ToList();
+            var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == departmentId).ToList();
+            var allocatedClassroomInfo = allocatedCourse.Join(courses, a => a.CourseId, c => c.Id,(ac,cls)=>new
+            {
+                CourseId = ac.CourseId,
+                CourseName = cls.CourseName,
+                CourseCode = cls.CourseCode,
+                ScheduleInfo = Scheduleinfo(departmentId, ac.CourseId).ToString()
+            } ).ToList();
+
+            var unallocatedCourses = courses.Select(c => new{CourseId = c.Id}).Except(allocatedClassroomInfo.Select(c => new {CourseId = c.CourseId})).Select(c=>new
+            {
+                CourseId = c.CourseId
+            });
+            var unallocatedCoursesInfo = unallocatedCourses.Join(courses, u => u.CourseId, c => c.Id, (u, ua) => new
+            {
+                CourseId = ua.Id,
+                CourseName = ua.CourseName,
+                CourseCode = ua.CourseCode,
+                ScheduleInfo = "Not Scheduled Yet"
+            });
+
+            var allocatedClassroom = unallocatedCoursesInfo.Union(allocatedClassroomInfo).OrderBy(c=>c.CourseId).ToList();
+
+            return Json(allocatedClassroom);
+        }
+
+        private StringBuilder Scheduleinfo(int departmentId, int courseId)
+        {
+            var classroom = _classRoomManager.GetAllocatedClassroomsByDepartment(departmentId);
+            var allocatedClassroom = classroom.Where(c => c.CourseId == courseId).ToList();
+            var sheduleString = new StringBuilder();
+
+            foreach (var Room in classroom)
+            {
+                sheduleString.Append(
+                    $"R.No: {Room.Room.RoomNo}, {Room.Day.Substring(0, 3)}, {Room.FromTime.ToShortTimeString()} - {Room.ToTime.ToShortTimeString()}<br>");
+            }
+
+            return sheduleString;
         }
 
         private void FillDepartmentDropdown()

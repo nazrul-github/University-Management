@@ -392,6 +392,7 @@
     <Content Include="Views\Course\ShowCourseByDepartment.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\ClassRoom\AllocateClassRoom.cshtml" />
+    <Content Include="Views\ClassRoom\ClassAllocationAndRoomView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
