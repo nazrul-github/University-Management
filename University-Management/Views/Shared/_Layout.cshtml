@@ -11,31 +11,113 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Save Course", "Create", "Course")</li>
-                    <li>@Html.ActionLink("Save Teacher", "Create", "Teacher")</li>
-                    <li>@Html.ActionLink("Assign Course To Teacher", "AssignCourse", "Course")</li>
-                    <li>@Html.ActionLink("View Course Statics", "ShowCourseByDepartment", "Course")</li>
-                    <li>@Html.ActionLink("Register Student", "Create", "Student")</li>
-                    <li>@Html.ActionLink("Allocate Classroom", "AllocateClassRoom", "ClassRoom")</li>
+
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            @Html.ActionLink("UMRC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Department Setup
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Save Department", "Create", "Department")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("View All Departments", "ViewDepartment", "Department")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Course Setup
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Save Course", "Create", "Course")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("View Course Statics", "CourseStatics", "Course")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Teacher Setup
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Save Teacher", "Create", "Teacher")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Course Assign To Teacher", "AssignCourse", "Course")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Student Setup
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Register Student", "Create", "Student")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Enroll in a Course", "EnrollToCourse", "Student")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Save Student Result", "AddResult", "Result")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("View Student Result", "ViewResult", "Result")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Classroom Setup
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Allocate Classrooms", "AllocateClassRoom", "ClassRoom")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Class Schedule", "ClassAllocationAndRoomView", "ClassRoom")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Un-assign & Un-allocate
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Unassign All Courses", "UnAssignCourses", "Course")
+                            </li>
+                            <li class="dropdown-item">
+                                @Html.ActionLink("Unallocate Class Rooms", "UnAllocateClassRoom", "ClassRoom")
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content mt-md-4">
         @RenderBody()
         <hr />
         <footer>
