@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "View Result";
+}
+
+<h2>View Result</h2>
+
+<div class="form-group">
+    @Html.Label("StudentReg", "Student Reg. No:", new { @class = "control-label col-md-2" })
+    @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+</div>
+<div class="form-group">
+    @Html.Label("StudentName", "Student Name", new { @class = "control-label col-md-2" })
+    @Html.TextBox("StudentName", null, new { @class = "form-control", @readonly = "readonly" })
+</div>
+<div class="form-group">
+    @Html.Label("StudentEmail", "Student Email", new { @class = "control-label col-md-2" })
+    @Html.TextBox("StudentEmail", null, new { @class = "form-control", @readonly = "readonly" })
+</div>
+<div class="form-group">
+    @Html.Label("StudentDepartment", "Student Department", new { @class = "control-label col-md-2" })
+    @Html.TextBox("StudentDepartment", null, new { @class = "form-control", @readonly = "readonly" })
+</div>
+
+    <button type="button" class="btn btn-success">Make PDF</button>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody id="studentCourse"></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#StudentId").change(function() {
+                var id = $("#StudentId").val();
+                var parameter = { studentId: id };
+                $("#studentCourse").empty();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: '@Url.Action("GetStudentInfoById","Student")',
+                    data: JSON.stringify(parameter),
+                    success: function(student) {
+                        $("#StudentName").val(student.StudentName);
+                        $("#StudentEmail").val(student.Email);
+                        $("#StudentDepartment").val(student.Department);
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            url: '@Url.Action("GetStudentResult","Result")',
+                            data: JSON.stringify(parameter),
+                            success: function (studentResult) {
+                                $.each(studentResult, function(key, value) {
+                                    $("#studentCourse").append('<tr>' +
+                                        '<td>' + value.CourseCode+'</td>' +
+                                        '<td>' + value.CourseName+'</td>' +
+                                        '<td>' + value.Grade+'</td>' +
+                                        '</tr>');
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

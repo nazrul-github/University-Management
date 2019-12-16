@@ -62,7 +62,7 @@ namespace University_Management.DAL
             return remainingCredit;*/
             using (projectDbContext = new ProjectDbContext())
             {
-                var courseAssinged = projectDbContext.CourseAssigns.Where(c=>c.IsAssigned);
+                var courseAssinged = projectDbContext.TeacherCourseAssigns.Where(c=>c.IsAssigned);
                 var teacherWithCreditAssigned = courseAssinged.Join(projectDbContext.Teachers, c => c.TeacherId, t => t.Id,
                     ((assign, teacher) => new
                     {

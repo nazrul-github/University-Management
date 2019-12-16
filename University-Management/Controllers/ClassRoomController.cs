@@ -58,6 +58,11 @@ namespace University_Management.Controllers
             return View();
         }
 
+        public ActionResult UnAllocateClassRoom()
+        {
+            return View();
+        }
+
         public JsonResult GetCourseByDepartment(int id)
         {
             var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == id).ToList();
@@ -97,6 +102,12 @@ namespace University_Management.Controllers
             return Json(allocatedClassroom);
         }
 
+        public JsonResult UnAllocateClassRooms()
+        {
+            bool IsUnAllocated = _classRoomManager.UnAllocateClassRooms();
+            return Json(IsUnAllocated);
+        }
+
         private StringBuilder Scheduleinfo(int departmentId, int courseId)
         {
             var classroom = _classRoomManager.GetAllocatedClassroomsByDepartment(departmentId);
@@ -129,6 +140,7 @@ namespace University_Management.Controllers
             var room = _classRoomManager.GetAllRoomInfo();
             ViewBag.RoomId = new SelectList(room, "RoomId", "RoomNo");
         }
+
 
         
     }

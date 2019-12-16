@@ -50,6 +50,20 @@ namespace University_Management.DAL
             }
 
         }
+
+        public bool UnAllocateClassRooms()
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var allocatedClassrooms = _projectDbContext.AllocateClassrooms.ToList();
+                foreach (var classroom in allocatedClassrooms)
+                {
+                    classroom.IsAllocated = false;
+                }
+                _projectDbContext.SaveChanges();
+                return true;
+            }
+        }
     }
 
 }

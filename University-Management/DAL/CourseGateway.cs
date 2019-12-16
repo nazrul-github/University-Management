@@ -59,7 +59,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var courseAssigned = _projectDbContext.CourseAssigns.ToList();
+                var courseAssigned = _projectDbContext.TeacherCourseAssigns.ToList();
                 return courseAssigned;
             }
         }
@@ -68,7 +68,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                _projectDbContext.CourseAssigns.Add(teacherCourseAssign);
+                _projectDbContext.TeacherCourseAssigns.Add(teacherCourseAssign);
                 _projectDbContext.SaveChanges();
                 int id = teacherCourseAssign.Id;
                 if (id > 0)
@@ -82,7 +82,7 @@ namespace University_Management.DAL
 
         public List<CourseTeacherView> GetCourseStatics(int departmentId)
         {
-            //var teacherCourseAssign = _projectDbContext.CourseAssigns.Include(c => c.Course).Include(c => c.Teacher).Where(c => c.DepartmentId == departmentId).ToList();
+            //var teacherCourseAssign = _projectDbContext.TeacherCourseAssigns.Include(c => c.Course).Include(c => c.Teacher).Where(c => c.DepartmentId == departmentId).ToList();
             //var course = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).ToList();
             //teacherCourseAssign.Select(c => new
             //{
@@ -91,7 +91,7 @@ namespace University_Management.DAL
             //});
             using (_projectDbContext = new ProjectDbContext())
             {
-                var departmentAssignCourse = _projectDbContext.CourseAssigns.Include(c => c.Teacher)
+                var departmentAssignCourse = _projectDbContext.TeacherCourseAssigns.Include(c => c.Teacher)
                     .Where(c => c.DepartmentId == departmentId & c.IsAssigned).OrderBy(c => c.CourseId).ToList();
                 var departCourse = _projectDbContext.Courses.Include(c => c.Semister).Where(c => c.DepartmentId == departmentId).OrderBy(c => c.Id).ToList();
                 var assignedCourses = departCourse.Join(departmentAssignCourse, c => c.Id, a => a.CourseId, (course, assign) => new
@@ -199,6 +199,28 @@ namespace University_Management.DAL
             }
         }
 
+        public List<StudentCourseAssign> GetAllStudentCourses()
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var studentCourses = _projectDbContext.StudentCourseAssigns.Include(c => c.Course).ToList();
+                return studentCourses;
+            }
+        }
+
+        public bool UnAssingAllCourse()
+        {
+            using (_projectDbContext = new ProjectDbContext())
+            {
+                var courseAssignDb = _projectDbContext.TeacherCourseAssigns.ToList();
+                foreach (var course in courseAssignDb)
+                {
+                    course.IsAssigned = false;
+                }
+                _projectDbContext.SaveChanges();
+                return true;
+            }
+        }
     }
 }
 

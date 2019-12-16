@@ -177,6 +177,7 @@
     <Compile Include="BLL\ClassRoomManager.cs" />
     <Compile Include="BLL\CourseManager.cs" />
     <Compile Include="BLL\DepartmentManager.cs" />
+    <Compile Include="BLL\ResultManager.cs" />
     <Compile Include="BLL\StudentManager.cs" />
     <Compile Include="BLL\TeacherManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -185,11 +186,13 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\ClassRoomGateway.cs" />
     <Compile Include="DAL\CourseGateway.cs" />
     <Compile Include="DAL\DepartmentGateway.cs" />
+    <Compile Include="DAL\ResultGateway.cs" />
     <Compile Include="DAL\StudentGateway.cs" />
     <Compile Include="DAL\TeacherGateway.cs" />
     <Compile Include="EntityConfigaration\CourseConfigaration.cs" />
@@ -321,10 +324,23 @@
     <Compile Include="Migrations\Project_DbContext\201912151848463_RenamedTheIsAssignedColumn.designer.cs">
       <DependentUpon>201912151848463_RenamedTheIsAssignedColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912160256096_ResultTableCreated.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912160256096_ResultTableCreated.designer.cs">
+      <DependentUpon>201912160256096_ResultTableCreated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912160346190_UpdatedGradeColumnType.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912160346190_UpdatedGradeColumnType.designer.cs">
+      <DependentUpon>201912160346190_UpdatedGradeColumnType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912160458457_UpdatedGradeColumnType1.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912160458457_UpdatedGradeColumnType1.designer.cs">
+      <DependentUpon>201912160458457_UpdatedGradeColumnType1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllocateClassroom.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\StudentCourseAssign.cs" />
     <Compile Include="Models\TeacherCourseAssign.cs" />
@@ -407,6 +423,10 @@
     <Content Include="Views\ClassRoom\AllocateClassRoom.cshtml" />
     <Content Include="Views\ClassRoom\ClassAllocationAndRoomView.cshtml" />
     <Content Include="Views\Student\EnrollToCourse.cshtml" />
+    <Content Include="Views\Result\AddResult.cshtml" />
+    <Content Include="Views\Result\ViewResult.cshtml" />
+    <Content Include="Views\Course\UnAssignCourses.cshtml" />
+    <Content Include="Views\ClassRoom\UnAllocateClassRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -515,6 +535,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912151848463_RenamedTheIsAssignedColumn.resx">
       <DependentUpon>201912151848463_RenamedTheIsAssignedColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912160256096_ResultTableCreated.resx">
+      <DependentUpon>201912160256096_ResultTableCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912160346190_UpdatedGradeColumnType.resx">
+      <DependentUpon>201912160346190_UpdatedGradeColumnType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912160458457_UpdatedGradeColumnType1.resx">
+      <DependentUpon>201912160458457_UpdatedGradeColumnType1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

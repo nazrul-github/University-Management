@@ -90,12 +90,11 @@ namespace University_Management.Controllers
             return View();
         }
 
-
-
-
-
-
-
+        public ActionResult UnAssignCourses()
+        {
+            return View();
+        }
+        
         public JsonResult IsCourseCodeExist(string courseCode)
         {
             bool isExist = _courseManager.IsCourseCodeExist(courseCode);
@@ -164,6 +163,12 @@ namespace University_Management.Controllers
         {
             var courseStatics = _courseManager.GetCourseStatics(departmentId);
             return Json(courseStatics);
+        }
+
+        public JsonResult UnAssignAllCourse()
+        {
+            bool IsUnAssigned = _courseManager.UnAssingAllCourse();
+            return Json(IsUnAssigned);
         }
 
         private void FillDepartmentDropdown()

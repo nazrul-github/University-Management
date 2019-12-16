@@ -73,5 +73,15 @@ namespace University_Management.BLL
         {
             return _courseGateway.GetCourseStatics(departmentId);
         }
+
+        public List<StudentCourseAssign> GetAllStudentCourses()
+        {
+            return _courseGateway.GetAllStudentCourses();
+        }
+
+        public bool UnAssingAllCourse()
+        {
+          return  _courseGateway.UnAssingAllCourse();
+        }
     }
 }

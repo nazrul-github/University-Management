@@ -9,7 +9,7 @@ namespace University_Management.Models
     [Table("Semister")]
     public partial class Semister
     {
-       
+
         [Key]
         public int SemisterId { get; set; }
 
@@ -17,7 +17,7 @@ namespace University_Management.Models
         [StringLength(50)]
         public string SemisterName { get; set; }
 
-      
+
         public List<Course> Courses { get; set; }
     }
 }
