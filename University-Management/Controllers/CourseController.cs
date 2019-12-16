@@ -14,9 +14,9 @@ namespace University_Management.Controllers
 {
     public class CourseController : Controller
     {
-        readonly CourseManager _courseManager = new CourseManager();
-        readonly DepartmentManager _departmentManager = new DepartmentManager();
-        readonly TeacherManager _teacherManager = new TeacherManager();
+        private readonly CourseManager _courseManager = new CourseManager();
+        private readonly DepartmentManager _departmentManager = new DepartmentManager();
+        private readonly TeacherManager _teacherManager = new TeacherManager();
 
         public ActionResult Create()
         {
@@ -94,7 +94,7 @@ namespace University_Management.Controllers
         {
             return View();
         }
-        
+
         public JsonResult IsCourseCodeExist(string courseCode)
         {
             bool isExist = _courseManager.IsCourseCodeExist(courseCode);

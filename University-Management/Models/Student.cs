@@ -16,6 +16,7 @@ namespace University_Management.Models
 
         [Required(ErrorMessage = "Student name is required")]
         [StringLength(70)]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z]*$", ErrorMessage = "Please enter a valid name (Only upper and lower case letters are allowed)")]
         [DisplayName("Student Name")]
         public string StudentName { get; set; }
 
