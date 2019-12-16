@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "UnAssignCourses";
+}
+
+<h2>UnAssign AllCourses</h2>
+<div class="form-group">
+    <button class="btn btn-danger" id="unAssign">Unassigned Courses</button>
+    <label class="label-danger hidden" id="msglabel">All Courses Are Unassigned</label>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#unAssign").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UnAssignAllCourse","Course")',
+                    success: function() {
+                        alert('All Courses Are Unassigned');
+                    }
+            });
+            });
+        });
+    </script>
+}

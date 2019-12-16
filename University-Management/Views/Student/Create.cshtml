@@ -1,0 +1,124 @@
+﻿
+@using Vereyon.Web
+@model University_Management.Models.Student
+
+@{
+    ViewBag.Title = "Register Student";
+}
+
+<h2>Register Student</h2>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function() {
+            alert("@ViewBag.Message");
+        };
+    </script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.RenderFlashMessages()
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" name="RegistrationNumber" id="RegistrationNumber" value="yes" />
+                <input type="submit" value="Create" id="submitButton" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#Date").datepicker({
+                dateFormat: "dd-MM-yy",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+    </script>
+    @*<script>
+              $(document).ready(function () {
+                  $("#submitButton").click(function() {
+                      //var student = new object();
+                      //student.StudentName = $("#StudentName").val();
+                      //student.Email= $("#Email").val();
+                      //student.ContactNo = $("#ContactNo").val();
+                      //student.Date =  $("#Date").val();
+                      //student.Address = $("#Address").val();
+                      //student.DepartmentId = $("#DepartmentId").val();
+                      //student.RegistrationNumber = $("#RegistrationNumber").val();
+                      var id = $("#StudentName").val();
+                      var parameter = {id:id}
+                    $.ajax({
+                        type: 'GET',
+                        contentType: "application/json;utf-8",
+                        //data: { StudentName: $("#StudentName").val(), Email: $("#Email").val(), Date: $("#Date").val(), Address: $("#Address").val(), DepartmentId: $("#DepartmentId").val(), RegistrationNumber: $("#RegistrationNumber").val()},
+                       data:JSON.stringify(parameter),
+                        url: '@Url.Action("CreateStudent","Student")',
+                        success: function(student) {
+                            alert(student);
+                        }
+                    });
+                });
+            });
+        </script>*@
+}

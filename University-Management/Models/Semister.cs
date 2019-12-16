@@ -9,15 +9,15 @@ namespace University_Management.Models
     [Table("Semister")]
     public partial class Semister
     {
-       
 
-        public int Id { get; set; }
+        [Key]
+        public int SemisterId { get; set; }
 
         [Required]
         [StringLength(50)]
         public string SemisterName { get; set; }
 
-      
-        public virtual List<Course> Courses { get; set; }
+
+        public List<Course> Courses { get; set; }
     }
 }

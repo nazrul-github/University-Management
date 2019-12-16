@@ -1,3 +1,5 @@
+using System.Web.Mvc;
+
 namespace University_Management.Models
 {
     using System;
@@ -6,8 +8,8 @@ namespace University_Management.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("CourseAssign")]
-    public partial class CourseAssign
+    [Table("TeacherCourseAssign")]
+    public partial class TeacherCourseAssign
     {
         public int Id { get; set; }
 
@@ -15,19 +17,16 @@ namespace University_Management.Models
 
         public int TeacherId { get; set; }
 
-        public int CreditToBeTaken { get; set; }
-
+        [Remote("IsCourseAssigned", "Course", ErrorMessage = "This course already been assigned")]
         public int CourseId { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string CourseName { get; set; }
+        public bool IsAssigned { get; set; }
 
-        public virtual Course Course { get; set; }
+        public Course Course { get; set; }
 
-        
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
 
-        public virtual Teacher Teacher { get; set; }
+        public Teacher Teacher { get; set; }
+
     }
 }

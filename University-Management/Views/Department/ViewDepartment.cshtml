@@ -1,0 +1,31 @@
+﻿@model IEnumerable<University_Management.Models.Department>
+
+@{
+    ViewBag.Title = "View All Departments";
+}
+
+<h2>View All Departments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentCode)
+        </th>
+       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentCode)
+        </td>
+    </tr>
+}
+
+</table>

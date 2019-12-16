@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Class Schedule and room allocation information";
+}
+
+<h2>Class Allocation And Room Allocation Information</h2>
+<div class="form-group">
+    @Html.Label("DepartmentId", "Department")
+    @Html.DropDownList("DepartmentId", null,"--Select Department--", new { @class = "form-control" })
+</div>
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Name</th>
+                <th>Schedule Info</th>
+            </tr>
+        </thead>
+        <tbody id="room-info"></tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#DepartmentId").change(function() {
+                var id = $("#DepartmentId").val();
+                var parameter = { departmentId: id }
+                $("#room-info").empty();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/JSON;charset=utf-8",
+                    url: '@Url.Action("GetAllocatedClassroomsByDepartment", "ClassRoom")',
+                    data: JSON.stringify(parameter),
+                    success: function (allocatedClassroom) {
+                        $.each(allocatedClassroom,
+                            function(key, value) {
+                                $("#room-info").append('<tr>' +
+                                    '<td>' + value.CourseCode+'</td>' +
+                                    '<td>' + value.CourseName+'</td>' +
+                                    '<td>' + value.ScheduleInfo+'</td>' +
+                                    '</tr>');
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+}
+

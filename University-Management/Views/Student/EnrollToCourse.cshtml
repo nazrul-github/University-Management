@@ -1,0 +1,94 @@
+﻿@using Vereyon.Web
+
+@{
+    ViewBag.Title = "Enroll In A CourseEnroll In A Course";
+}
+
+<h2>Enroll In A Course</h2>
+<hr/>
+@Html.RenderFlashMessages()
+@using (@Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.Label("StudentName", "Student Name")
+        @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Email", "Email")
+        @Html.TextBox("Email", null, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="form-group">
+        @Html.Label("DepartmentName", "Department")
+        @Html.TextBox("DepartmentName", null, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="form-group">
+        @Html.Label("CourseId", "Course")
+        <select class="form-control" name="CourseId" id="CourseDDL">
+            <option>--Select Course--</option>
+        </select>
+    </div>
+    <div class="form-group">
+        @Html.Label("EnrollmentDate", "Enrollment Date")
+        @Html.TextBox("EnrollmentDate", null, new { @class = "form-control", @autocomplete = "off" })
+    </div>
+
+
+    <input type="hidden" value=true name="IsAssigned" />
+    <input type="hidden" name="DepartmentId" id="DepartmentId" />
+    <input type="submit" value="Enroll" class="btn btn-primary" />
+}
+
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $().ready(function() {
+            $("#EnrollmentDate").datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+        $(document).ready(function() {
+            $("#StudentId").change(function() {
+                var id = $("#StudentId").val();
+                var parameter = { studentId: id };
+                $("#CourseDDL").find("option").not(":first").remove();
+                $("#Email").val("");
+                $("#DepartmentId").val("");
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: '@Url.Action("GetStudentInfoById", "Student")',
+                    data: JSON.stringify(parameter),
+                    success: function(student) {
+                        $("#Email").val(student.Email);
+                        $("#DepartmentName").val(student.Department);
+                        $("#DepartmentId").val(student.DepartmentId);
+                        var depId = student.DepartmentId;
+                        var depParameter = { departmentId: depId };
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            url: '@Url.Action("GetCourseByDepartment", "Student")',
+                            data: JSON.stringify(depParameter),
+                            success: function(courses) {
+                                $.each(courses,
+                                    function(key, value) {
+                                        $("#CourseDDL").append('<option value=' +
+                                            value.Id +
+                                            '>' +
+                                            value.CourseName +
+                                            '</option>');
+                                    });
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+}

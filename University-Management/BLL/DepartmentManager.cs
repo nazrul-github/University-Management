@@ -17,34 +17,29 @@ namespace University_Management.BLL
 
         public void AddDepartment(Department department)
         { 
-            
             departmentGateway.AddDepartment(department);
         }
 
+        
+
         public bool IsDepartmentCodeExist(string departmentCode)
         {
-            bool isExist = departmentGateway.GetAllDepartments()
-                .Any(d => d.DepartmentCode.ToLower() == departmentCode.ToLower());
+           var deptCode = departmentCode.Replace(" ", String.Empty);
+           var isExist = GetAllDepartments()
+               .Any(d => d.DepartmentCode.Replace(" ", String.Empty).ToLower() == deptCode.ToLower());
 
-            if (isExist)
-            {
-                return true;
-            }
-
-            return false;
+           return isExist;
         }
 
         public bool IsDepartmentNameExist(string departmentName)
         {
-            bool isExist = departmentGateway.GetAllDepartments()
-                .Any(d => d.DepartmentName.ToLower() == departmentName.ToLower());
+            var deptName = departmentName.Replace(" ", String.Empty);
+            var isExist = GetAllDepartments()
+                .Any(d => d.DepartmentName.Replace(" ", String.Empty).ToLower() == deptName.ToLower());
 
-            if (isExist)
-            {
-                return true;
-            }
-
-            return false;
+            return isExist;
         }
+
+       
     }
 }

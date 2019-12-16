@@ -11,7 +11,8 @@ namespace University_Management.Controllers
 {
     public class DepartmentController : Controller
     {
-        public DepartmentManager DepartmentManager = new DepartmentManager();
+        private readonly DepartmentManager _departmentManager = new DepartmentManager();
+
         public ActionResult Create()
         {
             return View();
@@ -22,18 +23,18 @@ namespace University_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (DepartmentManager.IsDepartmentNameExist(department.DepartmentName))
+                if (_departmentManager.IsDepartmentNameExist(department.DepartmentName))
                 {
                     FlashMessage.Danger("Department Name Already Exist");
                     return View(department);
                 }
-                if (DepartmentManager.IsDepartmentCodeExist(department.DepartmentCode))
+                if (_departmentManager.IsDepartmentCodeExist(department.DepartmentCode))
                 {
                     FlashMessage.Danger("Department Code Already Exist");
                     return View(department);
                 }
                 FlashMessage.Confirmation("Department Saved Successfully");
-                DepartmentManager.AddDepartment(department);
+                _departmentManager.AddDepartment(department);
                 return RedirectToAction("Create");
             }
             FlashMessage.Danger("Some error occured please check all the fields");
@@ -41,28 +42,36 @@ namespace University_Management.Controllers
             return View(department);
         }
 
-
-        public JsonResult IsDeptCodeExist(string DepartmentCode)
+        public ActionResult ViewDepartment()
         {
-            bool isExsit = DepartmentManager.IsDepartmentCodeExist(DepartmentCode);
+            var departments = _departmentManager.GetAllDepartments();
+            return View(departments);
+        }
 
-            if (isExsit)
+
+        public JsonResult IsDeptCodeExist(string departmentCode)
+        {
+            bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);
+
+            if (isExist)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult IsDeptNameExist(string DepartmentName)
-        {
-            bool isExsit = DepartmentManager.IsDepartmentNameExist(DepartmentName);
 
-            if (isExsit)
+        public JsonResult IsDeptNameExist(string departmentName)
+        {
+            bool isExist = _departmentManager.IsDepartmentNameExist(departmentName);
+
+            if (isExist)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

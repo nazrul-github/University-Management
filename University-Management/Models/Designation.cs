@@ -17,6 +17,6 @@ namespace University_Management.Models
         [StringLength(50)]
         public string DesignationName { get; set; }
 
-        public virtual ICollection<Teacher> Teachers { get; set; }
+        public  ICollection<Teacher> Teachers { get; set; }
     }
 }
