@@ -84,7 +84,7 @@ namespace University_Management.Controllers
             return View();
         }
 
-        public ActionResult ShowCourseByDepartment()
+        public ActionResult CourseStatics()
         {
             FillDepartmentDropdown();
             return View();
@@ -167,8 +167,8 @@ namespace University_Management.Controllers
 
         public JsonResult UnAssignAllCourse()
         {
-            bool IsUnAssigned = _courseManager.UnAssingAllCourse();
-            return Json(IsUnAssigned);
+            bool isUnAssigned = _courseManager.UnAssingAllCourse();
+            return Json(isUnAssigned);
         }
 
         private void FillDepartmentDropdown()
