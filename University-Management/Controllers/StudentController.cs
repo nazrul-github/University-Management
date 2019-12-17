@@ -49,9 +49,9 @@ namespace University_Management.Controllers
                           $"Department: {department.DepartmentName};     " +
                           $"Registration number: {combined}";
                 FlashMessage.Confirmation(msg);
-                // ViewBag.Message = msg;
-                // ModelState.Clear();
-                //return View();
+                 //ViewBag.Message = msg;
+                 //ModelState.Clear();
+                 //return View();
                 return RedirectToAction("Create");
             }
             FlashMessage.Danger("Some error occured, please check all the input");
@@ -72,7 +72,7 @@ namespace University_Management.Controllers
             {
                 if (_studentManager.IsStudentAssigned(courseAssign.StudentId, courseAssign.CourseId))
                 {
-                    FlashMessage.Danger("Student Already Assigned To This Course");
+                    FlashMessage.Danger("This Student Already Assigned To This Course");
                     return View();
                 }
 
@@ -101,42 +101,21 @@ namespace University_Management.Controllers
             return Json(studntDeparmtnet);
         }
 
+        public JsonResult IsStudentAssigned(int studentId, int courseId)
+        {
+            if (_studentManager.IsStudentAssigned(studentId, courseId))
+            {
+                return Json(true);
+            }
+
+            return Json(false);
+        }
+
         public JsonResult GetCourseByDepartment(int departmentId)
         {
             var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == departmentId).ToList();
             return Json(courses);
         }
-
-        //public JsonResult CreateStudent(int id)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //if (_teacherManager.IsEmailExist(student.Email))
-        //        //{
-        //        //    return Json("Email exist in the database");
-        //        //}
-
-        //        //var year = student.Date.ToString("yyyy");
-        //        //var depCode = _departmentManager.GetAllDepartments()
-        //        //    .FirstOrDefault(d => d.DepartmentId == student.DepartmentId)?.DepartmentCode;
-        //        //int id = _studentManager.AddStudent(student);
-        //        //var idNumber = id.ToString("000");
-        //        //var combined = $"{depCode}-{year}-{idNumber}";
-        //        //bool isUpdated = _studentManager.UpdateStudent(id, combined);
-        //        //student.RegistrationNumber = combined;
-        //        //var msg = $"Student Name: {student.StudentName}\n" +
-        //        //          $"Student Email: {student.Email}\n" +
-        //        //          $"Student Contact no: {student.ContactNo}\n" +
-        //        //          $"Registration Date: {student.Date:dd-MMM-yy}\n" +
-        //        //          $"Address: {student.Address}\n" +
-        //        //          $"Department: Computer Science\n" +
-        //        //          $"Registration number: {combined}";
-        //      //  return Json(msg);
-        //    }
-        //    var studentDb = _studentManager.GetAllStudents().FirstOrDefault(s => s.Id == id);
-        //    return Json(studentDb,JsonRequestBehavior.AllowGet);
-        //    // return Json("Please fill the form properly");
-        //}
 
         private void FillDepartmentDropdown()
         {

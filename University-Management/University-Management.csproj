@@ -350,6 +350,14 @@
     <Compile Include="Migrations\Project_DbContext\201912170422033_SemesterTableRenamed.designer.cs">
       <DependentUpon>201912170422033_SemesterTableRenamed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912171413014_TeacherTableContactColumnTypeChanged.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912171413014_TeacherTableContactColumnTypeChanged.designer.cs">
+      <DependentUpon>201912171413014_TeacherTableContactColumnTypeChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Project_DbContext\201912171718542_IsResultAvailableColumnAddedInResultTable.cs" />
+    <Compile Include="Migrations\Project_DbContext\201912171718542_IsResultAvailableColumnAddedInResultTable.designer.cs">
+      <DependentUpon>201912171718542_IsResultAvailableColumnAddedInResultTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Project_DbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllocateClassroom.cs" />
@@ -671,6 +679,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Project_DbContext\201912170422033_SemesterTableRenamed.resx">
       <DependentUpon>201912170422033_SemesterTableRenamed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912171413014_TeacherTableContactColumnTypeChanged.resx">
+      <DependentUpon>201912171413014_TeacherTableContactColumnTypeChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Project_DbContext\201912171718542_IsResultAvailableColumnAddedInResultTable.resx">
+      <DependentUpon>201912171718542_IsResultAvailableColumnAddedInResultTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

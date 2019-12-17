@@ -7,24 +7,15 @@
 }
 
 <h2>Register Student</h2>
-
-@if (ViewBag.Message != null)
-{
-    <script type="text/javascript">
-        window.onload = function() {
-            alert("@ViewBag.Message");
-        };
-    </script>
-}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
-            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
@@ -64,7 +55,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
@@ -72,9 +63,9 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-10">
                 <input type="hidden" name="RegistrationNumber" id="RegistrationNumber" value="yes" />
-                <input type="submit" value="Create" id="submitButton" class="btn btn-default" />
+                <input type="submit" value="Register" id="submitButton" class="btn btn-block btn-success" />
             </div>
         </div>
     </div>
@@ -86,6 +77,9 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+        $().ready(function() {
+           
+        });
         $(function () {
             $("#Date").datepicker({
                 dateFormat: "dd-MM-yy",
@@ -93,32 +87,5 @@
                 changeYear: true
             });
         });
-
     </script>
-    @*<script>
-              $(document).ready(function () {
-                  $("#submitButton").click(function() {
-                      //var student = new object();
-                      //student.StudentName = $("#StudentName").val();
-                      //student.Email= $("#Email").val();
-                      //student.ContactNo = $("#ContactNo").val();
-                      //student.Date =  $("#Date").val();
-                      //student.Address = $("#Address").val();
-                      //student.DepartmentId = $("#DepartmentId").val();
-                      //student.RegistrationNumber = $("#RegistrationNumber").val();
-                      var id = $("#StudentName").val();
-                      var parameter = {id:id}
-                    $.ajax({
-                        type: 'GET',
-                        contentType: "application/json;utf-8",
-                        //data: { StudentName: $("#StudentName").val(), Email: $("#Email").val(), Date: $("#Date").val(), Address: $("#Address").val(), DepartmentId: $("#DepartmentId").val(), RegistrationNumber: $("#RegistrationNumber").val()},
-                       data:JSON.stringify(parameter),
-                        url: '@Url.Action("CreateStudent","Student")',
-                        success: function(student) {
-                            alert(student);
-                        }
-                    });
-                });
-            });
-        </script>*@
 }

@@ -73,7 +73,7 @@ namespace University_Management.Controllers
                 }
             }
             FlashMessage.Danger("Some error occured; please check all the inputs ");
-            return View();
+            return View(teacherCourseAssign);
         }
 
         public JsonResult GetTeacherByDepartment(int departmentId)
@@ -105,6 +105,17 @@ namespace University_Management.Controllers
         {
             var course = _courseManager.GetAllCourses().FirstOrDefault(c => c.Id == courseId);
             return Json(course);
+        }
+
+        public JsonResult IsCourseAssigned(int courseId)
+        {
+            bool isAssigned = _courseManager.IsCourseAssigned(courseId);
+            if (isAssigned)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult IsEmailExist(string email)

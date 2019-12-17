@@ -34,7 +34,7 @@ namespace University_Management.BLL
 
         public bool IsCourseAssigned(int courseId)
         {
-            bool isExist = GetAllAssignedCourse().Any(c => c.CourseId == courseId);
+            bool isExist = GetAllAssignedCourse().Any(c => c.CourseId == courseId && c.IsAssigned);
 
             return isExist;
         }

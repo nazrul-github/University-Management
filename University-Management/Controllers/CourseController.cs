@@ -90,16 +90,6 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult IsCourseAssigned(int courseId)
-        {
-            bool isAssigned = _courseManager.IsCourseAssigned(courseId);
-            if (isAssigned)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
 
         public JsonResult GetCourseStatics(int departmentId)
         {

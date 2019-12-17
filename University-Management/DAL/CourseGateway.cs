@@ -162,7 +162,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var studentCourses = _projectDbContext.StudentCourseAssigns.Include(c => c.Course).ToList();
+                var studentCourses = _projectDbContext.StudentCourseAssigns.Include(c => c.Course).Where(c=>c.IsAssigned).ToList();
                 return studentCourses;
             }
         }
@@ -171,10 +171,23 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var courseAssignDb = _projectDbContext.TeacherCourseAssigns.ToList();
-                foreach (var course in courseAssignDb)
+                var teacherCourses = _projectDbContext.TeacherCourseAssigns.ToList();
+                var studentCourses = _projectDbContext.StudentCourseAssigns.ToList();
+                var studentResult = _projectDbContext.Results.ToList();
+
+                foreach (var course in teacherCourses)
                 {
                     course.IsAssigned = false;
+                }
+
+                foreach (var course in studentCourses)
+                {
+                    course.IsAssigned = false;
+                }
+
+                foreach (var result in studentResult)
+                {
+                    result.IsResultAvailable = false;
                 }
                 _projectDbContext.SaveChanges();
                 return true;

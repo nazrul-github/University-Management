@@ -29,6 +29,14 @@ namespace University_Management.Controllers
             FillStudentDropDown();
             if (ModelState.IsValid)
             {
+                if (_resultManager.IsResultExistForThisStudent(result.CourseId,result.DepartmentId,result.StudentId))
+                {
+                    if (_resultManager.UpdateResult(result))
+                    {
+                        FlashMessage.Confirmation("Result updated successfully");
+                        return RedirectToAction("AddResult");
+                    }
+                }
                 if (_resultManager.AddResult(result))
                 {
                     FlashMessage.Confirmation("Result added successfully");
@@ -45,7 +53,7 @@ namespace University_Management.Controllers
             return View();
         }
 
-        public ActionResult GetCourseByStudentId(int studentId)
+        public JsonResult GetCourseByStudentId(int studentId)
         {
             var courses = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
             {
@@ -90,12 +98,24 @@ namespace University_Management.Controllers
             return Json(studentResult);
         }
 
+        public JsonResult IsResultExist(int courseId, int departmentId, int studentId)
+        {
+            bool isExist = _resultManager.IsResultExistForThisStudent(courseId, departmentId, studentId);
+
+            if (isExist)
+            {
+                return Json(false);
+            }
+
+            return Json(true);
+
+        }
+
         private void FillStudentDropDown()
         {
             var students = _studentManager.GetAllStudents();
             ViewBag.StudentId = new SelectList(students, "Id", "RegistrationNumber");
         }
-
 
 
     }

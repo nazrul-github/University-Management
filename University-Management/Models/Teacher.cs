@@ -34,8 +34,9 @@ namespace University_Management.Models
         public string Email { get; set; }
 
         [Column("Contact No")]
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "Please Enter a valid mobile number (01XXXXXXXXX)")]
+        [StringLength(50,ErrorMessage = "Please Enter a valid mobile number (01XXXXXXXXX)")]
+        [RegularExpression(@"^[0]+[1]+[0-9]{9}", ErrorMessage = "Please Enter a valid mobile number (01XXXXXXXXX)")]
         [DisplayName("Contact No")]
         public string ContactNo { get; set; }
 

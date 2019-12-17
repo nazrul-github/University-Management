@@ -20,5 +20,15 @@ namespace University_Management.BLL
         {
             return _resultGateway.GetAllStudentResults();
         }
+
+        public bool IsResultExistForThisStudent(int resultCourseId, int resultDepartmentId, int resultStudentId)
+        {
+            return _resultGateway.IsResultExistForThisStudent(resultCourseId,resultDepartmentId,resultStudentId);
+        }
+
+        public bool UpdateResult(Result result)
+        {
+            return _resultGateway.UpdateResult(result);
+        }
     }
 }
