@@ -17,7 +17,7 @@ namespace University_Management.Models
 
         public int TeacherId { get; set; }
 
-        [Remote("IsCourseAssigned", "Course", ErrorMessage = "This course already been assigned")]
+        [Remote("IsCourseAssigned", "Teacher", ErrorMessage = "This course already been assigned")]
         public int CourseId { get; set; }
 
         public bool IsAssigned { get; set; }

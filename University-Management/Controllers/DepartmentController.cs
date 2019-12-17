@@ -49,6 +49,8 @@ namespace University_Management.Controllers
         }
 
 
+        //Client Side Validation
+
         public JsonResult IsDeptCodeExist(string departmentCode)
         {
             bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);

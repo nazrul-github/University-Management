@@ -30,11 +30,6 @@ namespace University_Management.BLL
 
         public double TeacherRemainingCredit(int teacherId)
         {
-            /*var assingedCourse = _courseManager.GetAllAssignedCourse().Where(c=>c.TeacherId==teacherId)
-            int assignedcredit = assingedCourse.;
-            int teacherCredit = GetAllTeachers().FirstOrDefault(t => t.Id == teacherId).Credit;
-            int remainingCredit = teacherCredit - assignedcredit;
-            return remainingCredit;*/
             return _teacherGateway.TeacherRemainingCredit(teacherId);
         }
 
@@ -45,7 +40,7 @@ namespace University_Management.BLL
 
         public bool IsEmailExist(string email)
         {
-            bool teacherEmail = GetAllTeachers().Any(t => t.email.ToLower() == email.ToLower());
+            bool teacherEmail = GetAllTeachers().Any(t => t.Email.ToLower() == email.ToLower());
             bool studentEmail = _studentManager.GetAllStudents().Any(s => s.Email.ToLower() == email.ToLower());
             if (teacherEmail)
             {

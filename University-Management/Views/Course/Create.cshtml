@@ -12,11 +12,11 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         <hr />
        @Html.RenderFlashMessages()
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseCredit, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseCredit, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CourseCredit, "", new { @class = "text-danger" })
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseDetails, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseDetails, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CourseDetails, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CourseDetails, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
@@ -56,16 +56,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SemisterId, "Semester", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SemesterId, "Semester", htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("SemisterId", null, "--Select Semester--", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SemisterId, "", new { @class = "text-danger" })
+                @Html.DropDownList("SemesterId", null, "--Select Semester--", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SemesterId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-block btn-success" />
+            <div class="col-md-10">
+                <input type="submit" value="Create" id="crtBtn" class="btn btn-block btn-success" />
             </div>
         </div>
     </div>
@@ -75,4 +75,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script>
+        $(document).ready(function () {
+            $("#crtBtn").click(function() {
+                var confirmation = confirm("Do you want to save this course");
+                if (!confirmation) {
+                    event.preventDefault();  
+                }
+            });
+        });
+    </script>
 }

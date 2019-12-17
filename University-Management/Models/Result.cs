@@ -15,6 +15,7 @@ namespace University_Management.Models
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public string Grade { get; set; }
+        public bool IsResultAvailable { get; set; }
 
         public Student Student { get; set; }
         public Course Course { get; set; }

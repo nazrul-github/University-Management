@@ -5,13 +5,14 @@
 }
 
 <h2>Enroll In A Course</h2>
-<hr/>
+<hr />
 @Html.RenderFlashMessages()
-@using (@Html.BeginForm())
+@using (@Html.BeginForm("EnrollToCourse","Student",FormMethod.Post,new{@id="studntEnrlFrm"}))
 {
     <div class="form-group">
         @Html.Label("StudentName", "Student Name")
         @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+        @Html.ValidationMessage("StudentCourseAssign")
     </div>
     <div class="form-group">
         @Html.Label("Email", "Email")
@@ -24,18 +25,20 @@
     <div class="form-group">
         @Html.Label("CourseId", "Course")
         <select class="form-control" name="CourseId" id="CourseDDL">
-            <option>--Select Course--</option>
+            <option value="">--Select Course--</option>
         </select>
+        @Html.ValidationMessage("StudentCourseAssign")
     </div>
     <div class="form-group">
         @Html.Label("EnrollmentDate", "Enrollment Date")
         @Html.TextBox("EnrollmentDate", null, new { @class = "form-control", @autocomplete = "off" })
+        @Html.ValidationMessage("StudentCourseAssign")
     </div>
 
 
     <input type="hidden" value=true name="IsAssigned" />
     <input type="hidden" name="DepartmentId" id="DepartmentId" />
-    <input type="submit" value="Enroll" class="btn btn-primary" />
+    <input type="submit" value="Enroll" id="enrlStudent" class="btn btn-primary" />
 }
 
 @section scripts
@@ -88,6 +91,89 @@
                     }
                 });
 
+            });
+        });
+
+    </script>
+    <script>
+         $(document).ready(function() {
+             $("#CourseDDL").change(function() {
+                 var courseId = $("#CourseDDL").val();
+                 var studentId = $("#StudentId").val();
+                 var parameter = { courseId: courseId, studentId: studentId }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("IsStudentAssigned", "Student")',
+                    success: function (value) {
+                        if (value === true) {
+                            $('#CourseDDL').removeClass('valid');
+                            $('#CourseDDL').addClass('input-validation-error');
+                            $('#CourseDDL').next('span').removeClass('field-validation-valid');
+                            $('#CourseDDL').next('span').addClass('text-danger field-validation-error');
+                            $('#CourseDDL').next('span').text('This course already been assigned to this student').show();
+                            $("#studntEnrlFrm").submit(function(e) {
+                                e.preventDefault();
+                            });
+                                 } else {
+                            $('#CourseId').next('span').text('This course already been assigned to this student').hide();
+                            $("#studntEnrlFrm").submit(function(e) {
+                                e.currentTarget.submit();
+                            });
+                        }
+                            }
+                        });
+
+                });
+            });
+    </script>
+
+    @*validations client side*@
+    <script>
+        $(document).ready(function () {
+            $("#enrlStudent").click(function () {
+                var returnVal = true;
+                var studentVal = $("#StudentId").val();
+                var courseVal = $("#CourseDDL").val();
+                var enrollDt = $("#EnrollmentDate").val();
+                if (studentVal === "") {
+                    $('#StudentId').removeClass('valid');
+                    $('#StudentId').addClass('input-validation-error');
+                    $('#StudentId').next('span').removeClass('field-validation-valid');
+                    $('#StudentId').next('span').addClass('text-danger field-validation-error');
+                    $('#StudentId').next('span').text('Please select a student').show();
+                    returnVal = false;
+                } 
+                if (courseVal === "") {
+                    $('#CourseDDL').removeClass('valid');
+                    $('#CourseDDL').addClass('input-validation-error');
+                    $('#CourseDDL').next('span').removeClass('field-validation-valid');
+                    $('#CourseDDL').next('span').addClass('text-danger field-validation-error');
+                    $('#CourseDDL').next('span').text('Please select course for the student').show();
+                    returnVal = false;
+                } 
+                if (enrollDt === "") {
+                    $('#EnrollmentDate').removeClass('valid');
+                    $('#EnrollmentDate').addClass('input-validation-error');
+                    $('#EnrollmentDate').next('span').removeClass('field-validation-valid');
+                    $('#EnrollmentDate').next('span').addClass('text-danger field-validation-error');
+                    $('#EnrollmentDate').next('span').text('Please select enrollment date').show();
+                    returnVal = false;
+                } else {
+                    $('#EnrollmentDate').next('span').text('Please select enrollment date').hide();
+                }
+                if (!returnVal) {
+                    event.preventDefault();
+                }
+            });
+            $("#StudentId").change(function () {
+                $('#StudentId').next('span').empty();
+                $('#StudentId').removeClass('input-validation-error');
+            });
+            $("#CourseDDL").change(function () {
+                $('#CourseDDL').next('span').empty();
+                $('#CourseDDL').removeClass('input-validation-error');
             });
         });
     </script>

@@ -16,7 +16,7 @@ namespace University_Management.Models
 
         [Required(ErrorMessage = "Student name is required")]
         [StringLength(70)]
-        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z]*$", ErrorMessage = "Please enter a valid name (Only upper and lower case letters are allowed)")]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z.]*$", ErrorMessage = "Please enter a valid name (Only upper and lower case letters are allowed)")]
         [DisplayName("Student Name")]
         public string StudentName { get; set; }
 
@@ -28,15 +28,19 @@ namespace University_Management.Models
         [Remote("IsEmailExist", "Teacher", ErrorMessage = "Email already exist in database")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(11)]
+        [Required(ErrorMessage = "Please enter student mobile number")]
+        [StringLength(11,ErrorMessage = "Please Enter a valid mobile number (01XXXXXXXXX)")]
+        [RegularExpression(@"^[0]+[1]+[0-9]{9}",ErrorMessage = "Please Enter a valid mobile number (01XXXXXXXXX)")]
+        [DisplayName("Contact No")]
         public string ContactNo { get; set; }
 
         [Column(TypeName = "date")]
+        [Required(ErrorMessage = "Please enter registration date")]
         public DateTime Date { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter student address")]
         [StringLength(500)]
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
         [Required]
