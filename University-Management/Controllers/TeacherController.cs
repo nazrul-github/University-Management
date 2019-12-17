@@ -11,12 +11,14 @@ namespace University_Management.Controllers
 {
     public class TeacherController : Controller
     {
-        private TeacherManager _teacherManager = new TeacherManager();
-        private DepartmentManager _departmentManager = new DepartmentManager();
+        private readonly TeacherManager _teacherManager = new TeacherManager();
+        private readonly DepartmentManager _departmentManager = new DepartmentManager();
+        private readonly CourseManager _courseManager = new CourseManager();
 
         public ActionResult Create()
         {
-            FillDegignationDepartment();
+            FillDesignationDropDown();
+            FillDepartmentDropdown();
 
             return View();
         }
@@ -24,10 +26,12 @@ namespace University_Management.Controllers
         [HttpPost]
         public ActionResult Create(Teacher teacher)
         {
-            FillDegignationDepartment();
+            FillDesignationDropDown();
+            FillDepartmentDropdown();
+
             if (ModelState.IsValid)
             {
-                if (_teacherManager.IsEmailExist(teacher.email))
+                if (_teacherManager.IsEmailExist(teacher.Email))
                 {
                     FlashMessage.Danger("Email already exist");
                     return View(teacher);
@@ -44,11 +48,70 @@ namespace University_Management.Controllers
             return View(teacher);
         }
 
+        public ActionResult AssignCourse()
+        {
+            FillDepartmentDropdown();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AssignCourse(TeacherCourseAssign teacherCourseAssign)
+        {
+            FillDepartmentDropdown();
+            if (ModelState.IsValid)
+            {
+                if (_courseManager.IsCourseAssigned(teacherCourseAssign.CourseId))
+                {
+                    FlashMessage.Danger("Course already been assigned");
+                    return RedirectToAction("AssignCourse");
+                }
+
+                if (_courseManager.AssignCourse(teacherCourseAssign))
+                {
+                    FlashMessage.Confirmation("Course assigned successfully");
+                    return RedirectToAction("AssignCourse");
+                }
+            }
+            FlashMessage.Danger("Some error occured; please check all the inputs ");
+            return View();
+        }
+
+        public JsonResult GetTeacherByDepartment(int departmentId)
+        {
+            var teachers = _teacherManager.GetTeacherWithDepartmentId(departmentId);
+            return Json(teachers);
+        }
+
+        public JsonResult GetTeacherById(int teacherId)
+        {
+            var teacher = _teacherManager.GetAllTeachers().FirstOrDefault(t => t.Id == teacherId);
+            return Json(teacher);
+        }
+
+        public JsonResult GetTeacherRemainingCredit(int teacherId)
+        {
+            double remainingCredit = _teacherManager.TeacherRemainingCredit(teacherId);
+
+            return Json(remainingCredit);
+        }
+
+        public JsonResult GetAllCoursesByDepartmentId(int departmentId)
+        {
+            var courses = _courseManager.GetAllCoursesByDepartmentId(departmentId);
+            return Json(courses);
+        }
+
+        public JsonResult GetCourseById(int courseId)
+        {
+            var course = _courseManager.GetAllCourses().FirstOrDefault(c => c.Id == courseId);
+            return Json(course);
+        }
+
         public JsonResult IsEmailExist(string email)
         {
-            bool IsExist = _teacherManager.IsEmailExist(email);
+            bool isExist = _teacherManager.IsEmailExist(email);
 
-            if (IsExist)
+            if (isExist)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
@@ -56,29 +119,17 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult OnlyLetter(string name)
+        //Fill the dropdown methods
+        private void FillDepartmentDropdown()
         {
-            int number = 0;
-            Char[] deptChar = name.ToCharArray();
-            foreach (var character in deptChar)
-            {
-                bool isNumber = int.TryParse(character.ToString(), out number);
-            }
-
-            if (number > 0)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            var departments = _departmentManager.GetAllDepartments();
+            ViewBag.DepartmentId = new SelectList(departments, "DepartmentId", "DepartmentName");
         }
 
-        private void FillDegignationDepartment()
+        private void FillDesignationDropDown()
         {
             var designations = _teacherManager.GetAllDesignations();
-            var department = _departmentManager.GetAllDepartments();
-
             ViewBag.DesignationId = new SelectList(designations, "Id", "DesignationName");
-            ViewBag.DepartmentId = new SelectList(department, "DepartmentId", "DepartmentName");
         }
     }
 }

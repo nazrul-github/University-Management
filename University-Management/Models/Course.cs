@@ -10,7 +10,7 @@ namespace University_Management.Models
     using System.Data.Entity.Spatial;
 
     [Table("Course")]
-    public partial class Course
+    public class Course
     {
        
 
@@ -39,9 +39,9 @@ namespace University_Management.Models
 
         public int DepartmentId { get; set; }
 
-        public int SemisterId { get; set; }
+        public int SemesterId { get; set; }
 
-        public Semister Semister { get; set; }
+        public Semester Semester { get; set; }
 
         public Department Department { get; set; }
 

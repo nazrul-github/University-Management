@@ -16,7 +16,6 @@ namespace University_Management.Controllers
     {
         private readonly CourseManager _courseManager = new CourseManager();
         private readonly DepartmentManager _departmentManager = new DepartmentManager();
-        private readonly TeacherManager _teacherManager = new TeacherManager();
 
         public ActionResult Create()
         {
@@ -32,7 +31,6 @@ namespace University_Management.Controllers
             FillSemesterDropdown();
             if (ModelState.IsValid)
             {
-
                 if (_courseManager.IsCoursesNameExist(course.CourseName))
                 {
                     FlashMessage.Danger("Course Name Already Exist");
@@ -56,34 +54,7 @@ namespace University_Management.Controllers
             return View();
         }
 
-        public ActionResult AssignCourse()
-        {
-            FillDepartmentDropdown();
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AssignCourse(TeacherCourseAssign teacherCourseAssign)
-        {
-            FillDepartmentDropdown();
-            if (ModelState.IsValid)
-            {
-                if (_courseManager.IsCourseAssigned(teacherCourseAssign.CourseId))
-                {
-                    FlashMessage.Danger("Course already been assigned");
-                    return View();
-                }
-
-                if (_courseManager.AssignCourse(teacherCourseAssign))
-                {
-                    FlashMessage.Confirmation("Course assigned successfully");
-                    return View();
-                }
-            }
-            FlashMessage.Danger("Some error occured; please check all the inputs ");
-            return View();
-        }
-
+      
         public ActionResult CourseStatics()
         {
             FillDepartmentDropdown();
@@ -95,6 +66,8 @@ namespace University_Management.Controllers
             return View();
         }
 
+
+        //Client side validations
         public JsonResult IsCourseCodeExist(string courseCode)
         {
             bool isExist = _courseManager.IsCourseCodeExist(courseCode);
@@ -117,37 +90,6 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetTeacherByDepartment(int departmentId)
-        {
-            var teachers = _teacherManager.GetTeacherWithDepartmentId(departmentId);
-            return Json(teachers);
-        }
-
-        public JsonResult GetTeacherById(int teacherId)
-        {
-            var teacher = _teacherManager.GetAllTeachers().FirstOrDefault(t => t.Id == teacherId);
-            return Json(teacher);
-        }
-
-        public JsonResult GetTeacherRemainingCredit(int teacherId)
-        {
-            double remainingCredit = _teacherManager.TeacherRemainingCredit(teacherId);
-
-            return Json(remainingCredit);
-        }
-
-        public JsonResult GetAllCoursesByDepartmentId(int departmentId)
-        {
-            var courses = _courseManager.GetAllCoursesByDepartmentId(departmentId);
-            return Json(courses);
-        }
-
-        public JsonResult GetCourseById(int courseId)
-        {
-            var course = _courseManager.GetAllCourses().FirstOrDefault(c => c.Id == courseId);
-            return Json(course);
-        }
-
         public JsonResult IsCourseAssigned(int courseId)
         {
             bool isAssigned = _courseManager.IsCourseAssigned(courseId);
@@ -167,10 +109,12 @@ namespace University_Management.Controllers
 
         public JsonResult UnAssignAllCourse()
         {
-            bool isUnAssigned = _courseManager.UnAssingAllCourse();
+            bool isUnAssigned = _courseManager.UnAssignAllCourse();
             return Json(isUnAssigned);
         }
 
+
+        //Fill the dropdown methods
         private void FillDepartmentDropdown()
         {
             var departments = _departmentManager.GetAllDepartments();
@@ -180,7 +124,7 @@ namespace University_Management.Controllers
         private void FillSemesterDropdown()
         {
             var semesters = _courseManager.GetAllSemester();
-            ViewBag.SemisterId = new SelectList(semesters, "SemisterId", "SemisterName");
+            ViewBag.SemesterId = new SelectList(semesters, "SemesterId", "SemesterName");
         }
     }
 

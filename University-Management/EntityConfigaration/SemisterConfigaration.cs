@@ -7,11 +7,11 @@ using University_Management.Models;
 
 namespace University_Management.EntityConfigaration
 {
-    public class SemisterConfigaration:EntityTypeConfiguration<Semister>
+    public class SemisterConfigaration:EntityTypeConfiguration<Semester>
     {
         public SemisterConfigaration()
         {
-            HasMany(s=>s.Courses).WithRequired(c=>c.Semister).HasForeignKey(c=>c.SemisterId).WillCascadeOnDelete(false);
+            HasMany(s=>s.Courses).WithRequired(c=>c.Semester).HasForeignKey(c=>c.SemesterId).WillCascadeOnDelete(false);
         }
     }
 }
