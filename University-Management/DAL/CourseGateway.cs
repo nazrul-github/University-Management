@@ -171,9 +171,9 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var teacherCourses = _projectDbContext.TeacherCourseAssigns.ToList();
-                var studentCourses = _projectDbContext.StudentCourseAssigns.ToList();
-                var studentResult = _projectDbContext.Results.ToList();
+                var teacherCourses = _projectDbContext.TeacherCourseAssigns.Where(t=>t.IsAssigned).ToList();
+                var studentCourses = _projectDbContext.StudentCourseAssigns.Where(s=>s.IsAssigned).ToList();
+                var studentResult = _projectDbContext.Results.Where(r=>r.IsResultAvailable).ToList();
 
                 foreach (var course in teacherCourses)
                 {
