@@ -4,14 +4,6 @@
 @{
     ViewBag.Title = "AllocateClassRoom";
 }
-<style type="text/css"> 
-    .scrollable-menu {
-      height: auto;
-      max-height: 200px;
-      overflow-x: hidden;
-  }
-    
-</style>
 
 <h2>Allocate ClassRoom</h2>
 
@@ -19,18 +11,18 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control scrollable-menu" })
+                @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" id="CourseId" name="CourseId">
                     <option value="">--Select Course--</option>
@@ -40,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RoomId, "RoomId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RoomId, "Room", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("RoomId", null, "--Select Room--", htmlAttributes: new { @class = "form-control role" })
                 @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
@@ -95,16 +87,16 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="hidden" value=true name="IsAllocated"/>
-                <input type="submit" value="Create" class="btn btn-default"/>
+            <div class="col-md-10">
+                <input type="hidden" value=true name="IsAllocated" />
+                <input type="submit" value="Create" id="alctSbmt" class="btn btn-block btn-success" />
             </div>
         </div>
     </div>
 }
 @section scripts
 {
-    @Scripts.Render("~/ bundles / jqueryval")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
     <script src="~/Scripts/jquery-TimePicker-1.0.0.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
@@ -137,6 +129,96 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#alctSbmt").click(function () {
+                var departmentId = $("#DepartmentId").val();
+                var courseId = $("#CourseId").val();
+                var roomId = $("#RoomId").val();
+                var dayId = $("#Day").val();
+                var fromTime = $("#FromTime").val();
+                var toTime = $("#ToTime").val();
+
+
+                if (departmentId === "") {
+                    $('#DepartmentId').removeClass('valid');
+                    $('#DepartmentId').addClass('input-validation-error');
+                    $('#DepartmentId').next('span').removeClass('field-validation-valid');
+                    $('#DepartmentId').next('span').addClass('text-danger field-validation-error');
+                    $('#DepartmentId').next('span').text('Please select department for the room').show();
+                    event.preventDefault();
+                }
+                if (courseId === "") {
+                    $('#CourseId').removeClass('valid');
+                    $('#CourseId').addClass('input-validation-error');
+                    $('#CourseId').next('span').removeClass('field-validation-valid');
+                    $('#CourseId').next('span').addClass('text-danger field-validation-error');
+                    $('#CourseId').next('span').text('Please select course for the room').show();
+                    event.preventDefault();
+                }
+                if (roomId === "") {
+                    $('#RoomId').removeClass('valid');
+                    $('#RoomId').addClass('input-validation-error');
+                    $('#RoomId').next('span').removeClass('field-validation-valid');
+                    $('#RoomId').next('span').addClass('text-danger field-validation-error');
+                    $('#RoomId').next('span').text('Please select room no').show();
+                    event.preventDefault();
+                }
+                if (dayId === "") {
+                    $('#Day').removeClass('valid');
+                    $('#Day').addClass('input-validation-error');
+                    $('#Day').next('span').removeClass('field-validation-valid');
+                    $('#Day').next('span').addClass('text-danger field-validation-error');
+                    $('#Day').next('span').text('Please select day').show();
+                    event.preventDefault();
+                }
+                if (fromTime === "") {
+                    $('#FromTime').removeClass('valid');
+                    $('#FromTime').addClass('input-validation-error');
+                    $('#FromTime').next('span').removeClass('field-validation-valid');
+                    $('#FromTime').next('span').addClass('text-danger field-validation-error');
+                    $('#FromTime').next('span').text('Please insert from time').show();
+                    event.preventDefault();
+                }
+                if (toTime === fromTime) {
+                    $('#ToTime').removeClass('valid');
+                    $('#ToTime').addClass('input-validation-error');
+                    $('#ToTime').next('span').removeClass('field-validation-valid');
+                    $('#ToTime').next('span').addClass('text-danger field-validation-error');
+                    $('#ToTime').next('span').text('To time should be more than from time').show();
+                    event.preventDefault();
+                }
+            });
+
+        });
+
+        $(document).ready(function () {
+            $("#DepartmentId").change(function () {
+                $('#DepartmentId').next('span').empty();
+                $('#DepartmentId').removeClass('input-validation-error');
+            });
+            $("#CourseId").change(function () {
+                $('#CourseId').next('span').empty();
+                $('#CourseId').removeClass('input-validation-error');
+            });
+            $("#RoomId").change(function () {
+                $('#RoomId').next('span').empty();
+                $('#RoomId').removeClass('input-validation-error');
+            });
+            $("#Day").change(function () {
+                $('#Day').next('span').empty();
+                $('#Day').removeClass('input-validation-error');
+            });
+            $('#FromTime').on('input propertychange paste', function() {
+                $('#FromTime').next('span').empty();
+                $('#FromTime').removeClass('input-validation-error');
+            });
+            $('#ToTime').on('input propertychange paste', function () {
+                $('#ToTime').next('span').empty();
+                $('#ToTime').removeClass('input-validation-error');
             });
         });
     </script>

@@ -44,7 +44,7 @@ namespace University_Management.DAL
             {
                 var departmentroom = _projectDbContext.AllocateClassrooms
                     .Include(a => a.Course).Include(a => a.Room)
-                    .Where(a => a.DepartmentId == departmentId).ToList();
+                    .Where(a => a.DepartmentId == departmentId && a.IsAllocated).ToList();
 
                 return departmentroom;
             }
@@ -55,7 +55,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var allocatedClassrooms = _projectDbContext.AllocateClassrooms.ToList();
+                var allocatedClassrooms = _projectDbContext.AllocateClassrooms.Where(a=>a.IsAllocated).ToList();
                 foreach (var classroom in allocatedClassrooms)
                 {
                     classroom.IsAllocated = false;
