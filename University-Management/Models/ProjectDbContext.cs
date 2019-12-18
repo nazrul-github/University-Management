@@ -19,7 +19,7 @@ namespace University_Management.Models
         public virtual DbSet<StudentCourseAssign> StudentCourseAssigns { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
-        public virtual DbSet<Semister> Semisters { get; set; }
+        public virtual DbSet<Semester> Semisters { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }

@@ -3,18 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CourseDetailsTypeUpdate : DbMigration
+    public partial class IsResultAvailableColumnAddedInResultTable : DbMigration
     {
         public override void Up()
         {
-            RenameColumn("dbo.Semester", "Id", "SemesterId");
-           
+            AddColumn("dbo.Results", "IsResultAvailable", c => c.Boolean(nullable: false));
         }
         
         public override void Down()
         {
-            RenameColumn("dbo.Semester", "SemesterId", "Id");
-
+            DropColumn("dbo.Results", "IsResultAvailable");
         }
     }
 }

@@ -2,21 +2,22 @@
 @model University_Management.Models.TeacherCourseAssign
 
 @{
-    ViewBag.Title = "AssignCourse";
+    ViewBag.Title = "Assign Course To Teacher";
+   
 }
 
-<h2>Assign Course</h2>
+<h2>Assign Course To Teacher</h2>
 
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "assignCourse" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(m => m.DepartmentId, null, "--Select Department", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
@@ -24,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TeacherId, "TeacherId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" id="TeacherId" name="TeacherId">
                     <option value="">--Select Teacher--</option>
@@ -52,7 +53,6 @@
                 <select class="form-control" id="CourseId" name="CourseId">
                     <option value=0>--Select Course--</option>
                 </select>
-                @*@Html.DropDownListFor(m=>m.CourseId,null,"--Select Course--",new{@class="form-control"})*@
                 @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -72,8 +72,8 @@
         </div>
         <input type="hidden" value=true name="IsAssigned">
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" id="submitButton" class="btn btn-default" />
+            <div class="col-md-10">
+                <input type="submit" value="Create" id="submitButton" class="btn btn-block btn-success" />
             </div>
         </div>
     </div>
@@ -82,31 +82,12 @@
 
 
 @section Scripts {
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        $(document).ready(function () {
-            $("#assignCourse").validate({
-                rules: {
-                    CourseId: {
-                        min: 1
-                    },
-                    TeacherId:{
-                    required:true
-                }
-                },
-                messages: {
-                    CourseId: {
-                        min: "Please select Blood Group"
-                    },
-                    TeacherId: {
-                        required:"Please select a teacher"
-                    }
-                }
-            });
-        });
+
         $(document).ready(function() {
             $("#DepartmentId").change(function() {
                 var id = $("#DepartmentId").val();
@@ -121,13 +102,13 @@
                 $("#CourseId").append('<option value="">--Select Course--</option>');
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("GetTeacherByDepartment", "Course")',
+                    url: '@Url.Action("GetTeacherByDepartment", "Teacher")',
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(parameter),
                     success: function(teachers) {
                         $.each(teachers,
                             function(key, value) {
-                                $("#TeacherId").append('<option value='+value.Id+'>'+value.Name+'</option>');
+                                $("#TeacherId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
                             });
                     }
                 });
@@ -144,7 +125,7 @@
                     type: "POST",
                     contentType: "application/json;utf-8",
                     data: JSON.stringify(parameter),
-                    url: '@Url.Action("GetTeacherById","Course")',
+                    url: '@Url.Action("GetTeacherById", "Teacher")',
                     success: function(teacher) {
                         $("#Credit").val(teacher.Credit);
                     }
@@ -152,15 +133,16 @@
             });
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#TeacherId").change(function() {
                 var Id = $("#TeacherId").val();
                 var parameter = { teacherId: Id };
+                $('#TeacherId').next('span').empty();
                 $.ajax({
                     type: "POST",
                     contentType: "application/json;utf-8",
                     data: JSON.stringify(parameter),
-                    url: '@Url.Action("GetTeacherRemainingCredit","Course")',
+                    url: '@Url.Action("GetTeacherRemainingCredit", "Teacher")',
                     success: function(teacherCredit) {
                         $("#remainingCredit").val(teacherCredit);
                     }
@@ -178,7 +160,7 @@
                     type: "POST",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(parameter),
-                    url: '@Url.Action("GetAllCoursesByDepartmentId", "Course")',
+                    url: '@Url.Action("GetAllCoursesByDepartmentId", "Teacher")',
                     success: function(courses) {
                         $.each(courses,
                             function(key, value) {
@@ -190,33 +172,88 @@
             });
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#CourseId").change(function() {
                 var id = $("#CourseId").val();
                 var parameter = { courseId: id }
+                $("#cName").val("");
+                $("#cCredit").val("");
                 $.ajax({
                     type: "POST",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(parameter),
-                    url: '@Url.Action("GetCourseById", "Course")',
-                    success: function (course) {
+                    url: '@Url.Action("GetCourseById", "Teacher")',
+                    success: function(course) {
                         $("#cName").val(course.CourseName);
                         $("#cCredit").val(course.CourseCredit);
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            data: JSON.stringify(parameter),
+                            url: '@Url.Action("IsCourseAssigned", "Teacher")',
+                            success: function(value) {
+                                if (value === false) {
+                                    $('#CourseId').removeClass('valid');
+                                    $('#CourseId').addClass('input-validation-error');
+                                    $('#CourseId').next('span').removeClass('field-validation-valid');
+                                    $('#CourseId').next('span').addClass('text-danger field-validation-error');
+                                    $('#CourseId').next('span').text('This course already been assigned').show();
+                                    $("#assignCourse").submit(function(e) {
+                                        e.preventDefault();
+                                    });
+                                } else {
+                                    $('#CourseId').next('span').text('This course already been assigned').hide();
+                                    $("#assignCourse").submit(function(e) {
+                                        e.currentTarget.submit();
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             });
         });
-        //$(document).ready(function() {
-        //    $("#submitButton").click(function() {
-        //        jQuery.validator.addMethod("CourseId",
-        //            function(value, element) {
-        //                return this.optional(element) || value === "";
-        //            },
-        //            "Please select a option");
+        // validation on submit button click
+        $(document).ready(function() {
+            $("#submitButton").click(function() {
+                var remainCrdt = $("#remainingCredit").val();
+                var courseCredit = $("#cCredit").val();
+                var courseId = $("#CourseId").val();
+                var credit = remainCrdt - courseCredit;
+                var teacherId = $("#TeacherId").val();
+                var confirmation = true;
+                if (teacherId === "") {
+                    $('#TeacherId').removeClass('valid');
+                    $('#TeacherId').addClass('input-validation-error');
+                    $('#TeacherId').next('span').removeClass('field-validation-valid');
+                    $('#TeacherId').next('span').addClass('text-danger field-validation-error');
+                    $('#TeacherId').next('span').text('Please select a teacher').show();
+                    confirmation = false;
+                } else {
+                    $('#TeacherId').next('span').text('Please select a teacher').hide();
+                    if (credit <= 0) {
+                        if (courseId !== "") {
+                            confirmation =
+                                confirm(
+                                    "Do you want to assign more courses to this teacher?");
+                        }
+                        
+                    }
+                }
+                if (courseId === "") {
+                    $('#CourseId').removeClass('valid');
+                    $('#CourseId').addClass('input-validation-error');
+                    $('#CourseId').next('span').removeClass('field-validation-valid');
+                    $('#CourseId').next('span').addClass('text-danger field-validation-error');
+                    $('#CourseId').next('span').text('Please select a course').show();
+                    confirmation = false;
+                }
+                
+                if (!confirmation) {
+                    event.preventDefault();
+                }
 
-        //    });
-        //});
-
-
+            });
+        });
     </script>
 }

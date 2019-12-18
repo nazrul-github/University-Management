@@ -55,32 +55,27 @@ namespace University_Management.DAL
 
         public double TeacherRemainingCredit(int teacherId)
         {
-            /*var assingedCourse = _courseManager.GetAllAssignedCourse().Where(c=>c.TeacherId==teacherId)
-            int assignedcredit = assingedCourse.;
-            int teacherCredit = GetAllTeachers().FirstOrDefault(t => t.Id == teacherId).Credit;
-            int remainingCredit = teacherCredit - assignedcredit;
-            return remainingCredit;*/
             using (projectDbContext = new ProjectDbContext())
             {
-                var courseAssinged = projectDbContext.TeacherCourseAssigns.Where(c=>c.IsAssigned);
-                var teacherWithCreditAssigned = courseAssinged.Join(projectDbContext.Teachers, c => c.TeacherId, t => t.Id,
+                var courseAssigned = projectDbContext.TeacherCourseAssigns.Where(c => c.IsAssigned);
+                var teacherWithCreditAssigned = courseAssigned.Join(projectDbContext.Teachers, c => c.TeacherId, t => t.Id,
                     ((assign, teacher) => new
                     {
                         TeacherId = teacher.Id,
                         CourseId = assign.CourseId
                     }));
-                var teacherAssingedCredit = teacherWithCreditAssigned.Join(projectDbContext.Courses, t => t.CourseId, c => c.Id, (a, course) => new
+                var teacherAssignedCredit = teacherWithCreditAssigned.Join(projectDbContext.Courses, t => t.CourseId, c => c.Id, (a, course) => new
                 {
                     TeacherId = a.TeacherId,
                     TotalCredit = course.CourseCredit
                 }).ToList();
-                double assignedCredit = teacherAssingedCredit.Where(t => t.TeacherId == teacherId).Sum(t => t.TotalCredit);
+                double assignedCredit = teacherAssignedCredit.Where(t => t.TeacherId == teacherId).Sum(t => t.TotalCredit);
                 double credit = projectDbContext.Teachers.Find(teacherId).Credit;
 
                 double remainingCredit = credit - assignedCredit;
                 return remainingCredit;
             }
-           
+
         }
     }
 }

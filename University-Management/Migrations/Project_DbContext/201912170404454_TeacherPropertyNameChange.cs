@@ -3,18 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CourseDetailsTypeUpdate : DbMigration
+    public partial class TeacherPropertyNameChange : DbMigration
     {
         public override void Up()
         {
-            RenameColumn("dbo.Semester", "Id", "SemesterId");
-           
+            AlterColumn("dbo.Teacher", "Credit", c => c.Double(nullable: false));
         }
         
         public override void Down()
         {
-            RenameColumn("dbo.Semester", "SemesterId", "Id");
-
+            AlterColumn("dbo.Teacher", "Credit", c => c.Int(nullable: false));
         }
     }
 }

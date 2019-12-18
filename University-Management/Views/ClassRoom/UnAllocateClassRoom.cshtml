@@ -2,10 +2,9 @@
     ViewBag.Title = "UnAllocate ClassRoom";
 }
 
-<h2>UnAssign AllCourses</h2>
+<h2>Unallocate AllCourses</h2>
 <div class="form-group">
     <button class="btn btn-danger" id="unAssign">UnAllocate Classroom</button>
-    <label class="label-danger hidden" id="msglabel">All Courses Are Unassigned</label>
 </div>
 
 @section scripts
@@ -17,7 +16,7 @@
                     type: "POST",
                     url: '@Url.Action("UnAllocateClassRooms","ClassRoom")',
                     success: function() {
-                        alert('All ClassRooms Are UnAllocated');
+                        toastr.info('All ClassRooms Are UnAllocated');
                     }
                 });
             });

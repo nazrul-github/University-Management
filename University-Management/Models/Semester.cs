@@ -6,16 +6,16 @@ namespace University_Management.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Semister")]
-    public partial class Semister
+    [Table("Semester")]
+    public class Semester
     {
 
         [Key]
-        public int SemisterId { get; set; }
+        public int SemesterId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string SemisterName { get; set; }
+        public string SemesterName { get; set; }
 
 
         public List<Course> Courses { get; set; }

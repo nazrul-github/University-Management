@@ -18,6 +18,7 @@ namespace University_Management.Models
         [Required]
         [DisplayName("Department Name")]
         [Remote("IsDeptNameExist", "Department", ErrorMessage = "Department Name Already Exist")]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_&.]*$", ErrorMessage = "Please enter a valid department name (Enter only letters without any numeric value)")]
         public string DepartmentName { get; set; }
 
         [Required]
@@ -28,8 +29,6 @@ namespace University_Management.Models
 
 
         public List<Course> Courses { get; set; }
-
-
         public List<TeacherCourseAssign> CourseAssigns { get; set; }
         public List<StudentCourseAssign> StudentCourseAssigns { get; set; }
         public List<Student> Students { get; set; }

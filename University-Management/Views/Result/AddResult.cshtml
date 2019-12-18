@@ -7,11 +7,11 @@
 
 <h2>Save Student Result</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddResult", "Result", FormMethod.Post, new { @id = "rsltAsnFrm" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("DepartmentId", "Department", new { @class = "control-label col-md-2" })
+            @Html.Label("DepartmentName", "Department", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.HiddenFor(model => model.DepartmentId)
                 @Html.TextBox("DepartmentName", null, new { @class = "form-control", @readonly = "readonly" })
@@ -57,15 +57,16 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model=>model.Grade,new List<SelectListItem>{new SelectListItem
                 {
-                    Text = "A+",Value = "4.00"
-                },new SelectListItem{Text = "A",Value ="3.80"},new SelectListItem{Text = "A-",Value ="3.60"},new SelectListItem{Text = "B+",Value ="3.40"},new SelectListItem{Text = "B",Value ="3.20"},new SelectListItem{Text = "B-",Value ="3.0"},new SelectListItem{Text = "C",Value ="2.80"},new SelectListItem{Text = "D+",Value ="2.60"},new SelectListItem{Text = "D",Value ="2.40"},new SelectListItem{Text = "D-",Value ="2.20"},new SelectListItem{Text = "F",Value ="2.00"}},"--Select Grade--",new{@class= "form-control"})
+                    Text = "A+",Value = "A+"
+                },new SelectListItem{Text = "A",Value ="A"},new SelectListItem{Text = "A-",Value ="A-"},new SelectListItem{Text = "B+",Value ="B+"},new SelectListItem{Text = "B",Value ="B+"},new SelectListItem{Text = "B-",Value ="B-"},new SelectListItem{Text = "C",Value ="C"},new SelectListItem{Text = "D+",Value ="2.60"},new SelectListItem{Text = "D",Value ="2.40"},new SelectListItem{Text = "D-",Value ="2.20"},new SelectListItem{Text = "F",Value ="2.00"}},"--Select Grade--",new{@class= "form-control"})
                 @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
             </div>
         </div>
+        <input type="hidden" value=true name="IsResultAvailable">
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-Primary" />
+            <div class="col-md-10">
+                <input type="submit" value="Save" class="btn btn-block btn-success" id="resultSvBtn" />
             </div>
         </div>
     </div>
@@ -79,33 +80,111 @@
                 var id = $("#StudentId").val();
                 var parameter = { studentId: id };
                 $("#CourseId").find("option").not(":first").remove();
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json;charset=utf-8",
-                        url: '@Url.Action("GetStudentInfoById","Student")',
-                        data: JSON.stringify(parameter),
-                        success: function(student) {
-                            $("#StudentName").val(student.StudentName);
-                            $("#Email").val(student.Email);
-                            $("#DepartmentName").val(student.Department);
-                            $("#DepartmentId").val(student.DepartmentId);
-                            $.ajax({
-                                type: "POST",
-                                contentType: "application/json;charset=utf-8",
-                                url: '@Url.Action("GetCourseByStudentId","Result")',
-                                data: JSON.stringify(parameter),
-                                success: function(course) {
-                                    $.each(course, function(key, value) {
-                                        $("#CourseId").append('<option value=' +
-                                            value.CourseId +
-                                            '>' +
-                                            value.CourseName +
-                                            '</option>');
-                                    });
-                                }
-                            });
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: '@Url.Action("GetStudentInfoById","Student")',
+                    data: JSON.stringify(parameter),
+                    success: function(student) {
+                        $("#StudentName").val(student.StudentName);
+                        $("#Email").val(student.Email);
+                        $("#DepartmentName").val(student.Department);
+                        $("#DepartmentId").val(student.DepartmentId);
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            url: '@Url.Action("GetCourseByStudentId","Result")',
+                            data: JSON.stringify(parameter),
+                            success: function(course) {
+                                $.each(course, function(key, value) {
+                                    $("#CourseId").append('<option value=' +
+                                        value.CourseId +
+                                        '>' +
+                                        value.CourseName +
+                                        '</option>');
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        function ValidateStudent(studentId) {
+            if (studentId === "") {
+                $('#StudentId').removeClass('valid');
+                $('#StudentId').addClass('input-validation-error');
+                $('#StudentId').next('span').removeClass('field-validation-valid');
+                $('#StudentId').next('span').addClass('text-danger field-validation-error');
+                $('#StudentId').next('span').text('Please select a student').show();
+                event.preventDefault();
+            }
+        }
+        function ValidateCourse(courseId) {
+            if (courseId === "") {
+                $('#CourseId').removeClass('valid');
+                $('#CourseId').addClass('input-validation-error');
+                $('#CourseId').next('span').removeClass('field-validation-valid');
+                $('#CourseId').next('span').addClass('text-danger field-validation-error');
+                $('#CourseId').next('span').text('Please select course for the student').show();
+               event.preventDefault();
+            }
+        }
+        function ValidateGrade(grade) {
+            if (grade === "") {
+                $('#Grade').removeClass('valid');
+                $('#Grade').addClass('input-validation-error');
+                $('#Grade').next('span').removeClass('field-validation-valid');
+                $('#Grade').next('span').addClass('text-danger field-validation-error');
+                $('#Grade').next('span').text('Please select course for the student').show();
+               event.preventDefault();
+            }
+        }
+        $(document).ready(function () {
+            $("#resultSvBtn").click(function () {
+                var studentId = $("#StudentId").val();
+                var departmentId = $("#DepartmentId").val();
+                var courseId = $("#CourseId").val();
+                var grade = $('#Grade').val();
+
+                ValidateStudent(studentId);
+                ValidateCourse(courseId);
+                ValidateGrade(grade);
+            });
+            $("#StudentId").change(function () {
+                $('#StudentId').next('span').empty();
+                $('#StudentId').removeClass('input-validation-error');
+            });
+            $("#CourseId").change(function () {
+                $('#CourseId').next('span').empty();
+                $('#CourseId').removeClass('input-validation-error');
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#Grade").change(function() {
+                var studentId = $("#StudentId").val();
+                var departmentId = $("#DepartmentId").val();
+                var courseId = $("#CourseId").val();
+                 ValidateStudent(studentId);
+                 ValidateCourse(courseId);
+                var parameter = { courseId: courseId, departmentId: departmentId, studentId:studentId }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/JSON;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("IsResultExist","Result")',
+                    success: function(value) {
+                        if (value === false) {
+                            var confirmation = confirm("This course is already Graded for this student,\nDo you want to update the Grade");
+                            if (confirmation === false) {
+                                $("#rsltAsnFrm").trigger("reset");
+                            }
                         }
-                    });
+                    }
+                });
             });
         });
     </script>

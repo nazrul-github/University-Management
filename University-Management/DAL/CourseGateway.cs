@@ -46,7 +46,7 @@ namespace University_Management.DAL
             }
         }
 
-        public List<Semister> GetAllSemester()
+        public List<Semester> GetAllSemester()
         {
             using (_projectDbContext = new ProjectDbContext())
             {
@@ -82,24 +82,17 @@ namespace University_Management.DAL
 
         public List<CourseTeacherView> GetCourseStatics(int departmentId)
         {
-            //var teacherCourseAssign = _projectDbContext.TeacherCourseAssigns.Include(c => c.Course).Include(c => c.Teacher).Where(c => c.DepartmentId == departmentId).ToList();
-            //var course = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).ToList();
-            //teacherCourseAssign.Select(c => new
-            //{
-            //    CourseCode = c.Course.CourseCode,
-            //    Name
-            //});
             using (_projectDbContext = new ProjectDbContext())
             {
                 var departmentAssignCourse = _projectDbContext.TeacherCourseAssigns.Include(c => c.Teacher)
                     .Where(c => c.DepartmentId == departmentId & c.IsAssigned).OrderBy(c => c.CourseId).ToList();
-                var departCourse = _projectDbContext.Courses.Include(c => c.Semister).Where(c => c.DepartmentId == departmentId).OrderBy(c => c.Id).ToList();
+                var departCourse = _projectDbContext.Courses.Include(c => c.Semester).Where(c => c.DepartmentId == departmentId).OrderBy(c => c.Id).ToList();
                 var assignedCourses = departCourse.Join(departmentAssignCourse, c => c.Id, a => a.CourseId, (course, assign) => new
                 {
                     CourseId = course.Id,
                     CourseCode = course.CourseCode,
                     Name = course.CourseName,
-                    Semester = course.Semister.SemisterName,
+                    Semester = course.Semester.SemesterName,
                     AssignedTo = assign.Teacher.Name
                 }).ToList();
 
@@ -108,7 +101,7 @@ namespace University_Management.DAL
                     CourseId = c.Id,
                     CourseCode = c.CourseCode,
                     Name = c.CourseName,
-                    Semester = c.Semister.SemisterName,
+                    Semester = c.Semester.SemesterName,
                     AssignedTo = "Not Assigned yet"
                 }).ToList();
 
@@ -147,12 +140,12 @@ namespace University_Management.DAL
                     c.AssignedTo
                 });
                
-                var assignedcourses = new List<CourseTeacherView>();
+                var courseStatics = new List<CourseTeacherView>();
 
                 foreach (var c in allCourses)
                 {
                     
-                    assignedcourses.Add(new CourseTeacherView
+                    courseStatics.Add(new CourseTeacherView
                     {
                         AssignedTo = c.AssignedTo,
                         CourseCode = c.CourseCode,
@@ -161,41 +154,7 @@ namespace University_Management.DAL
                     });
                 }
                 
-
-
-                //foreach (var course in departCourse)
-                //  {
-
-                //      foreach (var courseassign in departmentAssignCourse)
-                //      {
-                //          if (courseassign.CourseId == course.Id)
-                //          {
-
-                //              var courseTeacher = new CourseTeacherView()
-                //              {
-                //                  CourseCode = course.CourseCode,
-                //                  Name = course.CourseName,
-                //                  Semester = course.Semister.SemisterName,
-                //                  AssignedTo = courseassign.Teacher.Name
-                //              };
-                //              coursesTeacher.Add(courseTeacher);
-                //          }
-                //          else
-                //          {
-                //              var courseTeacher = new CourseTeacherView()
-                //              {
-                //                  CourseCode = course.CourseCode,
-                //                  Name = course.CourseName,
-                //                  Semester = course.Semister.SemisterName,
-                //                  AssignedTo = "Not Assigned Yet"
-                //              };
-                //              coursesTeacher.Add(courseTeacher);
-                //          }
-                //          break;
-                //      }
-
-                //  };
-                return assignedcourses;
+                return courseStatics;
             }
         }
 
@@ -203,19 +162,32 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var studentCourses = _projectDbContext.StudentCourseAssigns.Include(c => c.Course).ToList();
+                var studentCourses = _projectDbContext.StudentCourseAssigns.Include(c => c.Course).Where(c=>c.IsAssigned).ToList();
                 return studentCourses;
             }
         }
 
-        public bool UnAssingAllCourse()
+        public bool UnAssignAllCourse()
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var courseAssignDb = _projectDbContext.TeacherCourseAssigns.ToList();
-                foreach (var course in courseAssignDb)
+                var teacherCourses = _projectDbContext.TeacherCourseAssigns.Where(t=>t.IsAssigned).ToList();
+                var studentCourses = _projectDbContext.StudentCourseAssigns.Where(s=>s.IsAssigned).ToList();
+                var studentResult = _projectDbContext.Results.Where(r=>r.IsResultAvailable).ToList();
+
+                foreach (var course in teacherCourses)
                 {
                     course.IsAssigned = false;
+                }
+
+                foreach (var course in studentCourses)
+                {
+                    course.IsAssigned = false;
+                }
+
+                foreach (var result in studentResult)
+                {
+                    result.IsResultAvailable = false;
                 }
                 _projectDbContext.SaveChanges();
                 return true;

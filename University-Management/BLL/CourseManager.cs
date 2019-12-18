@@ -17,7 +17,7 @@ namespace University_Management.BLL
             return _courseGateway.GetAllCourses();
         }
 
-        public List<Semister> GetAllSemester()
+        public List<Semester> GetAllSemester()
         {
             return _courseGateway.GetAllSemester();
         }
@@ -34,7 +34,7 @@ namespace University_Management.BLL
 
         public bool IsCourseAssigned(int courseId)
         {
-            bool isExist = GetAllAssignedCourse().Any(c => c.CourseId == courseId);
+            bool isExist = GetAllAssignedCourse().Any(c => c.CourseId == courseId && c.IsAssigned);
 
             return isExist;
         }
@@ -79,9 +79,9 @@ namespace University_Management.BLL
             return _courseGateway.GetAllStudentCourses();
         }
 
-        public bool UnAssingAllCourse()
+        public bool UnAssignAllCourse()
         {
-          return  _courseGateway.UnAssingAllCourse();
+          return  _courseGateway.UnAssignAllCourse();
         }
     }
 }

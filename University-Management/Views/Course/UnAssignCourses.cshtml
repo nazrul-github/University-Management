@@ -6,21 +6,45 @@
 <h2>UnAssign AllCourses</h2>
 <div class="form-group">
     <button class="btn btn-danger" id="unAssign">Unassigned Courses</button>
-    <label class="label-danger hidden" id="msglabel">All Courses Are Unassigned</label>
 </div>
 
 @section scripts
 {
+    @Scripts.Render("~/bundles /jquery")
+    @Scripts.Render("~/bundles /jqueryval")
     <script>
         $(document).ready(function() {
-            $("#unAssign").click(function() {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("UnAssignAllCourse","Course")',
-                    success: function() {
-                        alert('All Courses Are Unassigned');
-                    }
-            });
+            $("#unAssign").click(function () {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-full-width",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                var confirmation = confirm("Do you want to unassign all courses");
+                if (!confirmation) {
+                 event.preventDefault();   
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("UnAssignAllCourse","Course")',
+                        success: function() {
+                            toastr["success"]("All the Courses have been unassigned", "Success!!!")
+                        }
+                    });
+                }
             });
         });
     </script>
