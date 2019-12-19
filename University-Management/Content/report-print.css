@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700|Saira+Extra+Condensed:400,700&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: black;
+  margin: 0 auto;
+  height: 100%;
+  max-width: 1000px;
+}
+.img {
+  display: block;
+  margin: 10px;
+  width: 15%;
+  height: 90%;
+  box-shadow: 2px 5px 20px rgb(179, 190, 190);
+}
+.container {
+  overflow: hidden;
+  background-color: rgb(255, 254, 251);
+  width: 100%;
+  height: 100%;
+}
+.head-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20%;
+}
+.v-name {
+  margin: 10px;
+  padding: 0 2rem;
+}
+.v-name h1 {
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-size: 5rem;
+  line-height: 3rem;
+  color: #2196f3;
+  margin: 0;
+}
+.v-name p {
+  font-family: "Lato", sans-serif;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+hr {
+  border-top: 1.5px solid rgb(228, 77, 77);
+}
+.info-section {
+  height: 70%;
+}
+footer {
+  text-align: center;
+  padding: 5px;
+  font-family: "Lato", sans-serif;
+  width: 100%;
+  height: 5%;
+  font-weight: bold;
+  color: #333;
+}
+.time-stamp {
+  height: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}

@@ -1,43 +1,43 @@
 ﻿
 @{
-    ViewBag.Title = "View Result";
+    Layout = null;
 }
-
-<h2>Student Result</h2>
-
-<div class="form-group">
-    @Html.Label("StudentReg", "Student Reg. No:", new { @class = "control-label col-md-2" })
-    @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/report-print.css" rel="stylesheet" />
+    <title>Brac University</title>
+</head>
+<body>
+<div class="container">
+    <header class="head-section">
+        <img src="~/img/logo.svg" alt="Brac-University" class="img" srcset="" />
+        <div class="v-name">
+            <h1>Brac-University</h1>
+            <p>66 Mohakhali, Dhaka 1212, Bangladesh | +880-2-9844051-4</p>
+        </div>
+    </header>
+    <hr />
+    <div class="info-section">
+        @Html.Partial("ViewResult")
+    </div>
+    <div class="time-stamp">
+        <div id="created-time">
+            <p>created-time</p>
+        </div>
+        <div id="printed-time">
+            <p>printed-time</p>
+        </div>
+    </div>
+    <hr />
+    <footer>--- Brac-University || Inspiring Excellence --</footer>
 </div>
-<div class="form-group">
-    @Html.Label("StudentName", "Student Name", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentName", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-<div class="form-group">
-    @Html.Label("StudentEmail", "Student Email", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentEmail", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-<div class="form-group">
-    @Html.Label("StudentDepartment", "Student Department", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentDepartment", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-<br/><br/>
-@Ajax.ActionLink("Make Pdf", "StudentResultForParents",new{ studentId = "#StudentId" }, new AjaxOptions { UpdateTargetId = "updateTargetId" })
 
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Course Code</th>
-            <th>Course Name</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody id="studentCourse"></tbody>
-</table>
-
-@section scripts
-{
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#StudentId").change(function() {
@@ -73,5 +73,7 @@
             });
         });
     </script>
-}
 
+
+</body>
+</html>
