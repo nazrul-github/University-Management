@@ -50,19 +50,19 @@
                     Text = @"Sunday",Value="Sunday"
                 },new SelectListItem
                 {
-                    Text = @"MonDay",Value="MonDay"
+                    Text = @"Monday",Value="Monday"
                 },new SelectListItem
                 {
-                    Text = @"TuesDay",Value="TuesDay"
+                    Text = @"Tuesday",Value="Tuesday"
                 },new SelectListItem
                 {
                     Text = @"Wednesday",Value="Wednesday"
                 },new SelectListItem
                 {
-                    Text = @"ThursDay",Value="ThursDay"
+                    Text = @"Thursday",Value="Thursday"
                 },new SelectListItem
                 {
-                    Text = @"FriDay",Value="Friday"
+                    Text = @"Friday",Value="Friday"
                 }
 
                 },"--Select Day--",new { @class = "form-control scrollable-menu" } )
@@ -141,6 +141,7 @@
                 var dayId = $("#Day").val();
                 var fromTime = $("#FromTime").val();
                 var toTime = $("#ToTime").val();
+                var parameter = {day:dayId,fromTime:fromTime,toTime:toTime};
 
 
                 if (departmentId === "") {
@@ -191,6 +192,18 @@
                     $('#ToTime').next('span').text('To time should be more than from time').show();
                     event.preventDefault();
                 }
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/JSON;charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    url: '@Url.Action("IsClassRoomAvailable","ClassRoom")',
+                    success: function(value) {
+                        if (value === false) {
+                            alert("Classroom is not available between this time");
+                        }
+                    }
+                });
+
             });
 
         });

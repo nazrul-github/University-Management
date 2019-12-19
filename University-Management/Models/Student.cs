@@ -36,6 +36,8 @@ namespace University_Management.Models
 
         [Column(TypeName = "date")]
         [Required(ErrorMessage = "Please enter registration date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayName("Registration Date")]
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Please enter student address")]
@@ -44,6 +46,8 @@ namespace University_Management.Models
         public string Address { get; set; }
 
         [Required]
+        [StringLength(100)]
+        [DisplayName("Registration Number")]
         public string RegistrationNumber { get; set; }
 
         public int DepartmentId { get; set; }

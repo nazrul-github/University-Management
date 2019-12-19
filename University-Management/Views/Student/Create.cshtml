@@ -4,19 +4,6 @@
 
 @{
     ViewBag.Title = "Register Student";
-    <style>
-        .main-body {
-            display: flex;
-            flex-direction: row;
-        }
-        .first-layer {
-            flex-grow: 2;
-        }
-        .second-layer {
-            flex-grow: 1;
-        }
-
-    </style>
 }
 
 
@@ -82,22 +69,12 @@
                     <div class="col-md-10">
                         <input type="hidden" name="RegistrationNumber" id="RegistrationNumber" value="yes" />
                         <input type="submit" value="Register" id="submitButton" class="btn btn-block btn-success" />
+                        
                     </div>
                 </div>
             </div>
         }
     </div>
-    @if (ViewBag.Message != null)
-    {
-        var student = ViewBag.Message;
-        <div class="second-layer">
-            @using (Html.BeginForm())
-            {
-                @Html.Label("StudentName","Student Name:")
-                <input value=student.StudentName, readonly="readonly" type="text"/>
-            }
-        </div>
-    }
 </div>
 
 

@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "Course", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course Code", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" id="CourseId" name="CourseId">
                     <option value=0>--Select Course--</option>
@@ -73,7 +73,7 @@
         <input type="hidden" value=true name="IsAssigned">
         <div class="form-group">
             <div class="col-md-10">
-                <input type="submit" value="Create" id="submitButton" class="btn btn-block btn-success" />
+                <input type="submit" value="Assign" id="submitButton" class="btn btn-block btn-success" />
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
                         $.each(courses,
                             function(key, value) {
                                 $("#CourseId")
-                                    .append('<option value=' + value.Id + '>' + value.CourseName + '</option>');
+                                    .append('<option value=' + value.Id + '>' + value.CourseCode + '</option>');
                             });
                     }
                 });
