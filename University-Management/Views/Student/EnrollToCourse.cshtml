@@ -10,9 +10,13 @@
 @using (@Html.BeginForm("EnrollToCourse","Student",FormMethod.Post,new{@id="studntEnrlFrm"}))
 {
     <div class="form-group">
-        @Html.Label("StudentName", "Student Name")
+        @Html.Label("StudentRegistration", "Student Reg. No.")
         @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
         @Html.ValidationMessage("StudentCourseAssign")
+    </div>
+    <div class="form-group">
+        @Html.Label("StudentName", "Name")
+        @Html.TextBox("StudentName", null, new { @class = "form-control", @readonly = "readonly" })
     </div>
     <div class="form-group">
         @Html.Label("Email", "Email")
@@ -59,6 +63,7 @@
                 var id = $("#StudentId").val();
                 var parameter = { studentId: id };
                 $("#CourseDDL").find("option").not(":first").remove();
+                $("#StudentName").val("");
                 $("#Email").val("");
                 $("#DepartmentId").val("");
                 $.ajax({
@@ -67,6 +72,7 @@
                     url: '@Url.Action("GetStudentInfoById", "Student")',
                     data: JSON.stringify(parameter),
                     success: function(student) {
+                        $("#StudentName").val(student.StudentName);
                         $("#Email").val(student.Email);
                         $("#DepartmentName").val(student.Department);
                         $("#DepartmentId").val(student.DepartmentId);

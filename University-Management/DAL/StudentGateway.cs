@@ -15,7 +15,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var students = _projectDbContext.Students.Include(c=>c.Department).ToList();
+                var students = _projectDbContext.Students.Include(c=>c.Department).OrderByDescending(s=>s.Id).ToList();
                 return students;
             }
         }

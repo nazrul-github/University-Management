@@ -51,6 +51,17 @@ namespace University_Management.Controllers
             return View(classroom);
         }
 
+        public JsonResult IsClassRoomAvailable(string day, DateTime fromTime, DateTime toTime)
+        {
+            bool isAvailable = _classRoomManager.IsClassRoomAvailable(day, fromTime, toTime);
+            if (!isAvailable)
+            {
+                return Json(false);
+            }
+
+            return Json(true);
+        }
+
         public JsonResult GetCourseByDepartment(int id)
         {
             var courses = _courseManager.GetAllCourses().Where(c => c.DepartmentId == id).ToList();
