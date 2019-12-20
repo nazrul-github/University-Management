@@ -21,10 +21,9 @@
     @Html.Label("StudentDepartment", "Student Department", new { @class = "control-label col-md-2" })
     @Html.TextBox("StudentDepartment", null, new { @class = "form-control", @readonly = "readonly" })
 </div>
+       
+@Html.ActionLink("Make Pdf", "PdfResult", "Result", new { studentId = "xxx"},new{@class="btn btn-success",id="mkPdfBtn"})
 <br/><br/>
-@Ajax.ActionLink("Make Pdf", "StudentResultForParents",new{ studentId = "#StudentId" }, new AjaxOptions { UpdateTargetId = "updateTargetId" })
-
-
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -43,6 +42,9 @@
             $("#StudentId").change(function() {
                 var id = $("#StudentId").val();
                 var parameter = { studentId: id };
+                $("#StudentName").val("");
+                $("#StudentEmail").val("");
+                $("#StudentDepartment").val("");
                 $("#studentCourse").empty();
                 $.ajax({
                     type: "POST",
@@ -70,6 +72,16 @@
                         });
                     }
                 });
+            });
+            $("#mkPdfBtn").click(function() {
+                var id = $("#StudentId").val();
+                if (id === "") {
+                    alert("Please select a student");
+                    event.preventDefault();
+                } else {
+                    
+                this.href = this.href.replace("xxx",id);
+                }
             });
         });
     </script>

@@ -21,7 +21,7 @@ body {
   overflow: hidden;
   background-color: rgb(255, 254, 251);
   width: 100%;
-  height: 100%;
+    min-height: 100vh;
 }
 .head-section {
   display: flex;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Rotativa.MVC;
 using University_Management.BLL;
 using University_Management.Models;
 using University_Management.ViewModel;
@@ -51,19 +52,20 @@ namespace University_Management.Controllers
             return View();
         }
 
-        public ActionResult PdfResult()
-        {
-            FillStudentDropDown();
-
-            return View();
-        }
-
-        public ActionResult StudentResultForParents(int studentId)
+        public ActionResult PdfResult(int studentId)
         {
             var studentResult = StudentResult(studentId);
+
             return View(studentResult);
         }
 
+        public ActionResult ExportToPdf(int studentId)
+        {
+            return new ActionAsPdf("PdfResult", new {studentId = studentId}){FileName = "result.pdf"};
+
+        }
+
+        
         public JsonResult GetCourseByStudentId(int studentId)
         {
             var courses = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
