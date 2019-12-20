@@ -11,14 +11,17 @@
 {
     <script>
         $(document).ready(function() {
-            $("#unAssign").click(function() {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("UnAllocateClassRooms","ClassRoom")',
-                    success: function() {
-                        toastr.info('All ClassRooms Are UnAllocated');
-                    }
-                });
+            $("#unAssign").click(function () {
+                var confirmation = confirm("Do you want to unallocate all the classrooms");
+                if (confirmation) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("UnAllocateClassRooms","ClassRoom")',
+                        success: function() {
+                            toastr.info('All ClassRooms Are UnAllocated');
+                        }
+                    });
+                }
             });
         });
     </script>

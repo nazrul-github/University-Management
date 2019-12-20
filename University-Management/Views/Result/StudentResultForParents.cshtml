@@ -1,0 +1,57 @@
+﻿@model University_Management.ViewModel.StudentResultViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentResultForParents</title>
+</head>
+<body>
+    <div>
+        <h4>StudentResultViewModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StudentName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StudentRegistrationNumber)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StudentRegistrationNumber)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StudentEmail)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StudentEmail)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StudentDepartment)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StudentDepartment)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+       
+    </p>
+</body>
+</html>

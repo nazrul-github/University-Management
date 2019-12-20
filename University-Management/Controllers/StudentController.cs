@@ -40,19 +40,7 @@ namespace University_Management.Controllers
                 var idNumber = id.ToString("000");
                 var combined = $"{department.DepartmentCode}-{year}-{idNumber}";
                 bool isUpdated = _studentManager.UpdateStudent(id, combined);
-                student.RegistrationNumber = combined;
-                var msg = $"Student Name: {student.StudentName};   " +
-                          $"Student Email: {student.Email};  " +
-                          $"Student Contact no: {student.ContactNo};    " +
-                          $"Registration Date: {student.Date:dd-MMM-yy};    " +
-                          $"Address: {student.Address};     " +
-                          $"Department: {department.DepartmentName};     " +
-                          $"Registration number: {combined}";
-                FlashMessage.Confirmation(msg);
-                 //ViewBag.Message = msg;
-                 //ModelState.Clear();
-                 //return View();
-                return RedirectToAction("Create");
+                return RedirectToAction("Details",new{id=id});
             }
             FlashMessage.Danger("Some error occured, please check all the input");
             return View(student);
@@ -128,5 +116,12 @@ namespace University_Management.Controllers
             var students = _studentManager.GetAllStudents();
             ViewBag.StudentId = new SelectList(students, "Id", "RegistrationNumber");
         }
+
+        public ActionResult Details(int id)
+        {
+            var aStudent = _studentManager.GetAllStudents().FirstOrDefault(s => s.Id == id);
+            return View(aStudent);
+        }
+
     }
 }

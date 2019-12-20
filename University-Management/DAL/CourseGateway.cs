@@ -33,7 +33,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var courses = _projectDbContext.Courses.ToList();
+                var courses = _projectDbContext.Courses.OrderBy(c=>c.Id).ToList();
                 return courses;
             }
         }
@@ -41,7 +41,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var courses = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).ToList();
+                var courses = _projectDbContext.Courses.Where(c => c.DepartmentId == departmentId).OrderBy(c=>c.Id).ToList();
                 return courses;
             }
         }
