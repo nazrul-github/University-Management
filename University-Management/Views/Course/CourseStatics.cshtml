@@ -4,15 +4,18 @@
 }
 
 <h2>Show Course Statics</h2>
-<div class="form-group">
+<div class="form-group col-md-10 inline-form">
     @Html.Label("Department", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("DepartmentId", null, "--Select Department", new { @class = "form-control" })
+
+        @Html.DropDownList("DepartmentId", null, "--Select Department", new { @class = "form-control dropdown col-md-10" })
     </div>
+
+
 </div>
 <div class="form-group">
     <table class="table table-bordered">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th>Code</th>
                 <th>Name/Title</th>

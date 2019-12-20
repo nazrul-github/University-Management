@@ -37,7 +37,7 @@ namespace University_Management.Controllers
                     ModelState.Clear();
                     return View(classroom);
                 }
-                if (!_classRoomManager.IsClassRoomAvailable(classroom.Day, classroom.FromTime, classroom.ToTime))
+                if (!_classRoomManager.IsClassRoomAvailable(classroom.Day, classroom.FromTime, classroom.ToTime,classroom.RoomId))
                 {
                     FlashMessage.Danger($"Class room is not available between {classroom.FromTime.ToShortTimeString()} to {classroom.ToTime.ToShortTimeString()} on {classroom.Day}");
                     ModelState.Clear();
@@ -51,9 +51,9 @@ namespace University_Management.Controllers
             return View(classroom);
         }
 
-        public JsonResult IsClassRoomAvailable(string day, DateTime fromTime, DateTime toTime)
+        public JsonResult IsClassRoomAvailable(string day, DateTime fromTime, DateTime toTime,int roomId)
         {
-            bool isAvailable = _classRoomManager.IsClassRoomAvailable(day, fromTime, toTime);
+            bool isAvailable = _classRoomManager.IsClassRoomAvailable(day, fromTime, toTime,roomId);
             if (!isAvailable)
             {
                 return Json(false);

@@ -6,7 +6,8 @@
 
 <h2>View All Departments</h2>
 
-<table class="table">
+<table class="table table-bordered">
+    <thead class="thead-dark">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DepartmentName)
@@ -14,18 +15,21 @@
         <th>
             @Html.DisplayNameFor(model => model.DepartmentCode)
         </th>
-       
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartmentName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartmentCode)
-        </td>
     </tr>
-}
+    </thead>
+    
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentCode)
+            </td>
+        </tr>
+    }
 
 </table>

@@ -21,9 +21,9 @@ namespace University_Management.BLL
             return _classRoomGateway.GetAllRoomInfo();
         }
 
-        public bool IsClassRoomAvailable(string classroomDay, DateTime classroomFromTime, DateTime classroomToTime)
+        public bool IsClassRoomAvailable(string classroomDay, DateTime classroomFromTime, DateTime classroomToTime,int roomId)
         {
-            var rooms = _classRoomGateway.GetAllAllocatedClassRoom().Where(c => c.Day.ToLower() == classroomDay.ToLower()).ToList();
+            var rooms = _classRoomGateway.GetAllAllocatedClassRoom().Where(c => c.Day.ToLower() == classroomDay.ToLower() && c.RoomId == roomId).ToList();
             foreach (var room in rooms)
             {
                 string fromtimeDb = room.FromTime.ToString("HH.mm");

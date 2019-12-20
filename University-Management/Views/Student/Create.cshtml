@@ -8,8 +8,8 @@
 
 
 <h2>Register Student</h2>
-<div class="main-body">
-    <div class="first-layer">
+<div class="col-md-10">
+    <div>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -18,7 +18,7 @@
                 <hr />
                 @Html.RenderFlashMessages()
                 <div class="form-group">
-                    @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "col-md-2" })
+                    @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
                         @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                         <input type="hidden" name="RegistrationNumber" id="RegistrationNumber" value="yes" />
                         <input type="submit" value="Register" id="submitButton" class="btn btn-block btn-success" />
                         
