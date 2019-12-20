@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
+using Rotativa.MVC;
 using University_Management.BLL;
 using University_Management.Models;
+using University_Management.ViewModel;
 using Vereyon.Web;
 
 namespace University_Management.Controllers
@@ -53,6 +52,20 @@ namespace University_Management.Controllers
             return View();
         }
 
+        public ActionResult PdfResult(int studentId)
+        {
+            var studentResult = StudentResult(studentId);
+
+            return View(studentResult);
+        }
+
+        public ActionResult ExportToPdf(int studentId)
+        {
+            return new ActionAsPdf("PdfResult", new {studentId = studentId}){FileName = "result.pdf"};
+
+        }
+
+        
         public JsonResult GetCourseByStudentId(int studentId)
         {
             var courses = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
@@ -66,13 +79,24 @@ namespace University_Management.Controllers
 
         public JsonResult GetStudentResult(int studentId)
         {
-            var studentPublishedResult = _resultManager.GetAllStudentResults().Where(r => r.StudentId == studentId).Select(r => new
-            {
-                CourseId = r.CourseId,
-                CourseCode = r.Course.CourseCode,
-                CourseName = r.Course.CourseName,
-                Grade = r.Grade
-            }).ToList();
+            var studentResult = StudentResult(studentId);
+
+            return Json(studentResult.ResultCourseViews);
+        }
+
+
+
+        private StudentResultViewModel StudentResult(int studentId)
+        {
+            var aStudent = _studentManager.GetAllStudents().FirstOrDefault(s => s.Id == studentId);
+            var studentPublishedResult = _resultManager.GetAllStudentResults().Where(r => r.StudentId == studentId).Select(r =>
+                new
+                {
+                    CourseId = r.CourseId,
+                    CourseCode = r.Course.CourseCode,
+                    CourseName = r.Course.CourseName,
+                    Grade = r.Grade
+                }).ToList();
 
             var studentAllCourse = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
             {
@@ -87,15 +111,31 @@ namespace University_Management.Controllers
             var studentCourseWithoutResult = studentCourseWithoutResultId.Join(studentAllCourse, c => c.CourseId,
                 a => a.CourseId, (ci, ac) => new
                 {
-
                     CourseId = ac.CourseId,
                     CourseCode = ac.CourseCode,
                     CourseName = ac.CourseName,
                     Grade = "Not Graded yet"
                 });
             var studentResult = studentPublishedResult.Union(studentCourseWithoutResult).ToList();
-
-            return Json(studentResult);
+            var resultCourses = new List<ResultCourseView>();
+            foreach (var result in studentResult)
+            {
+                resultCourses.Add(new ResultCourseView()
+                {
+                    CourseCode = result.CourseCode,
+                    CourseName = result.CourseName,
+                    Grade =  result.Grade
+                });
+            }
+            var studentResultView = new StudentResultViewModel()
+            {
+                StudentDepartment = aStudent.Department.DepartmentName,
+                StudentName = aStudent.StudentName,
+                StudentEmail = aStudent.Email,
+                StudentRegistrationNumber = aStudent.RegistrationNumber,
+                ResultCourseViews = resultCourses
+            };
+            return studentResultView;
         }
 
         public JsonResult IsResultExist(int courseId, int departmentId, int studentId)
