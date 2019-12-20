@@ -4,28 +4,30 @@
 }
 
 <h2>Student Result</h2>
-
-<div class="form-group">
-    @Html.Label("StudentReg", "Student Reg. No:", new { @class = "control-label col-md-2" })
-    @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+<div class="col-md-10">
+    <div class="form-group col-md-10">
+        @Html.Label("StudentReg", "Student Reg. No:", new { @class = "control-label " })
+        @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
+    </div>
+    <div class="form-group col-md-10">
+        @Html.Label("StudentName", "Student Name", new { @class = "control-label col-md-4" })
+        @Html.TextBox("StudentName", null, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="form-group col-md-10">
+        @Html.Label("StudentEmail", "Student Email", new { @class = "control-label col-md-4" })
+        @Html.TextBox("StudentEmail", null, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="form-group col-md-10">
+        @Html.Label("StudentDepartment", "Student Department", new { @class = "control-label col-md-4" })
+        @Html.TextBox("StudentDepartment", null, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="col-md-4 col-md-4">
+        @Html.ActionLink("Make Pdf", "PdfResult", "Result", new { studentId = "xxx" }, new { @class = "btn btn-block btn-success", id = "mkPdfBtn" })
+    
 </div>
-<div class="form-group">
-    @Html.Label("StudentName", "Student Name", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentName", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-<div class="form-group">
-    @Html.Label("StudentEmail", "Student Email", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentEmail", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-<div class="form-group">
-    @Html.Label("StudentDepartment", "Student Department", new { @class = "control-label col-md-2" })
-    @Html.TextBox("StudentDepartment", null, new { @class = "form-control", @readonly = "readonly" })
-</div>
-       
-@Html.ActionLink("Make Pdf", "PdfResult", "Result", new { studentId = "xxx"},new{@class="btn btn-success",id="mkPdfBtn"})
 <br/><br/>
 <table class="table table-bordered">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>Course Code</th>
             <th>Course Name</th>
@@ -34,7 +36,7 @@
     </thead>
     <tbody id="studentCourse"></tbody>
 </table>
-
+</div>
 @section scripts
 {
     <script>

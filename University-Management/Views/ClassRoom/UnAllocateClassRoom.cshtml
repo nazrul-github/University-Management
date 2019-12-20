@@ -2,7 +2,8 @@
     ViewBag.Title = "UnAllocate ClassRoom";
 }
 
-<h2>Unallocate AllCourses</h2>
+<h2>Unallocate All Classrooms</h2>
+<hr/>
 <div class="form-group">
     <button class="btn btn-danger" id="unAssign">UnAllocate Classroom</button>
 </div>
@@ -12,13 +13,30 @@
     <script>
         $(document).ready(function() {
             $("#unAssign").click(function () {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-full-width",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
                 var confirmation = confirm("Do you want to unallocate all the classrooms");
                 if (confirmation) {
                     $.ajax({
                         type: "POST",
                         url: '@Url.Action("UnAllocateClassRooms","ClassRoom")',
-                        success: function() {
-                            toastr.info('All ClassRooms Are UnAllocated');
+                        success: function () {
+                            toastr["success"]("All rooms have been Unallocated", "Success!!!")
                         }
                     });
                 }

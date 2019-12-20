@@ -3,15 +3,15 @@
     ViewBag.Title = "UnAssignCourses";
 }
 
-<h2>UnAssign AllCourses</h2>
+<h2>UnAssign All Courses</h2>
 <div class="form-group">
     <button class="btn btn-danger" id="unAssign">Unassigned Courses</button>
 </div>
 
 @section scripts
 {
-    @Scripts.Render("~/bundles /jquery")
-    @Scripts.Render("~/bundles /jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function() {
             $("#unAssign").click(function () {

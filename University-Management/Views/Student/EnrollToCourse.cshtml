@@ -8,7 +8,7 @@
 <hr />
 @Html.RenderFlashMessages()
 @using (@Html.BeginForm("EnrollToCourse","Student",FormMethod.Post,new{@id="studntEnrlFrm"}))
-{
+{ <div class="col-md-8">
     <div class="form-group">
         @Html.Label("StudentRegistration", "Student Reg. No.")
         @Html.DropDownList("StudentId", null, "--Select Student--", new { @class = "form-control" })
@@ -42,7 +42,8 @@
 
     <input type="hidden" value=true name="IsAssigned" />
     <input type="hidden" name="DepartmentId" id="DepartmentId" />
-    <input type="submit" value="Enroll" id="enrlStudent" class="btn btn-primary" />
+    <input type="submit" value="Enroll" id="enrlStudent" class="btn btn-success col-md-4" />
+  </div>
 }
 
 @section scripts

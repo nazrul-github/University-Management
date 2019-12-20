@@ -13,11 +13,11 @@
 {
     @Html.AntiForgeryToken()
 
-    <div>
+    <div class="col-md-10">
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "col-md-2" })
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "col-md-4" })
             <div class="col-md-10">
                 @Html.DropDownListFor(m => m.DepartmentId, null, "--Select Department", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <select class="form-control" id="TeacherId" name="TeacherId">
                     <option value="">--Select Teacher--</option>
@@ -35,20 +35,20 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Credit to be taken", new { @class = "control-label col-md-2" })
+            @Html.Label("Credit to be taken", new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <input type="text" readonly="readonly" class="form-control" name="Credit" id="Credit" />
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Remaining Credit", new { @class = "control-label col-md-2" })
+            @Html.Label("Remaining Credit", new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <input type="text" readonly="readonly" class="form-control" name="remainingCredit" id="remainingCredit" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "Course Code", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course Code", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <select class="form-control" id="CourseId" name="CourseId">
                     <option value=0>--Select Course--</option>
@@ -58,21 +58,21 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Course Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Course Name", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <input type="text" readonly="readonly" class="form-control" name="cName" id="cName" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Course Credit", new { @class = "control-label col-md-2" })
+            @Html.Label("Course Credit", new { @class = "control-label col-md-4" })
             <div class="col-md-10">
                 <input type="text" readonly="readonly" class="form-control" name="cCredit" id="cCredit" />
             </div>
         </div>
         <input type="hidden" value=true name="IsAssigned">
         <div class="form-group">
-            <div class="col-md-10">
+            <div class="col-md-4">
                 <input type="submit" value="Assign" id="submitButton" class="btn btn-block btn-success" />
             </div>
         </div>

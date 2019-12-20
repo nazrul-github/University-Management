@@ -11,7 +11,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div>
+    <div class="col-md-10">
         <hr />
         @Html.RenderFlashMessages()
         <div class="form-group">
@@ -65,7 +65,7 @@
         <input type="hidden" value=true name="IsResultAvailable">
 
         <div class="form-group">
-            <div class="col-md-10">
+            <div class="col-md-4">
                 <input type="submit" value="Save" class="btn btn-block btn-success" id="resultSvBtn" />
             </div>
         </div>
