@@ -11,6 +11,7 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
+    [Authorize(Roles = "robin")]
     public class ClassRoomController : Controller
     {
         readonly ClassRoomManager _classRoomManager = new ClassRoomManager();

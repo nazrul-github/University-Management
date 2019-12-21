@@ -12,11 +12,13 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly CourseManager _courseManager = new CourseManager();
         private readonly DepartmentManager _departmentManager = new DepartmentManager();
 
+        [Authorize(Roles = "sakib,robin")]
         public ActionResult Create()
         {
             FillDepartmentDropdown();
@@ -54,13 +56,13 @@ namespace University_Management.Controllers
             return View();
         }
 
-      
+        [Authorize(Roles = "robin")]
         public ActionResult CourseStatics()
         {
             FillDepartmentDropdown();
             return View();
         }
-
+        [Authorize(Roles = "robin")]
         public ActionResult UnAssignCourses()
         {
             return View();

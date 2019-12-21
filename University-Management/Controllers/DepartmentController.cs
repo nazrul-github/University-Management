@@ -9,16 +9,19 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly DepartmentManager _departmentManager = new DepartmentManager();
 
+        [Authorize(Roles = "zebin,robin")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "zebin,robin")]
         public ActionResult Create(Department department)
         {
             if (ModelState.IsValid)
@@ -41,6 +44,7 @@ namespace University_Management.Controllers
 
             return View(department);
         }
+        [Authorize(Roles = "avi,robin")]
 
         public ActionResult ViewDepartment()
         {
