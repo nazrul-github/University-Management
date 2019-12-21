@@ -9,6 +9,7 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
+    [Authorize(Roles = "robin")]
     public class TeacherController : Controller
     {
         private readonly TeacherManager _teacherManager = new TeacherManager();
