@@ -12,21 +12,19 @@ namespace University_Management.Models
     [Table("Department")]
     public partial class Department
     {
+        //Zebin project start
         [Key]
         public int DepartmentId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter Department Name")]
         [DisplayName("Department Name")]
-        [Remote("IsDeptNameExist", "Department", ErrorMessage = "Department Name Already Exist")]
-        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_&.]*$", ErrorMessage = "Please enter a valid department name (Enter only letters without any numeric value)")]
         public string DepartmentName { get; set; }
 
         [Required]
         [StringLength(7, MinimumLength = 2, ErrorMessage = "Department Code Should Be 2 to 7 Character Long")]
         [DisplayName("Department Code")]
-        [Remote("IsDeptCodeExist", "Department", ErrorMessage = "Department Code Already Exist")]
         public string DepartmentCode { get; set; }
-
+        //Zebin project finished
 
         public List<Course> Courses { get; set; }
         public List<TeacherCourseAssign> CourseAssigns { get; set; }

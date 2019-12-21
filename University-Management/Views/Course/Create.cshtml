@@ -76,14 +76,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     
-    <script>
-        $(document).ready(function () {
-            $("#crtBtn").click(function() {
-                var confirmation = confirm("Do you want to save this course");
-                if (!confirmation) {
-                    event.preventDefault();  
-                }
-            });
-        });
-    </script>
+   
 }

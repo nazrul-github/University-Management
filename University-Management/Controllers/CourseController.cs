@@ -15,46 +15,49 @@ namespace University_Management.Controllers
     [Authorize]
     public class CourseController : Controller
     {
-        private readonly CourseManager _courseManager = new CourseManager();
-        private readonly DepartmentManager _departmentManager = new DepartmentManager();
+        //Sakib Project Start
+
+        private ProjectDbContext db = new ProjectDbContext();
 
         [Authorize(Roles = "sakib,robin")]
         public ActionResult Create()
         {
-            FillDepartmentDropdown();
-            FillSemesterDropdown();
+
+            ViewBag.Departmentid = new SelectList(db.Departments, "Departmentid", "DepartmentName");
+            ViewBag.Semesterid = new SelectList(db.Semisters, "Semesterid", "SemesterName");
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Course course)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Course saveCourse)
         {
-            FillDepartmentDropdown();
-            FillSemesterDropdown();
             if (ModelState.IsValid)
             {
-                if (_courseManager.IsCoursesNameExist(course.CourseName))
+                var isSaved = db.Courses.ToList();
+                var check = isSaved.Where(m => m.CourseCode == saveCourse.CourseCode || m.CourseName == saveCourse.CourseName);
+                if (check.Any())
                 {
-                    FlashMessage.Danger("Course Name Already Exist");
-                    return View(course);
+                    FlashMessage.Danger("Course Name Or Course Code Already Exist");
+                    return View(saveCourse);
                 }
-
-                if (_courseManager.IsCourseCodeExist(course.CourseCode))
-                {
-                    FlashMessage.Danger("Course Code Already Exist");
-                    return View(course);
-                }
-
-                if (_courseManager.SaveCourses(course))
-                {
-                    FlashMessage.Confirmation("Course Saved Successfully");
-                    return RedirectToAction("Create");
-                }
+                db.Courses.Add(saveCourse);
+                db.SaveChanges();
+                FlashMessage.Confirmation("Course Saved Successfully");
+                return RedirectToAction("Create");
             }
 
-            FlashMessage.Danger("Some error occured,Please Check all the input field");
-            return View();
+            ViewBag.Departmentid = new SelectList(db.Departments, "Departmentid", "DepartmentName", saveCourse.DepartmentId);
+            ViewBag.Semesterid = new SelectList(db.Semisters, "Semesterid", "SemesterName", saveCourse.SemesterId);
+            FlashMessage.Danger("Some error occured, please check all the inputs");
+            return View(saveCourse);
         }
+
+        //Sakib Project Finished
+
+
+        private readonly CourseManager _courseManager = new CourseManager();
+        private readonly DepartmentManager _departmentManager = new DepartmentManager();
 
         [Authorize(Roles = "robin")]
         public ActionResult CourseStatics()
@@ -105,7 +108,6 @@ namespace University_Management.Controllers
             return Json(isUnAssigned);
         }
 
-
         //Fill the dropdown methods
         private void FillDepartmentDropdown()
         {
@@ -118,6 +120,17 @@ namespace University_Management.Controllers
             var semesters = _courseManager.GetAllSemester();
             ViewBag.SemesterId = new SelectList(semesters, "SemesterId", "SemesterName");
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+
     }
 
 

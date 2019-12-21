@@ -12,8 +12,8 @@ namespace University_Management.Controllers
     [Authorize]
     public class DepartmentController : Controller
     {
-        private readonly DepartmentManager _departmentManager = new DepartmentManager();
-
+        //Zebin Project Start
+        private readonly ProjectDbContext _db = new ProjectDbContext();
         [Authorize(Roles = "zebin,robin")]
         public ActionResult Create()
         {
@@ -26,57 +26,70 @@ namespace University_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_departmentManager.IsDepartmentNameExist(department.DepartmentName))
+                List<Department> existDep = _db.Departments.ToList();
+                var matchingDep = existDep.Where(m => m.DepartmentName == department.DepartmentName || m.DepartmentCode == department.DepartmentCode);
+                if (matchingDep.Any())
                 {
-                    FlashMessage.Danger("Department Name Already Exist");
+                   FlashMessage.Danger("Name or Code Already Exist.");
                     return View(department);
                 }
-                if (_departmentManager.IsDepartmentCodeExist(department.DepartmentCode))
+
+                _db.Departments.Add(department);
+                if (_db.SaveChanges() > 0)
                 {
-                    FlashMessage.Danger("Department Code Already Exist");
-                    return View(department);
+                    FlashMessage.Confirmation("Data Successfully Saved.");
                 }
-                FlashMessage.Confirmation("Department Saved Successfully");
-                _departmentManager.AddDepartment(department);
+                
+
                 return RedirectToAction("Create");
             }
-            FlashMessage.Danger("Some error occured please check all the fields");
 
             return View(department);
         }
-        [Authorize(Roles = "avi,robin")]
+        //Zebin Project Finished
 
+        //Avi Project Start
+        [Authorize(Roles = "avi,robin")]
         public ActionResult ViewDepartment()
         {
-            var departments = _departmentManager.GetAllDepartments();
+            var departments = _db.Departments.ToList();
             return View(departments);
         }
-
+        //Avi Project Finished
 
         //Client Side Validation
 
-        public JsonResult IsDeptCodeExist(string departmentCode)
+        //public JsonResult IsDeptCodeExist(string departmentCode)
+        //{
+        //    bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);
+
+        //    if (isExist)
+        //    {
+        //        return Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //    return Json(true, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult IsDeptNameExist(string departmentName)
+        //{
+        //    bool isExist = _departmentManager.IsDepartmentNameExist(departmentName);
+
+        //    if (isExist)
+        //    {
+        //        return Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //    return Json(true, JsonRequestBehavior.AllowGet);
+        //}
+
+        protected override void Dispose(bool disposing)
         {
-            bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);
-
-            if (isExist)
+            if (disposing)
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                _db.Dispose();
             }
-
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult IsDeptNameExist(string departmentName)
-        {
-            bool isExist = _departmentManager.IsDepartmentNameExist(departmentName);
-
-            if (isExist)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(true, JsonRequestBehavior.AllowGet);
+            base.Dispose(disposing);
         }
 
     }
