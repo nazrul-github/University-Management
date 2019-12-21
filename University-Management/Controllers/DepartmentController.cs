@@ -12,8 +12,8 @@ namespace University_Management.Controllers
     [Authorize]
     public class DepartmentController : Controller
     {
+        //Zebin Project Start
         private readonly ProjectDbContext _db = new ProjectDbContext();
-        //Zebi Project Start
         [Authorize(Roles = "zebin,robin")]
         public ActionResult Create()
         {
@@ -82,6 +82,15 @@ namespace University_Management.Controllers
 
         //    return Json(true, JsonRequestBehavior.AllowGet);
         //}
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }
