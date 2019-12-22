@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>University Course Management System</title>
+    <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords"
@@ -127,7 +127,7 @@
             <div class="menu">
                 <ul id="menu">
                     <li>
-                        <a href="index.html"><i class="fa fa-tachometer"></i><span>Home</span></a>
+                        <a href="@Url.Action("Index","Home")"><i class="fa fa-tachometer"></i><span>Home</span></a>
                     </li>
                     <li id="menu-academico">
                         <a href="#">

@@ -17,14 +17,14 @@ namespace University_Management.Controllers
     {
         //Sakib Project Start
 
-        private ProjectDbContext db = new ProjectDbContext();
+        private readonly ProjectDbContext _db = new ProjectDbContext();
 
         [Authorize(Roles = "sakib,robin")]
         public ActionResult Create()
         {
 
-            ViewBag.Departmentid = new SelectList(db.Departments.OrderBy(d=>d.DepartmentId), "Departmentid", "DepartmentName");
-            ViewBag.Semesterid = new SelectList(db.Semisters.OrderBy(s=>s.SemesterId), "Semesterid", "SemesterName");
+            ViewBag.Departmentid = new SelectList(_db.Departments.OrderBy(d=>d.DepartmentId), "Departmentid", "DepartmentName");
+            ViewBag.Semesterid = new SelectList(_db.Semisters.OrderBy(s=>s.SemesterId), "Semesterid", "SemesterName");
             return View();
         }
 
@@ -34,26 +34,38 @@ namespace University_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isSaved = db.Courses.ToList();
+                var isSaved = _db.Courses.ToList();
                 var check = isSaved.Where(m => m.CourseCode == saveCourse.CourseCode || m.CourseName == saveCourse.CourseName);
                 if (check.Any())
                 {
                     FlashMessage.Danger("Course Name Or Course Code Already Exist");
                     return View(saveCourse);
                 }
-                db.Courses.Add(saveCourse);
-                db.SaveChanges();
+                _db.Courses.Add(saveCourse);
+                _db.SaveChanges();
                 FlashMessage.Confirmation("Course Saved Successfully");
                 return RedirectToAction("Create");
             }
 
-            ViewBag.Departmentid = new SelectList(db.Departments.OrderBy(d => d.DepartmentId), "Departmentid", "DepartmentName");
-            ViewBag.Semesterid = new SelectList(db.Semisters.OrderBy(s => s.SemesterId), "Semesterid", "SemesterName");
+            ViewBag.Departmentid = new SelectList(_db.Departments.OrderBy(d => d.DepartmentId), "Departmentid", "DepartmentName");
+            ViewBag.Semesterid = new SelectList(_db.Semisters.OrderBy(s => s.SemesterId), "Semesterid", "SemesterName");
             FlashMessage.Danger("Some error occured, please check all the inputs");
             return View(saveCourse);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         //Sakib Project Finished
+
+
+
 
 
         private readonly CourseManager _courseManager = new CourseManager();
@@ -121,14 +133,7 @@ namespace University_Management.Controllers
             ViewBag.SemesterId = new SelectList(semesters, "SemesterId", "SemesterName");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
 
 
     }

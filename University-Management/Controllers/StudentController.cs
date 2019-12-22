@@ -79,7 +79,7 @@ namespace University_Management.Controllers
         {
             var student = _studentManager.GetAllStudents().Find(s => s.Id == studentId);
             var department = _departmentManager.GetAllDepartments().FirstOrDefault(d => d.DepartmentId == student.DepartmentId);
-            var studntDeparmtnet = new
+            var studentDepartment = new
             {
                 StudentId = student.Id,
                 StudentName = student.StudentName,
@@ -87,7 +87,7 @@ namespace University_Management.Controllers
                 Department = department.DepartmentName,
                 DepartmentId = student.DepartmentId
             };
-            return Json(studntDeparmtnet);
+            return Json(studentDepartment);
         }
 
         public JsonResult IsStudentAssigned(int studentId, int courseId)

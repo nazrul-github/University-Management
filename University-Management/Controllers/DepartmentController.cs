@@ -46,20 +46,32 @@ namespace University_Management.Controllers
 
             return View(department);
         }
-        //Zebin Project Finished
+        
 
-        //Avi Project Start
-        [Authorize(Roles = "avi,robin")]
+       
+        [Authorize(Roles = "zebin,robin")]
         public ActionResult ViewDepartment()
         {
             var departments = _db.Departments.ToList();
             return View(departments);
         }
-        //Avi Project Finished
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+        //Zebin Project Finished
+
+
+
 
         //Client Side Validation
 
-        DepartmentManager _departmentManager = new DepartmentManager();
+        readonly DepartmentManager _departmentManager = new DepartmentManager();
 
         public JsonResult IsDeptCodeExist(string departmentCode)
         {
@@ -85,14 +97,7 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+      
 
     }
 }
