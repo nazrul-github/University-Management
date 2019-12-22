@@ -17,14 +17,18 @@ namespace University_Management.Models
         public int DepartmentId { get; set; }
 
         [Required(ErrorMessage = "Please enter Department Name")]
+        [Remote("IsDeptNameExist","Department",ErrorMessage = "Department Name already exist")]
         [DisplayName("Department Name")]
         public string DepartmentName { get; set; }
 
         [Required]
         [StringLength(7, MinimumLength = 2, ErrorMessage = "Department Code Should Be 2 to 7 Character Long")]
+        [Remote("IsDeptCodeExist","Department",ErrorMessage = "Department code already exist")]
         [DisplayName("Department Code")]
         public string DepartmentCode { get; set; }
         //Zebin project finished
+
+
 
         public List<Course> Courses { get; set; }
         public List<TeacherCourseAssign> CourseAssigns { get; set; }

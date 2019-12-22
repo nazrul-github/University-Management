@@ -112,6 +112,14 @@
                     event.preventDefault();
                 }
             });
+            $('#DepartmentId').change(function() {
+                $('#DepartmentId').next('span').empty();
+                $('#DepartmentId').removeClass('input-validation-error');
+            });
+            $('#DesignationId').change(function() {
+                $('#DesignationId').next('span').empty();
+                $('#DesignationId').removeClass('input-validation-error');
+            });
         });
     </script>
 }

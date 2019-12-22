@@ -23,8 +23,8 @@ namespace University_Management.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.Departmentid = new SelectList(db.Departments, "Departmentid", "DepartmentName");
-            ViewBag.Semesterid = new SelectList(db.Semisters, "Semesterid", "SemesterName");
+            ViewBag.Departmentid = new SelectList(db.Departments.OrderBy(d=>d.DepartmentId), "Departmentid", "DepartmentName");
+            ViewBag.Semesterid = new SelectList(db.Semisters.OrderBy(s=>s.SemesterId), "Semesterid", "SemesterName");
             return View();
         }
 
@@ -47,8 +47,8 @@ namespace University_Management.Controllers
                 return RedirectToAction("Create");
             }
 
-            ViewBag.Departmentid = new SelectList(db.Departments, "Departmentid", "DepartmentName", saveCourse.DepartmentId);
-            ViewBag.Semesterid = new SelectList(db.Semisters, "Semesterid", "SemesterName", saveCourse.SemesterId);
+            ViewBag.Departmentid = new SelectList(db.Departments.OrderBy(d => d.DepartmentId), "Departmentid", "DepartmentName");
+            ViewBag.Semesterid = new SelectList(db.Semisters.OrderBy(s => s.SemesterId), "Semesterid", "SemesterName");
             FlashMessage.Danger("Some error occured, please check all the inputs");
             return View(saveCourse);
         }

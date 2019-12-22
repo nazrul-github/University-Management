@@ -37,7 +37,7 @@ namespace University_Management.Controllers
                 _db.Departments.Add(department);
                 if (_db.SaveChanges() > 0)
                 {
-                    FlashMessage.Confirmation("Data Successfully Saved.");
+                    FlashMessage.Confirmation("Department Saved Successfully");
                 }
                 
 
@@ -59,29 +59,31 @@ namespace University_Management.Controllers
 
         //Client Side Validation
 
-        //public JsonResult IsDeptCodeExist(string departmentCode)
-        //{
-        //    bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);
+        DepartmentManager _departmentManager = new DepartmentManager();
 
-        //    if (isExist)
-        //    {
-        //        return Json(false, JsonRequestBehavior.AllowGet);
-        //    }
+        public JsonResult IsDeptCodeExist(string departmentCode)
+        {
+            bool isExist = _departmentManager.IsDepartmentCodeExist(departmentCode);
 
-        //    return Json(true, JsonRequestBehavior.AllowGet);
-        //}
+            if (isExist)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
 
-        //public JsonResult IsDeptNameExist(string departmentName)
-        //{
-        //    bool isExist = _departmentManager.IsDepartmentNameExist(departmentName);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
 
-        //    if (isExist)
-        //    {
-        //        return Json(false, JsonRequestBehavior.AllowGet);
-        //    }
+        public JsonResult IsDeptNameExist(string departmentName)
+        {
+            bool isExist = _departmentManager.IsDepartmentNameExist(departmentName);
 
-        //    return Json(true, JsonRequestBehavior.AllowGet);
-        //}
+            if (isExist)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

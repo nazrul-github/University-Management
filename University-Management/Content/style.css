@@ -32,7 +32,8 @@ a {
   background-color: none;
 }
 body p {
-  font-family: "Roboto", sans-serif;
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
 }
 h1,
 h2,
