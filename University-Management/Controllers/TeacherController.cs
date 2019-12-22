@@ -9,45 +9,55 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
-    [Authorize(Roles = "robin")]
+    [Authorize]
     public class TeacherController : Controller
     {
+        //Avi Project Start
+        private readonly ProjectDbContext _db = new ProjectDbContext();
+
+        [Authorize(Roles = "robin,avi")]
+        [HttpGet]
+        public ActionResult Create()
+        {
+            ViewBag.DesignationId = new SelectList(_db.Designations, "Id", "DesignationName");
+            ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
+            return View();
+        }
+
+        [Authorize(Roles = "robin,avi")]
+        [HttpPost]
+        public ActionResult Create(Teacher teacher)
+        {
+            ViewBag.DesignationId = new SelectList(_db.Designations, "Id", "DesignationName");
+            ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
+
+            if (ModelState.IsValid)
+            {
+                var isNameExist = _db.Teachers.Any(t => t.Email == teacher.Email);
+                if (isNameExist)
+                {
+                    FlashMessage.Danger("Teacher email already exist");
+                    return View(teacher);
+                }
+                
+                _db.Teachers.Add(teacher);
+                _db.SaveChanges();
+                FlashMessage.Confirmation("Teahcer saved successfully");
+                return RedirectToAction("Create");
+            }
+
+            return View(teacher);
+        }
+
+        //Avi Project Finished
+
+
+
         private readonly TeacherManager _teacherManager = new TeacherManager();
         private readonly DepartmentManager _departmentManager = new DepartmentManager();
         private readonly CourseManager _courseManager = new CourseManager();
 
-        public ActionResult Create()
-        {
-            FillDesignationDropDown();
-            FillDepartmentDropdown();
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(Teacher teacher)
-        {
-            FillDesignationDropDown();
-            FillDepartmentDropdown();
-
-            if (ModelState.IsValid)
-            {
-                if (_teacherManager.IsEmailExist(teacher.Email))
-                {
-                    FlashMessage.Danger("Email already exist");
-                    return View(teacher);
-                }
-
-                if (_teacherManager.SaveTeacher(teacher))
-                {
-                    FlashMessage.Confirmation("Teacher information saved successfully");
-                    return RedirectToAction("Create");
-                }
-            }
-
-            FlashMessage.Danger("Some error occured, Please check all the inputs");
-            return View(teacher);
-        }
+        [Authorize(Roles = "robin")]
 
         public ActionResult AssignCourse()
         {
@@ -56,6 +66,7 @@ namespace University_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "robin")]
         public ActionResult AssignCourse(TeacherCourseAssign teacherCourseAssign)
         {
             FillDepartmentDropdown();
