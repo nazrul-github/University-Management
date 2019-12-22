@@ -221,7 +221,16 @@
                 var courseId = $("#CourseId").val();
                 var credit = remainCrdt - courseCredit;
                 var teacherId = $("#TeacherId").val();
+                var departmentId = $("#DepartmentId").val();
                 var confirmation = true;
+                if (departmentId === "") {
+                    $('#DepartmentId').removeClass('valid');
+                    $('#DepartmentId').addClass('input-validation-error');
+                    $('#DepartmentId').next('span').removeClass('field-validation-valid');
+                    $('#DepartmentId').next('span').addClass('text-danger field-validation-error');
+                    $('#DepartmentId').next('span').text('Please select a department').show();
+                    confirmation = false;
+                } 
                 if (teacherId === "") {
                     $('#TeacherId').removeClass('valid');
                     $('#TeacherId').addClass('input-validation-error');
@@ -237,7 +246,7 @@
                                 confirm(
                                     "Do you want to assign more courses to this teacher?");
                         }
-                        
+
                     }
                 }
                 if (courseId === "") {
@@ -248,11 +257,15 @@
                     $('#CourseId').next('span').text('Please select a course').show();
                     confirmation = false;
                 }
-                
+
                 if (!confirmation) {
                     event.preventDefault();
                 }
 
+            });
+            $('#DepartmentId').change(function () {
+                $('#DepartmentId').next('span').empty();
+                $('#DepartmentId').removeClass('input-validation-error');
             });
         });
     </script>

@@ -69,7 +69,7 @@
                     <div class="col-md-4">
                         <input type="hidden" name="RegistrationNumber" id="RegistrationNumber" value="yes" />
                         <input type="submit" value="Register" id="submitButton" class="btn btn-block btn-success" />
-                        
+
                     </div>
                 </div>
             </div>
@@ -84,14 +84,28 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $().ready(function() {
-           
-        });
-        $(function () {
-            $("#Date").datepicker({
-                dateFormat: "dd-MM-yy",
-                changeMonth: true,
-                changeYear: true
+        $().ready(function () {
+            $(function () {
+                $("#Date").datepicker({
+                    dateFormat: "dd-MM-yy",
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            $("#submitButton").click(function () {
+                var departmentId = $("#DepartmentId").val();
+                if (departmentId === "") {
+                    $('#DepartmentId').removeClass('valid');
+                    $('#DepartmentId').addClass('input-validation-error');
+                    $('#DepartmentId').next('span').removeClass('field-validation-valid');
+                    $('#DepartmentId').next('span').addClass('text-danger field-validation-error');
+                    $('#DepartmentId').next('span').text('Please select a department').show();
+                    event.preventDefault();
+                }
+            });
+            $('#DepartmentId').change(function () {
+                $('#DepartmentId').next('span').empty();
+                $('#DepartmentId').removeClass('input-validation-error');
             });
         });
     </script>

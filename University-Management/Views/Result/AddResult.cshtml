@@ -58,7 +58,7 @@
                 @Html.DropDownListFor(model=>model.Grade,new List<SelectListItem>{new SelectListItem
                 {
                     Text = "A+",Value = "A+"
-                },new SelectListItem{Text = "A",Value ="A"},new SelectListItem{Text = "A-",Value ="A-"},new SelectListItem{Text = "B+",Value ="B+"},new SelectListItem{Text = "B",Value ="B+"},new SelectListItem{Text = "B-",Value ="B-"},new SelectListItem{Text = "C",Value ="C"},new SelectListItem{Text = "D+",Value ="2.60"},new SelectListItem{Text = "D",Value ="2.40"},new SelectListItem{Text = "D-",Value ="2.20"},new SelectListItem{Text = "F",Value ="2.00"}},"--Select Grade--",new{@class= "form-control"})
+                },new SelectListItem{Text = "A",Value ="A"},new SelectListItem{Text = "A-",Value ="A-"},new SelectListItem{Text = "B+",Value ="B+"},new SelectListItem{Text = "B",Value ="B+"},new SelectListItem{Text = "B-",Value ="B-"},new SelectListItem{Text = "C",Value ="C"},new SelectListItem{Text = "D+",Value ="D+"},new SelectListItem{Text = "D",Value ="D+"},new SelectListItem{Text = "D-",Value ="D-"},new SelectListItem{Text = "F",Value ="F"}},"--Select Grade--",new{@class= "form-control"})
                 @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -80,6 +80,10 @@
                 var id = $("#StudentId").val();
                 var parameter = { studentId: id };
                 $("#CourseId").find("option").not(":first").remove();
+                $("#Grade").val("");
+                $("#StudentName").val("");
+                $("#DepartmentName").val("");
+                $("#Email").val("");
                 $.ajax({
                     type: "POST",
                     contentType: "application/json;charset=utf-8",
@@ -137,7 +141,7 @@
                 $('#Grade').addClass('input-validation-error');
                 $('#Grade').next('span').removeClass('field-validation-valid');
                 $('#Grade').next('span').addClass('text-danger field-validation-error');
-                $('#Grade').next('span').text('Please select course for the student').show();
+                $('#Grade').next('span').text('Please select student grade').show();
                event.preventDefault();
             }
         }
@@ -159,6 +163,10 @@
             $("#CourseId").change(function () {
                 $('#CourseId').next('span').empty();
                 $('#CourseId').removeClass('input-validation-error');
+            });
+            $("#Grade").change(function () {
+                $('#Grade').next('span').empty();
+                $('#Grade').removeClass('input-validation-error');
             });
         });
     </script>

@@ -42,7 +42,7 @@ h4,
 h5 {
   font-family: "Montserrat", sans-serif;
 }
-h2 {
+h2,h4 {
     color: #b52e31;
 }
 .form-title h2 {

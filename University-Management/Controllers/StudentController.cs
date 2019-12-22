@@ -16,11 +16,13 @@ namespace University_Management.Controllers
         readonly DepartmentManager _departmentManager = new DepartmentManager();
         readonly TeacherManager _teacherManager = new TeacherManager();
         readonly CourseManager _courseManager = new CourseManager();
+
         public ActionResult Create()
         {
             FillDepartmentDropdown();
             return View();
         }
+
         [HttpPost]
         public ActionResult Create(Student student)
         {
@@ -36,12 +38,17 @@ namespace University_Management.Controllers
 
                 int id = _studentManager.AddStudent(student);
                 var year = student.Date.ToString("yyyy");
-                var department = _departmentManager.GetAllDepartments()
-                    .FirstOrDefault(d => d.DepartmentId == student.DepartmentId);
+                var departmentCode = _departmentManager.GetAllDepartments()
+                    .FirstOrDefault(d => d.DepartmentId == student.DepartmentId).DepartmentCode;
                 var idNumber = id.ToString("000");
-                var combined = $"{department.DepartmentCode}-{year}-{idNumber}";
+                var combined = $"{departmentCode}-{year}-{idNumber}";
                 bool isUpdated = _studentManager.UpdateStudent(id, combined);
-                return RedirectToAction("Details",new{id=id});
+                if (isUpdated)
+                {
+                    return RedirectToAction("Details", new { id = id });
+
+                }
+                FlashMessage.Danger("Some error occured, please try again later");
             }
             FlashMessage.Danger("Some error occured, please check all the input");
             return View(student);
@@ -70,6 +77,7 @@ namespace University_Management.Controllers
                     FlashMessage.Confirmation($"Student enrolled successfully");
                     return RedirectToAction("EnrollToCourse");
                 }
+                FlashMessage.Danger("Some error occured, Please try again later");
             }
             FlashMessage.Danger("Some error occured, Please check all the input");
             return View();

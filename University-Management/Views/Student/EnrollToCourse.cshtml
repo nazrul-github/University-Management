@@ -182,6 +182,10 @@
                 $('#CourseDDL').next('span').empty();
                 $('#CourseDDL').removeClass('input-validation-error');
             });
+            $('#EnrollmentDate').on('input propertychange paste', function () {
+                $('#EnrollmentDate').next('span').empty();
+                $('#EnrollmentDate').removeClass('input-validation-error');
+            });
         });
     </script>
 }
