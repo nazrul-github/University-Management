@@ -9,23 +9,23 @@ namespace University_Management.DAL
 {
     public class TeacherGateway
     {
-        private ProjectDbContext projectDbContext;
+        private ProjectDbContext _projectDbContext;
 
         public List<Teacher> GetAllTeachers()
         {
-            using (projectDbContext = new ProjectDbContext())
+            using (_projectDbContext = new ProjectDbContext())
             {
-                var teachers = projectDbContext.Teachers.ToList();
+                var teachers = _projectDbContext.Teachers.ToList();
                 return teachers;
             }
         }
 
         public bool SaveTeacher(Teacher teacher)
         {
-            using (projectDbContext = new ProjectDbContext())
+            using (_projectDbContext = new ProjectDbContext())
             {
-                projectDbContext.Teachers.Add(teacher);
-                projectDbContext.SaveChanges();
+                _projectDbContext.Teachers.Add(teacher);
+                _projectDbContext.SaveChanges();
                 int teacherId = teacher.Id;
                 if (teacherId > 0)
                 {
@@ -38,42 +38,36 @@ namespace University_Management.DAL
 
         public List<Designation> GetAllDesignations()
         {
-            using (projectDbContext = new ProjectDbContext())
+            using (_projectDbContext = new ProjectDbContext())
             {
-                var designations = projectDbContext.Designations.ToList();
+                var designations = _projectDbContext.Designations.ToList();
                 return designations;
             }
         }
         public List<Teacher> GetTeacherWithDepartmentId(int departmentId)
         {
-            using (projectDbContext = new ProjectDbContext())
+            using (_projectDbContext = new ProjectDbContext())
             {
-                var teachers = projectDbContext.Teachers.Where(t => t.DepartmentId == departmentId).ToList();
+                var teachers = _projectDbContext.Teachers.Where(t => t.DepartmentId == departmentId).ToList();
                 return teachers;
             }
         }
 
         public double TeacherRemainingCredit(int teacherId)
         {
-            using (projectDbContext = new ProjectDbContext())
+            using (_projectDbContext = new ProjectDbContext())
             {
-                var courseAssigned = projectDbContext.TeacherCourseAssigns.Where(c => c.IsAssigned);
-                var teacherWithCreditAssigned = courseAssigned.Join(projectDbContext.Teachers, c => c.TeacherId, t => t.Id,
-                    ((assign, teacher) => new
-                    {
-                        TeacherId = teacher.Id,
-                        CourseId = assign.CourseId
-                    }));
-                var teacherAssignedCredit = teacherWithCreditAssigned.Join(projectDbContext.Courses, t => t.CourseId, c => c.Id, (a, course) => new
+                double remainingCredit = 0;
+                var teacherCredit = _projectDbContext.Teachers.Find(teacherId).Credit;
+                var teacherAssigned = _projectDbContext.TeacherCourseAssigns.Any(t => t.TeacherId == teacherId && t.IsAssigned);
+                if (teacherAssigned)
                 {
-                    TeacherId = a.TeacherId,
-                    TotalCredit = course.CourseCredit
-                }).ToList();
-                double assignedCredit = teacherAssignedCredit.Where(t => t.TeacherId == teacherId).Sum(t => t.TotalCredit);
-                double credit = projectDbContext.Teachers.Find(teacherId).Credit;
-
-                double remainingCredit = credit - assignedCredit;
-                return remainingCredit;
+                    var assignedCredits = _projectDbContext.TeacherCourseAssigns.Where(t => t.TeacherId == teacherId && t.IsAssigned)
+                        .Include(t => t.Course).Sum(t => t.Course.CourseCredit);
+                     remainingCredit = teacherCredit - assignedCredits;
+                     return remainingCredit;
+                }
+                return remainingCredit = teacherCredit;
             }
 
         }

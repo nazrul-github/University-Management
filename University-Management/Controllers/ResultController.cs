@@ -60,13 +60,6 @@ namespace University_Management.Controllers
             return View(studentResult);
         }
 
-        public ActionResult ExportToPdf(int studentId)
-        {
-            return new ActionAsPdf("PdfResult", new {studentId = studentId}){FileName = "result.pdf"};
-
-        }
-
-        
         public JsonResult GetCourseByStudentId(int studentId)
         {
             var courses = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
@@ -82,6 +75,7 @@ namespace University_Management.Controllers
         {
             var studentResult = StudentResult(studentId);
 
+            //sending the list of result course view
             return Json(studentResult.ResultCourseViews);
         }
 
@@ -89,7 +83,9 @@ namespace University_Management.Controllers
 
         private StudentResultViewModel StudentResult(int studentId)
         {
+            //Student With Id
             var aStudent = _studentManager.GetAllStudents().FirstOrDefault(s => s.Id == studentId);
+            //Brougnt the student course grade form results table
             var studentPublishedResult = _resultManager.GetAllStudentResults().Where(r => r.StudentId == studentId).Select(r =>
                 new
                 {
@@ -99,6 +95,7 @@ namespace University_Management.Controllers
                     Grade = r.Grade
                 }).ToList();
 
+            //Brougnt all the courses assigned to that student
             var studentAllCourse = _courseManager.GetAllStudentCourses().Where(c => c.StudentId == studentId).Select(c => new
             {
                 CourseId = c.Course.Id,
@@ -106,9 +103,11 @@ namespace University_Management.Controllers
                 CourseCode = c.Course.CourseCode
             }).ToList();
 
+            //Selecting not published results course id from course table
             var studentCourseWithoutResultId = studentAllCourse.Select(c => new {CourseId = c.CourseId})
                 .Except(studentPublishedResult.Select(p => new {CourseId = p.CourseId})).ToList();
 
+            //Joining not published results course id with all course to get the course code course name and assiging grad
             var studentCourseWithoutResult = studentCourseWithoutResultId.Join(studentAllCourse, c => c.CourseId,
                 a => a.CourseId, (ci, ac) => new
                 {
@@ -117,8 +116,10 @@ namespace University_Management.Controllers
                     CourseName = ac.CourseName,
                     Grade = "Not Graded yet"
                 });
+            //Made union with not publised result with not published result
             var studentResult = studentPublishedResult.Union(studentCourseWithoutResult).ToList();
             var resultCourses = new List<ResultCourseView>();
+            //with foreach loop adding the course grade to result course view models results view
             foreach (var result in studentResult)
             {
                 resultCourses.Add(new ResultCourseView()
@@ -128,6 +129,7 @@ namespace University_Management.Controllers
                     Grade =  result.Grade
                 });
             }
+            //populating the object of student result view model for the pdf
             var studentResultView = new StudentResultViewModel()
             {
                 StudentDepartment = aStudent.Department.DepartmentName,
@@ -136,6 +138,7 @@ namespace University_Management.Controllers
                 StudentRegistrationNumber = aStudent.RegistrationNumber,
                 ResultCourseViews = resultCourses
             };
+
             return studentResultView;
         }
 

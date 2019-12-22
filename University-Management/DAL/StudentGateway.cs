@@ -37,8 +37,13 @@ namespace University_Management.DAL
             {
                 var student = _projectDbContext.Students.Find(id);
                 if (student != null) student.RegistrationNumber = combined;
-                _projectDbContext.SaveChanges();
-                return true;
+                int rowAffected = _projectDbContext.SaveChanges();
+                if (rowAffected>0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
         public bool IsStudentAssigned(int courseAssignCourseId, int courseAssignStudentId)
