@@ -79,7 +79,7 @@ namespace University_Management.Controllers
 
             if (isExist)
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);
@@ -91,7 +91,7 @@ namespace University_Management.Controllers
 
             if (isExist)
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);

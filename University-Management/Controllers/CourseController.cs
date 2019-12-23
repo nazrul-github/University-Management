@@ -34,8 +34,8 @@ namespace University_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isSaved = _db.Courses.ToList();
-                var check = isSaved.Where(m => m.CourseCode == saveCourse.CourseCode || m.CourseName == saveCourse.CourseName);
+                var courses = _db.Courses.ToList();
+                var check = courses.Where(m => m.CourseCode == saveCourse.CourseCode || m.CourseName == saveCourse.CourseName);
                 if (check.Any())
                 {
                     FlashMessage.Danger("Course Name Or Course Code Already Exist");

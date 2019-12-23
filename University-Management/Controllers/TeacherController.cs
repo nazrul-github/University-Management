@@ -33,8 +33,8 @@ namespace University_Management.Controllers
 
             if (ModelState.IsValid)
             {
-                var isNameExist = _db.Teachers.Any(t => t.Email == teacher.Email);
-                if (isNameExist)
+                var isMailExist = _db.Teachers.Any(t => t.Email == teacher.Email);
+                if (isMailExist)
                 {
                     FlashMessage.Danger("Teacher email already exist");
                     return View(teacher);
@@ -47,6 +47,18 @@ namespace University_Management.Controllers
             }
 
             return View(teacher);
+        }
+
+        public JsonResult IsEmailExist(string email)
+        {
+            bool isExist = _teacherManager.IsEmailExist(email);
+
+            if (isExist)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         //Avi Project Finished
@@ -130,17 +142,7 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult IsEmailExist(string email)
-        {
-            bool isExist = _teacherManager.IsEmailExist(email);
-
-            if (isExist)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
+       
 
         //Fill the dropdown methods
         private void FillDepartmentDropdown()
