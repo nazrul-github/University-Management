@@ -9,43 +9,40 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "robin")]
     public class TeacherController : Controller
     {
-        //Avi Project Start
-        private readonly ProjectDbContext _db = new ProjectDbContext();
+        private readonly TeacherManager _teacherManager = new TeacherManager();
+        private readonly DepartmentManager _departmentManager = new DepartmentManager();
+        private readonly CourseManager _courseManager = new CourseManager();
 
-        [Authorize(Roles = "robin,avi")]
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.DesignationId = new SelectList(_db.Designations, "Id", "DesignationName");
-            ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
+            FillDepartmentDropdown();
+            FillDesignationDropDown();
             return View();
         }
 
-        [Authorize(Roles = "robin,avi")]
         [HttpPost]
         public ActionResult Create(Teacher teacher)
         {
-            ViewBag.DesignationId = new SelectList(_db.Designations, "Id", "DesignationName");
-            ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
-
             if (ModelState.IsValid)
             {
-                var isMailExist = _db.Teachers.Any(t => t.Email == teacher.Email);
-                if (isMailExist)
+                if (_teacherManager.IsEmailExist(teacher.Email))
                 {
-                    FlashMessage.Danger("Teacher email already exist");
+                    FlashMessage.Confirmation("Email already exist");
                     return View(teacher);
                 }
-                
-                _db.Teachers.Add(teacher);
-                _db.SaveChanges();
-                FlashMessage.Confirmation("Teahcer saved successfully");
-                return RedirectToAction("Create");
-            }
 
+                if (_teacherManager.SaveTeacher(teacher))
+                {
+                    FlashMessage.Confirmation("Teacher saved successfully");
+                    return RedirectToAction("Create");
+                }
+            }
+            FillDepartmentDropdown();
+            FillDesignationDropDown();
             return View(teacher);
         }
 
@@ -61,15 +58,6 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        //Avi Project Finished
-
-
-
-        private readonly TeacherManager _teacherManager = new TeacherManager();
-        private readonly DepartmentManager _departmentManager = new DepartmentManager();
-        private readonly CourseManager _courseManager = new CourseManager();
-
-        [Authorize(Roles = "robin")]
 
         public ActionResult AssignCourse()
         {
@@ -78,7 +66,6 @@ namespace University_Management.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "robin")]
         public ActionResult AssignCourse(TeacherCourseAssign teacherCourseAssign)
         {
             FillDepartmentDropdown();
@@ -141,8 +128,6 @@ namespace University_Management.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-
-       
 
         //Fill the dropdown methods
         private void FillDepartmentDropdown()

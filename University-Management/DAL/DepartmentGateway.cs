@@ -22,14 +22,20 @@ namespace University_Management.DAL
             }
         }
 
-        public void AddDepartment(Department department)
+        public bool AddDepartment(Department department)
         {
             using (_db = new ProjectDbContext())
             {
                 _db.Departments.Add(department);
                 try
                 {
-                    _db.SaveChanges();
+                  int id =  _db.SaveChanges();
+                  if (id>0)
+                  {
+                      return true;
+                  }
+
+                  return false;
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateException e)
                 {

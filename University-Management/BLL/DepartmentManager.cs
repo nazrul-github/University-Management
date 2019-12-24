@@ -15,9 +15,9 @@ namespace University_Management.BLL
             return departmentGateway.GetAllDepartments();
         }
 
-        public void AddDepartment(Department department)
+        public bool AddDepartment(Department department)
         { 
-            departmentGateway.AddDepartment(department);
+          return  departmentGateway.AddDepartment(department);
         }
 
         

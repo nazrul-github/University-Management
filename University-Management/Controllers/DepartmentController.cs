@@ -9,69 +9,53 @@ using Vereyon.Web;
 
 namespace University_Management.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles = "robin")]
     public class DepartmentController : Controller
     {
-        //Zebin Project Start
-        private readonly ProjectDbContext _db = new ProjectDbContext();
-        [Authorize(Roles = "zebin,robin")]
+        readonly DepartmentManager _departmentManager = new DepartmentManager();
+
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "zebin,robin")]
         public ActionResult Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                List<Department> existDep = _db.Departments.ToList();
-                var matchingDep = existDep.Where(m => m.DepartmentName == department.DepartmentName || m.DepartmentCode == department.DepartmentCode);
-                if (matchingDep.Any())
+                if (_departmentManager.IsDepartmentCodeExist(department.DepartmentCode))
                 {
-                   FlashMessage.Danger("Name or Code Already Exist.");
+                    FlashMessage.Danger("Department code already exist");
                     return View(department);
                 }
 
-                _db.Departments.Add(department);
-                if (_db.SaveChanges() > 0)
+                if (_departmentManager.IsDepartmentNameExist(department.DepartmentName))
                 {
-                    FlashMessage.Confirmation("Department Saved Successfully");
+                    FlashMessage.Danger("Department name already exist");
+                    return View(department);
                 }
-                
 
-                return RedirectToAction("Create");
+                if (_departmentManager.AddDepartment(department))
+                {
+                    FlashMessage.Confirmation("Department saved successfully");
+                    return RedirectToAction("Create");
+                }
+                FlashMessage.Danger("Some error occured, please try again later");
+                return View(department);
             }
-
+            FlashMessage.Danger("Some error occured please check all the inputs.");
             return View(department);
         }
-        
 
-       
-        [Authorize(Roles = "zebin,robin")]
         public ActionResult ViewDepartment()
         {
-            var departments = _db.Departments.ToList();
+            var departments = _departmentManager.GetAllDepartments();
             return View(departments);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-        //Zebin Project Finished
-
-
-
-
         //Client Side Validation
-
-        readonly DepartmentManager _departmentManager = new DepartmentManager();
 
         public JsonResult IsDeptCodeExist(string departmentCode)
         {
@@ -97,7 +81,7 @@ namespace University_Management.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-      
+
 
     }
 }

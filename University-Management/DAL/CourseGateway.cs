@@ -50,7 +50,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var semesters = _projectDbContext.Semisters.ToList();
+                var semesters = _projectDbContext.Semisters.OrderBy(s=>s.SemesterId).ToList();
                 return semesters;
             }
         }
