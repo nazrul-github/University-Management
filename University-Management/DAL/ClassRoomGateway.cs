@@ -55,7 +55,7 @@ namespace University_Management.DAL
         {
             using (_projectDbContext = new ProjectDbContext())
             {
-                var allocatedClassrooms = _projectDbContext.AllocateClassrooms.Where(a=>a.IsAllocated).ToList();
+                var allocatedClassrooms = _projectDbContext.AllocateClassrooms.Where(a => a.IsAllocated).ToList();
                 foreach (var classroom in allocatedClassrooms)
                 {
                     classroom.IsAllocated = false;
@@ -64,6 +64,7 @@ namespace University_Management.DAL
                 return true;
             }
         }
+
     }
 
 }

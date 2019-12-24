@@ -7,31 +7,29 @@ using System.Web;
 using System.Web.Mvc;
 using University_Management.Models;
 
-
-
 namespace University_Management.DAL
 {
     public class DepartmentGateway
     {
-        private ProjectDbContext db;
+        private ProjectDbContext _db;
 
         public List<Department> GetAllDepartments()
         {
-            using (db = new ProjectDbContext())
+            using (_db = new ProjectDbContext())
             {
-                var departments = db.Departments.ToList();
+                var departments = _db.Departments.ToList();
                 return departments;
             }
         }
 
         public void AddDepartment(Department department)
         {
-            using (db = new ProjectDbContext())
+            using (_db = new ProjectDbContext())
             {
-                db.Departments.Add(department);
+                _db.Departments.Add(department);
                 try
                 {
-                    db.SaveChanges();
+                    _db.SaveChanges();
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateException e)
                 {
