@@ -16,7 +16,6 @@ namespace University_Management.Controllers
         private readonly DepartmentManager _departmentManager = new DepartmentManager();
         private readonly CourseManager _courseManager = new CourseManager();
 
-        [HttpGet]
         public ActionResult Create()
         {
             FillDepartmentDropdown();

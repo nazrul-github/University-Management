@@ -46,6 +46,7 @@ namespace University_Management.DAL
                 return false;
             }
         }
+
         public bool IsStudentAssigned(int courseAssignCourseId, int courseAssignStudentId)
         {
             using (_projectDbContext = new ProjectDbContext())

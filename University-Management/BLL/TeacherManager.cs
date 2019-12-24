@@ -45,7 +45,8 @@ namespace University_Management.BLL
             if (teacherEmail)
             {
                 return true;
-            }else if (studentEmail)
+            }
+            if (studentEmail)
             {
                 return true;
             }

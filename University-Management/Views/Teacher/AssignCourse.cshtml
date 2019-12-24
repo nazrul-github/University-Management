@@ -240,7 +240,7 @@
                     confirmation = false;
                 } else {
                     $('#TeacherId').next('span').text('Please select a teacher').hide();
-                    if (credit <= 0) {
+                    if (credit < 0) {
                         if (courseId !== "") {
                             confirmation =
                                 confirm(

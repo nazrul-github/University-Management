@@ -136,7 +136,6 @@
 </script>
     <script>
         $(document).ready(function () {
-            demoFromHTML();
             var date = new Date();
             var day = date.getDate(),
                 month = date.getMonth()+1,  
@@ -151,7 +150,8 @@
             seconds = (seconds < 10 ? "0" : "") + seconds;
             var today = year + "-" + month + "-" + day + "--" + hour + ":" + min + ":" + seconds; 
             console.log(today);
-            $("#created-time").append("Created Time: "+today);
+            $("#created-time").append("Created Time: " + today);
+            demoFromHTML();
         });
         $(document).ready(function () {
             var date = new Date();

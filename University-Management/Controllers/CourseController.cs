@@ -60,6 +60,7 @@ namespace University_Management.Controllers
             FillDepartmentDropdown();
             return View();
         }
+
         public ActionResult UnAssignCourses()
         {
             return View();

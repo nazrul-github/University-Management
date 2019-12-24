@@ -39,14 +39,14 @@ namespace University_Management.Controllers
                 int studentId = _studentManager.GetAllStudents().Count(s =>
                                     (s.DepartmentId == student.DepartmentId) && (s.Date.Year == student.Date.Year)) + 1;
 
-                int id = _studentManager.AddStudent(student);
                 var year = student.Date.ToString("yyyy");
                 var departmentCode = _departmentManager.GetAllDepartments()
                     .FirstOrDefault(d => d.DepartmentId == student.DepartmentId).DepartmentCode;
                 var idNumber = studentId.ToString("000");
                 var combined = $"{departmentCode}-{year}-{idNumber}";
-                bool isUpdated = _studentManager.UpdateStudent(id, combined);
-                if (isUpdated)
+                student.RegistrationNumber = combined;
+                int id = _studentManager.AddStudent(student);
+                if (id>0)
                 {
                     return RedirectToAction("Details", new { id = id });
 

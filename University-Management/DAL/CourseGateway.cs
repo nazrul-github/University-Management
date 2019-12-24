@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Web;
+using System.Linq;
 using University_Management.Models;
 using University_Management.ViewModel;
 

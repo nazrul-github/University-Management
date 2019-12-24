@@ -9,17 +9,17 @@ namespace University_Management.BLL
 {
     public class DepartmentManager
     {
-        DepartmentGateway departmentGateway = new DepartmentGateway();
+        readonly DepartmentGateway _departmentGateway = new DepartmentGateway();
         public List<Department> GetAllDepartments()
         {
-            return departmentGateway.GetAllDepartments();
+            return _departmentGateway.GetAllDepartments();
         }
 
         public bool AddDepartment(Department department)
         { 
-          return  departmentGateway.AddDepartment(department);
+          return  _departmentGateway.AddDepartment(department);
         }
-
+        
         
 
         public bool IsDepartmentCodeExist(string departmentCode)

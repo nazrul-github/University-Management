@@ -42,6 +42,8 @@ namespace University_Management.Controllers
                     FlashMessage.Confirmation("Result added successfully");
                     return RedirectToAction("AddResult");
                 }
+                FlashMessage.Danger("Some error occured, please try again later");
+                return View(result);
             }
             FlashMessage.Danger("Some error occured, please check all the input");
             return View();
@@ -85,7 +87,7 @@ namespace University_Management.Controllers
         {
             //Student With Id
             var aStudent = _studentManager.GetAllStudents().FirstOrDefault(s => s.Id == studentId);
-            //Brougnt the student course grade form results table
+            //Brought the student course grade form results table
             var studentPublishedResult = _resultManager.GetAllStudentResults().Where(r => r.StudentId == studentId).Select(r =>
                 new
                 {
